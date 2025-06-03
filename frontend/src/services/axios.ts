@@ -4,7 +4,7 @@ const getBaseUrl = () => {
   if (process.env.NODE_ENV === "production") {
     return process.env.NEXT_PUBLIC_API || "";
   } else {
-    return process.env.NEXT_PUBLIC_API || "http://localhost:4000/api";
+    return process.env.NEXT_PUBLIC_API || "http://localhost:3006/api";
   }
 };
 
