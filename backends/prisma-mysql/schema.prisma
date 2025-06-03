@@ -1,0 +1,1439 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/lib/prisma/generated/schema2"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL_SCHEMA2")
+}
+
+model ist_daftar_modul {
+    id                  Int                                 @id @default(autoincrement())
+    id_periode          Int?
+    periode             String?                             @db.VarChar(50)
+    periode_angka       String?                             @db.VarChar(7)
+    id_perkuliahan      Int?
+    id_modul            Int?
+    tahun_akademik      String?                             @db.VarChar(100)
+    nama_modul          String?                             @db.VarChar(100)
+    tahun_ke            Int?
+    panjang_modul       ist_daftar_modul_panjang_modul?
+    mulai_minggu_ke     ist_daftar_modul_mulai_minggu_ke?
+    selesai_minggu_ke   ist_daftar_modul_selesai_minggu_ke?
+    frame_ke            ist_daftar_modul_frame_ke?
+    tim_modul           String?                             @db.Text
+    jenis_ujian         ist_daftar_modul_jenis_ujian?
+    nama_ujian          String?                             @db.VarChar(50)
+    tanggal_mulai       DateTime?                           @db.Date
+    tanggal_selesai     DateTime?                           @db.Date
+    sks                 Int?
+    status              ist_daftar_modul_status?
+    keterangan          String?                             @db.VarChar(50)
+    kuota_fasil         Int?                                @db.SmallInt
+    kuota_tutor         Int?                                @db.SmallInt
+    kuota_narasumber    Int?                                @db.SmallInt
+    kuota_pakar         Int?                                @db.SmallInt
+    kuota_narsum_prak   Int?                                @db.SmallInt
+    kuota_fasil_prak    Int?                                @db.SmallInt
+    kuota_penguji       Int?                                @db.SmallInt
+    ket_fasil           String?                             @db.Text
+    ket_tutor           String?                             @db.Text
+    ket_narasumber      String?                             @db.Text
+    ket_pakar           String?                             @db.Text
+    ket_narsum_prak     String?                             @db.Text
+    ket_fasil_prak      String?                             @db.Text
+    ket_ujian           String?                             @db.Text
+    pilihan_fasil       String?                             @db.VarChar(50)
+    pilihan_tutor       String?                             @db.VarChar(50)
+    pilihan_narasumber  String?                             @db.VarChar(50)
+    pilihan_pakar       String?                             @db.VarChar(50)
+    pilihan_narsum_prak String?                             @db.VarChar(50)
+    pilihan_fasil_prak  String?                             @db.VarChar(50)
+    pilihan_ujian       String?                             @db.VarChar(50)
+    rincian_fasil       String?                             @db.Text
+    rincian_tutor       String?                             @db.Text
+    rincian_narasumber  String?                             @db.Text
+    rincian_pakar       String?                             @db.Text
+    rincian_narsum_prak String?                             @db.Text
+    rincian_fasil_prak  String?                             @db.Text
+    rincian_penguji     String?                             @db.Text
+    waktu_dibuat        DateTime?                           @db.DateTime(0)
+    waktu_dirubah       String?                             @db.Text
+    dibuat_oleh         Int?
+    dirubah_oleh        String?                             @db.Text
+    riwayat_perubahan   String?                             @db.Text
+}
+
+model ist_daftar_periode {
+    id                      Int                                  @id @default(autoincrement())
+    periode                 String?                              @db.VarChar(50)
+    periode_angka           String?                              @db.VarChar(7)
+    pengisian_mulai         DateTime?                            @db.Date
+    pengisian_selesai       DateTime?                            @db.Date
+    verisifikasi_mulai      DateTime?                            @db.Date
+    verifikasi_selesai      DateTime?                            @db.Date
+    bobot_ba                Decimal?                             @db.Decimal(5, 3)
+    bobot_skripsi           Decimal?                             @db.Decimal(5, 3)
+    tim_validasi_penelitian String?                              @db.Text
+    tim_validasi_pengabdian String?                              @db.Text
+    panduan_sks_penelitian  String?                              @db.VarChar(50)
+    panduan_sks_pengabdian  String?                              @db.VarChar(50)
+    panduan_sks_penunjang   String?                              @db.VarChar(50)
+    waktu_dibuat            DateTime?                            @db.DateTime(0)
+    waktu_dirubah           String?                              @db.Text
+    dibuat_oleh             Int?
+    dirubah_oleh            String?                              @db.Text
+    riwayat_perubahan       String?                              @db.Text
+    status                  ist_daftar_periode_status?
+    status_pbl_modul        ist_daftar_periode_status_pbl_modul?
+    id_kaprodi              Int?
+    nama_kaprodi            String?                              @db.VarChar(50)
+}
+
+model ist_emi_dosen {
+    id                 Int       @id @default(autoincrement())
+    id_periode         Int?
+    id_dosen           Int?
+    nama_dosen         String?   @db.VarChar(120)
+    id_mahasiswa       Int?
+    nama_mahasiswa     String?   @db.VarChar(50)
+    id_perkuliahan     Int?
+    nama_modul         String?   @db.VarChar(200)
+    id_jenis_penilaian String?   @db.VarChar(150)
+    jenis_penilaian    String?   @db.VarChar(150)
+    rincian_nilai      String?   @db.Text
+    total_nilai        Decimal?  @db.Decimal(4, 1)
+    keterangan         String?   @db.VarChar(100)
+    waktu_dibuat       DateTime? @db.DateTime(0)
+    waktu_dirubah      String?   @db.Text
+    dibuat_oleh        Int?
+    dirubah_oleh       Int?
+}
+
+model ist_emi_perkuliahan_selesai {
+    id              Int       @id @default(autoincrement()) @db.SmallInt
+    id_perkuliahan  Int?      @db.SmallInt
+    id_modul        Int?      @db.SmallInt
+    tanggal_selesai DateTime? @db.Date
+    dibuat_oleh     Int?
+    waktu_dibuat    DateTime? @db.DateTime(0)
+}
+
+model ist_emi_pertanyaan {
+    id                Int                        @id @default(autoincrement()) @db.SmallInt
+    pertanyaan        String?                    @db.VarChar(200)
+    status            ist_emi_pertanyaan_status?
+    keterangan        String?                    @db.VarChar(50)
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                    @db.Text
+    waktu_dibuat      DateTime?                  @db.DateTime(0)
+    waktu_dirubah     String?                    @db.Text
+    riwayat_perubahan String?                    @db.Text
+}
+
+model ist_item_bagian {
+    id                Int       @id @default(autoincrement()) @db.TinyInt
+    bagian            String?   @db.VarChar(50)
+    keterangan        String?   @db.VarChar(200)
+    dibuat_oleh       Int?
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    riwayat_perubahan String?   @db.Text
+}
+
+model ist_item_group {
+    id                Int       @id @default(autoincrement()) @db.SmallInt
+    nama_group_item   String?   @db.VarChar(50)
+    rincian_modul     String?   @db.Text
+    rincian_item      String?   @db.Text
+    keterangan        String?   @db.VarChar(150)
+    dibuat_oleh       Int?
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    riwayat_perubahan String?   @db.Text
+}
+
+model ist_item_kategori {
+    id                Int                       @id @default(autoincrement()) @db.SmallInt
+    bagian            ist_item_kategori_bagian?
+    kategori          String?                   @db.VarChar(150)
+    keterangan        String?                   @db.VarChar(150)
+    dibuat_oleh       Int?
+    waktu_dibuat      DateTime?                 @db.DateTime(0)
+    riwayat_perubahan String?                   @db.Text
+}
+
+model ist_item_laporan {
+    id                Int                               @id @default(autoincrement()) @db.SmallInt
+    status            ist_item_laporan_status?
+    bagian            ist_item_laporan_bagian?
+    kategori          String?                           @db.VarChar(150)
+    unsur_penilaian   String?                           @db.Text
+    bobot             Int?                              @db.SmallInt
+    pilihan           String?                           @db.Text
+    keterangan        String?                           @db.VarChar(200)
+    dibuat_oleh       Int?
+    waktu_dibuat      DateTime?                         @db.DateTime(0)
+    riwayat_perubahan String?                           @db.Text
+    id_bagian         Int?                              @db.TinyInt
+    no_urut           String?                           @db.VarChar(10)
+    jenis_pengisian   ist_item_laporan_jenis_pengisian?
+    id_laporan_insan  Int?                              @db.SmallInt
+    jenis_akses       ist_item_laporan_jenis_akses?
+}
+
+model ist_item_laporan_insan {
+    id           Int       @id @default(autoincrement()) @db.SmallInt
+    data_insan   String?   @db.VarChar(50)
+    pilihan      String?   @db.Text
+    waktu_dibuat DateTime? @db.DateTime(0)
+}
+
+model ist_laporan_emi {
+    id                       Int                                     @id @default(autoincrement()) @db.SmallInt
+    id_daftar_modul          Int?
+    id_perkuliahan           Int?
+    id_modul                 Int?
+    nama_modul               String?                                 @db.VarChar(50)
+    kurikulum                String?                                 @db.VarChar(50)
+    tanggal_mulai            DateTime?                               @db.Date
+    tanggal_selesai          DateTime?                               @db.Date
+    prodi                    String?                                 @db.VarChar(50)
+    semester                 String?                                 @db.VarChar(50)
+    tim_modul                String?                                 @db.Text
+    id_penilai               Int?
+    nama_penilai             String?                                 @db.VarChar(50)
+    tim_gjm                  String?                                 @db.Text
+    nilai_emi                Int?                                    @db.SmallInt
+    kategori_emi             String?                                 @db.VarChar(50)
+    validasi_tim_modul       DateTime?                               @db.DateTime(0)
+    validasi_kaprodi         DateTime?                               @db.DateTime(0)
+    validasi_penilai         DateTime?                               @db.DateTime(0)
+    validasi_gjm             DateTime?                               @db.DateTime(0)
+    dibuat_oleh              Int?
+    waktu_dibuat             DateTime?                               @db.DateTime(0)
+    riwayat_perubahan        String?                                 @db.Text
+    status_laporan           ist_laporan_emi_status_laporan?
+    id_periode               Int?
+    periode                  String?                                 @db.VarChar(50)
+    id_item_group            Int?                                    @db.SmallInt
+    id_katim                 Int?
+    nama_katim               String?                                 @db.VarChar(100)
+    id_penginput_tim_modul   Int?
+    nama_penginput_tim_modul String?                                 @db.VarChar(100)
+    rincian_nilai_tim_modul  String?                                 @db.Text
+    total_skor_tim_modul     Decimal?                                @db.Decimal(5, 0)
+    skor_bagian_a_tim_modul  Decimal?                                @db.Decimal(5, 0)
+    skor_bagian_b_tim_modul  Decimal?                                @db.Decimal(5, 0)
+    status_nilai_tim_modul   ist_laporan_emi_status_nilai_tim_modul?
+    rincian_nilai_penilai    String?                                 @db.Text
+    skor_bagian_a_penilai    Decimal?                                @db.Decimal(5, 0)
+    skor_bagian_b_penilai    Decimal?                                @db.Decimal(5, 0)
+    status_nilai_penilai     ist_laporan_emi_status_nilai_penilai?
+    rincian_data_insan       String?                                 @db.Text
+    rincian_nilai_gjm        String?                                 @db.Text
+    id_validator_kaprodi     Int?
+    id_validator_gjm         Int?
+    total_skor_penilai       Decimal                                 @db.Decimal(5, 0)
+}
+
+model ist_pengajuan_penelitian {
+    id                 Int                              @id @default(autoincrement())
+    id_pengajuan_rkd   Int?
+    id_periode         Int?
+    status             ist_pengajuan_penelitian_status?
+    id_dosen           Int?
+    nama_dosen         String?                          @db.VarChar(100)
+    prodi_dosen        String?                          @db.VarChar(50)
+    status_dosen       String?                          @db.VarChar(50)
+    jenis_kegiatan     String?                          @db.VarChar(150)
+    cluster_penelitian String?                          @db.VarChar(150)
+    deskripsi_judul    String?                          @db.Text
+    sks                Decimal?                         @db.Decimal(5, 3)
+    keterangan         String?                          @db.VarChar(50)
+    persetujuan_oleh   Int?
+    nama_validator     String?                          @db.VarChar(70)
+    waktu_dibuat       DateTime?                        @db.DateTime(0)
+    waktu_dirubah      String?                          @db.Text
+    dibuat_oleh        Int?
+    dirubah_oleh       String?                          @db.Text
+    riwayat_perubahan  String?                          @db.Text
+}
+
+model ist_pengajuan_pengabdian {
+    id                Int                                      @id @default(autoincrement())
+    id_pengajuan_rkd  Int                                      @default(0)
+    id_periode        Int                                      @default(0)
+    status            ist_pengajuan_pengabdian_status?
+    id_dosen          Int?
+    nama_dosen        String?                                  @db.VarChar(100)
+    status_dosen      String?                                  @db.VarChar(50)
+    prodi_dosen       String?                                  @db.VarChar(50)
+    jenis_kegiatan    ist_pengajuan_pengabdian_jenis_kegiatan?
+    deskripsi_judul   String?                                  @db.Text
+    sks               Decimal?                                 @db.Decimal(5, 3)
+    keterangan        String?                                  @db.VarChar(50)
+    persetujuan_oleh  Int?
+    nama_validator    String?                                  @db.VarChar(70)
+    waktu_dibuat      DateTime?                                @db.DateTime(0)
+    waktu_dirubah     String?                                  @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                                  @db.Text
+    riwayat_perubahan String?                                  @db.Text
+}
+
+model ist_pengajuan_penunjang {
+    id                Int                             @id @default(autoincrement())
+    id_pengajuan_rkd  Int                             @default(0)
+    id_periode        Int                             @default(0)
+    status            ist_pengajuan_penunjang_status?
+    id_dosen          Int?
+    nama_dosen        String?                         @db.VarChar(100)
+    status_dosen      String?                         @db.VarChar(50)
+    prodi_dosen       String?                         @db.VarChar(50)
+    jenis_kegiatan    String?                         @db.VarChar(150)
+    deskripsi_judul   String?                         @db.Text
+    sks               Decimal?                        @db.Decimal(5, 3)
+    keterangan        String?                         @db.VarChar(50)
+    waktu_dibuat      DateTime?                       @db.DateTime(0)
+    waktu_dirubah     String?                         @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                         @db.Text
+    riwayat_perubahan String?                         @db.Text
+}
+
+model ist_pengajuan_rkd {
+    id                  Int                       @id @default(autoincrement())
+    id_periode          Int                       @default(0)
+    periode             String?                   @db.VarChar(50)
+    periode_angka       String?                   @db.VarChar(7)
+    id_dosen            Int?
+    nama_dosen          String?                   @db.VarChar(100)
+    prodi_dosen         String?                   @db.VarChar(50)
+    status_dosen        String?                   @db.VarChar(50)
+    status              ist_pengajuan_rkd_status?
+    rincian_fasil       String?                   @db.Text
+    rincian_tutor       String?                   @db.Text
+    rincian_narasumber  String?                   @db.Text
+    rincian_pakar       String?                   @db.Text
+    rincian_narsum_prak String?                   @db.Text
+    rincian_fasil_prak  String?                   @db.Text
+    rincian_penguji     String?                   @db.Text
+    rincian_tim_modul   String?                   @db.Text
+    history_fasil       String?                   @db.Text
+    history_tutor       String?                   @db.Text
+    history_narasumber  String?                   @db.Text
+    history_pakar       String?                   @db.Text
+    history_narsum_prak String?                   @db.Text
+    history_fasil_prak  String?                   @db.Text
+    history_total_sks   Decimal?                  @db.Decimal(5, 3)
+    jumlah_mhs_ba       Int?                      @db.SmallInt
+    jumlah_mhs_skripsi  Int?                      @db.SmallInt
+    sks_ba              Decimal?                  @db.Decimal(5, 3)
+    sks_skripsi         Decimal?                  @db.Decimal(5, 3)
+    total_sks           Decimal?                  @db.Decimal(5, 3)
+    waktu_dibuat        DateTime?                 @db.DateTime(0)
+    waktu_dirubah       String?                   @db.Text
+    dibuat_oleh         Int?
+    dirubah_oleh        String?                   @db.Text
+    riwayat_perubahan   String?                   @db.Text
+}
+
+model mda_absensi_detail {
+    id                Int                        @id @default(autoincrement())
+    id_penilai        Int?
+    id_perkuliahan    Int?
+    id_jenis_absensi  Int?
+    status            mda_absensi_detail_status?
+    tanggal           DateTime?                  @db.Date
+    waktu             String?                    @db.VarChar(5)
+    dosen_hadir       String?                    @db.Text
+    dosen_pengganti   String?                    @db.Text
+    keterangan        String?                    @db.VarChar(50)
+    waktu_dibuat      DateTime?                  @db.DateTime(0)
+    waktu_dirubah     String?                    @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                    @db.Text
+    riwayat_perubahan String?                    @db.Text
+}
+
+model mda_bobot_bkd {
+    id                 Int                        @id @default(autoincrement())
+    versi_rumus        mda_bobot_bkd_versi_rumus?
+    status             mda_bobot_bkd_status?
+    id_jenis_penilaian Int?
+    id_jenis_absensi   Int?
+    nilai_bobot        Decimal?                   @db.Decimal(20, 3)
+    jenis_kegiatan     String?                    @db.VarChar(50)
+    keterangan         String?                    @db.VarChar(50)
+    waktu_dibuat       DateTime?                  @db.DateTime(0)
+    waktu_dirubah      String?                    @db.Text
+    dibuat_oleh        Int?
+    dirubah_oleh       String?                    @db.Text
+    riwayat_perubahan  String?                    @db.Text
+}
+
+model mda_daftar_pejabat {
+    id                Int                         @id @default(autoincrement()) @db.SmallInt
+    status            mda_daftar_pejabat_status?
+    jabatan           mda_daftar_pejabat_jabatan?
+    id_dosen          Int?
+    nama_lengkap      String?                     @db.VarChar(100)
+    nip               String?                     @db.VarChar(50)
+    keterangan        String?                     @db.VarChar(50)
+    dibuat_oleh       Int?
+    waktu_dibuat      DateTime?                   @db.DateTime(0)
+    riwayat_perubahan String?                     @db.Text
+}
+
+model mda_jenis_absensi {
+    id                 Int       @id @default(autoincrement()) @db.SmallInt
+    id_jenis_penilaian Int       @default(0) @db.SmallInt
+    jenis_absensi      String?   @db.VarChar(50)
+    keterangan         String?   @db.Text
+    waktu_dibuat       DateTime? @db.DateTime(0)
+    dibuat_oleh        Int?
+    waktu_dirubah      String?   @db.Text
+    dirubah_oleh       String?   @db.Text
+}
+
+model mda_jenis_penilaian {
+    id                Int                                 @id @default(autoincrement())
+    jenis_penilaian   String?                             @db.VarChar(50)
+    keterangan        String?                             @db.VarChar(50)
+    daftar_rubrik     String?                             @db.Text
+    tipe_kegiatan     mda_jenis_penilaian_tipe_kegiatan?
+    tipe_penilaian    mda_jenis_penilaian_tipe_penilaian?
+    rumus             String?                             @db.VarChar(100)
+    waktu_dibuat      DateTime?                           @db.DateTime(0)
+    waktu_dirubah     String?                             @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                             @db.Text
+    riwayat_perubahan String?                             @db.Text
+}
+
+model mda_kelompok {
+    id                Int                          @id @default(autoincrement())
+    id_perkuliahan    Int?
+    jenis_kelompok    mda_kelompok_jenis_kelompok?
+    kelompok          Int?
+    bagian            String?                      @db.VarChar(5)
+    id_mahasiswa      Int?
+    id_dosen          Int?
+    waktu_dibuat      DateTime?                    @db.DateTime(0)
+    waktu_dirubah     String?                      @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                      @db.Text
+    riwayat_perubahan String?                      @db.Text
+}
+
+model mda_laporan_bkd {
+    id                Int                     @id @default(autoincrement())
+    periode           String?                 @db.VarChar(50)
+    periode_angka     String?                 @db.VarChar(7)
+    id_dosen          Int?
+    status            mda_laporan_bkd_status?
+    rincian_kegiatan  String?                 @db.Text
+    rincian_absensi   String?                 @db.Text
+    nilai_total       Decimal?                @db.Decimal(20, 6)
+    waktu_dibuat      DateTime?               @db.DateTime(0)
+    waktu_dirubah     String?                 @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                 @db.Text
+    riwayat_perubahan String?                 @db.Text
+}
+
+model mda_master_dosen {
+    id                   Int                                @id @default(autoincrement())
+    nama_dosen           String?                            @db.VarChar(100)
+    status_dosen         mda_master_dosen_status_dosen?
+    status_dosen_emi     mda_master_dosen_status_dosen_emi?
+    id_tahap_akademik    Int?                               @db.SmallInt
+    id_tahap_profesi     Int?                               @db.SmallInt
+    nama_prodi_akademik  String?                            @db.VarChar(50)
+    nama_prodi_profesi   String?                            @db.VarChar(50)
+    unit                 String?                            @db.VarChar(50)
+    tempat_lahir         String?                            @db.VarChar(50)
+    tanggal_lahir        DateTime?                          @db.Date
+    nip                  String?                            @db.VarChar(20)
+    nidn                 String?                            @db.VarChar(20)
+    nidk                 String?                            @db.VarChar(20)
+    pendidikan_tertinggi String?                            @db.VarChar(50)
+    pangkat              String?                            @db.VarChar(50)
+    golongan             String?                            @db.VarChar(50)
+    jabatan_fungsional   String?                            @db.VarChar(50)
+    jabatan_struktural   String?                            @db.VarChar(50)
+    gelar_akademik       String?                            @db.VarChar(50)
+    pendidikan_1         String?                            @db.VarChar(50)
+    pendidikan_2         String?                            @db.VarChar(50)
+    pendidikan_3         String?                            @db.VarChar(50)
+    pendidikan_4         String?                            @db.VarChar(50)
+    pendidikan_5         String?                            @db.VarChar(50)
+    asal_pt_1            String?                            @db.VarChar(50)
+    asal_pt_2            String?                            @db.VarChar(50)
+    asal_pt_3            String?                            @db.VarChar(50)
+    asal_pt_4            String?                            @db.VarChar(50)
+    asal_pt_5            String?                            @db.VarChar(50)
+    ijazah_1             String?                            @db.VarChar(200)
+    ijazah_2             String?                            @db.VarChar(200)
+    ijazah_3             String?                            @db.VarChar(200)
+    ijazah_4             String?                            @db.VarChar(200)
+    ijazah_5             String?                            @db.VarChar(50)
+    alamat               String?                            @db.VarChar(100)
+    telp                 String?                            @db.VarChar(20)
+    email                String?                            @db.VarChar(20)
+    golongan_darah       String?                            @db.VarChar(20)
+    no_ktp               String?                            @db.VarChar(20)
+    npwp                 String?                            @db.VarChar(20)
+    no_rekening          String?                            @db.VarChar(20)
+    bank                 String?                            @db.VarChar(20)
+    no_serdos            String?                            @db.VarChar(20)
+    bidang_keahlian      String?                            @db.VarChar(150)
+    keterangan           String?                            @db.VarChar(50)
+    waktu_dibuat         DateTime?                          @db.DateTime(0)
+    waktu_dirubah        String?                            @db.Text
+    dibuat_oleh          Int?
+    dirubah_oleh         String?                            @db.Text
+    riwayat_perubahan    String?                            @db.Text
+}
+
+model mda_master_kurikulum {
+    id                Int       @id @default(autoincrement())
+    nama_kurikulum    String?   @db.VarChar(100)
+    keterangan        String?   @db.VarChar(100)
+    mapping_modul     String?   @db.Text
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    waktu_dirubah     String?   @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?   @db.Text
+    riwayat_perubahan String?   @db.Text
+}
+
+model mda_master_mahasiswa {
+    id                Int       @id @default(autoincrement())
+    angkatan          String?   @db.VarChar(4)
+    nim               String?   @unique(map: "nim") @db.VarChar(15)
+    nama_mahasiswa    String?   @db.VarChar(100)
+    tempat_lahir      String?   @db.VarChar(50)
+    tgl_lahir         DateTime? @db.Date
+    alamat            String?   @db.VarChar(100)
+    hp                String?   @db.VarChar(20)
+    email             String?   @db.VarChar(20)
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    waktu_dirubah     String?   @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?   @db.Text
+    riwayat_perubahan String?   @db.Text
+}
+
+model mda_master_modul {
+    id                Int                        @id @default(autoincrement())
+    id_kurikulum      Int?
+    tahun_ke          mda_master_modul_tahun_ke?
+    nama_modul        String?                    @db.VarChar(100)
+    sks               String?                    @db.VarChar(100)
+    singkatan         String?                    @db.VarChar(100)
+    keterangan        String?                    @db.VarChar(100)
+    waktu_dibuat      DateTime?                  @db.DateTime(0)
+    waktu_dirubah     String?                    @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                    @db.Text
+    riwayat_perubahan String?                    @db.Text
+}
+
+model mda_master_prodi {
+    id                Int                     @id @default(autoincrement()) @db.SmallInt
+    nama_prodi        String?                 @db.VarChar(50)
+    tahap             mda_master_prodi_tahap?
+    waktu_dibuat      DateTime?               @db.DateTime(0)
+    waktu_dirubah     String?                 @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                 @db.Text
+    riwayat_perubahan String?                 @db.Text
+}
+
+model mda_nilai_perkuliahan {
+    id                      Int       @id @default(autoincrement())
+    id_perkuliahan          Int?
+    id_mahasiswa            Int?
+    rincian_nilai_dk        String?   @db.Text
+    total_nilai_dk          Int?
+    rincian_nilai_bkdk      String?   @db.Text
+    total_nilai_bkdk        Int?
+    rincian_nilai_tp        String?   @db.Text
+    total_nilai_tp          Int?
+    rincian_nilai_pk        String?   @db.Text
+    total_nilai_pk          Int?
+    rincian_nilai_lp        String?   @db.Text
+    total_nilai_lp          Int?
+    rincian_nilai_kp        String?   @db.Text
+    total_nilai_kp          Int?
+    rincian_nilai_kkd       String?   @db.Text
+    total_nilai_kkd         Decimal?  @db.Decimal(20, 6)
+    rincian_nilai_up1       String?   @db.Text
+    total_nilai_up1         Int?
+    rincian_nilai_up2       String?   @db.Text
+    total_nilai_up2         Int?
+    total_nilai_prak        Int?
+    nilai_akhir_proses      Decimal?  @db.Decimal(20, 6)
+    rincian_nilai_sum1      String?   @db.VarChar(50)
+    total_nilai_sum1        Int?
+    rincian_nilai_sum2      String?   @db.VarChar(50)
+    total_nilai_sum2        Int?
+    total_nilai_sum         Int?
+    nilai_akhir_modul       Decimal?  @db.Decimal(20, 6)
+    nilai_akhir_modul_bulat Int?
+    nilai_akhir_modul_huruf String?   @db.VarChar(1)
+    waktu_dibuat            DateTime? @db.DateTime(0)
+    waktu_dirubah           String?   @db.Text
+    dibuat_oleh             Int?
+    dirubah_oleh            String?   @db.Text
+    riwayat_perubahan       String?   @db.Text
+}
+
+model mda_penilaian_bkdk {
+    id                Int       @id @default(autoincrement())
+    id_perkuliahan    Int?
+    id_dosen          Int?
+    id_mahasiswa      Int?
+    kelompok          String?   @db.VarChar(2)
+    kerapian          Int?
+    materi            Int?
+    daftar_pustaka    Int?
+    rerata            Decimal?  @db.Decimal(20, 6)
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    waktu_dirubah     String?   @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?   @db.Text
+    riwayat_perubahan String?   @db.Text
+}
+
+model mda_penilaian_dk {
+    id                    Int       @id @default(autoincrement())
+    id_perkuliahan        Int?
+    id_perkuliahan_detail Int?
+    id_jenis_penilaian    Int?
+    id_dosen              Int?      @db.SmallInt
+    id_mahasiswa          Int?
+    kelompok              Int?      @db.SmallInt
+    id_rubrik             Int?      @db.SmallInt
+    text_rubrik           String?   @db.VarChar(100)
+    nilai                 Int?      @db.SmallInt
+    waktu_dibuat          DateTime? @db.DateTime(0)
+    waktu_dirubah         String?   @db.Text
+    dibuat_oleh           Int?
+    dirubah_oleh          String?   @db.Text
+    riwayat_perubahan     String?   @db.Text
+}
+
+model mda_penilaian_kkd {
+    id                Int       @id @default(autoincrement())
+    id_perkuliahan    Int?
+    id_dosen          Int?
+    id_mahasiswa      Int?
+    nilai_kkd1        Int?
+    nilai_kkd2        Int?
+    nilai_kkd3        Int?
+    nilai_kkd4        Int?
+    nilai_kkd5        Int?
+    nilai_kkd6        Int?
+    rerata            Int?
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    waktu_dirubah     String?   @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?   @db.Text
+    riwayat_perubahan String?   @db.Text
+}
+
+model mda_penilaian_prak {
+    id                Int                             @id @default(autoincrement())
+    jenis_nilai       mda_penilaian_prak_jenis_nilai?
+    id_perkuliahan    Int?
+    id_dosen          Int?
+    id_mahasiswa      Int?
+    kelompok          Int?
+    materi_1          Int?
+    materi_2          Int?
+    materi_3          Int?
+    materi_4          Int?
+    materi_5          Int?
+    rerata            Decimal?                        @db.Decimal(20, 6)
+    waktu_dibuat      DateTime?                       @db.DateTime(0)
+    waktu_dirubah     String?                         @db.Text
+    dibuat_oleh       Int?
+    drubah_oleh       String?                         @db.Text
+    riwayat_perubahan String?                         @db.Text
+}
+
+model mda_penilaian_sum {
+    id                Int       @id @default(autoincrement())
+    id_perkuliahan    Int?
+    id_mahasiswa      Int?
+    jumlah_sum1       Int?
+    nilai_sum1        Decimal?  @db.Decimal(20, 6)
+    jumlah_sum2       Int?
+    nilai_sum2        Decimal?  @db.Decimal(20, 6)
+    nilai_perbaikan   Decimal?  @db.Decimal(20, 6)
+    nilai_akhir_sum   Decimal?  @db.Decimal(20, 6)
+    waktu_dibuat      DateTime? @db.DateTime(0)
+    waktu_dirubah     String?   @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?   @db.Text
+    riwayat_perubahan String?   @db.Text
+}
+
+model mda_penilaian_tp_pk {
+    id                Int                              @id @default(autoincrement())
+    jenis_nilai       mda_penilaian_tp_pk_jenis_nilai?
+    id_perkuliahan    Int?
+    id_dosen          Int?
+    id_mahasiswa      Int?
+    nilai_dk1         Int?
+    nilai_dk2         Int?
+    nilai_dk3         Int?
+    nilai_dk4         Int?
+    nilai_dk5         Int?
+    rerata            Decimal?                         @db.Decimal(20, 6)
+    waktu_dibuat      DateTime?                        @db.DateTime(0)
+    waktu_dirubah     String?                          @db.Text
+    dibuat_oleh       Decimal?                         @db.Decimal(20, 6)
+    dirubah_oleh      String?                          @db.Text
+    riwayat_perubahan String?                          @db.Text
+}
+
+model mda_perkuliahan {
+    id                 Int                                 @id @default(autoincrement())
+    tahun_akademik     String?                             @db.VarChar(50)
+    id_periode         Int?
+    id_kurikulum       Int?
+    id_modul           Int?
+    nama_modul         String?                             @db.VarChar(200)
+    waktu_mulai        DateTime?                           @db.Date
+    waktu_selesai      DateTime?                           @db.Date
+    jenis_penilaian    String?                             @db.Text
+    bobot_penilaian    String?                             @db.Text
+    tim_modul          String?                             @db.Text
+    dosen_dk           String?                             @db.Text
+    dosen_kkd          String?                             @db.Text
+    keterangan         String?                             @db.Text
+    status_perkuliahan mda_perkuliahan_status_perkuliahan?
+    file_bpm           String?                             @db.VarChar(100)
+    file_tg_dk         String?                             @db.VarChar(100)
+    file_tg_kkd        String?                             @db.VarChar(100)
+    status_file_dk     String?                             @db.VarChar(50)
+    status_file_kkd    String?                             @db.VarChar(50)
+    riwayat_tg_dk      String?                             @db.VarChar(150)
+    riwayat_tg_kkd     String?                             @db.VarChar(150)
+    petugas_reset_kkd  Int?
+    waktu_reset_kkd    DateTime?                           @db.DateTime(0)
+    waktu_dibuat       DateTime?                           @db.DateTime(0)
+    waktu_dirubah      String?                             @db.Text
+    dibuat_oleh        Int?
+    dirubah_oleh       String?                             @db.Text
+    riwayat_perubahan  String?                             @db.Text
+}
+
+model mda_perkuliahan_detail {
+    id                 Int                                      @id @default(autoincrement())
+    id_perkuliahan     Int?
+    id_jenis_penilaian Int?
+    tanggal            DateTime?                                @db.Date
+    waktu              String?                                  @db.VarChar(12)
+    jumlah_jam         Int?                                     @db.SmallInt
+    id_ruangan         Int?
+    ruangan            String?                                  @db.VarChar(50)
+    materi             String?                                  @db.Text
+    keterangan         String?                                  @db.Text
+    file_pemicu        String?                                  @db.VarChar(100)
+    file_tutor_guide   String?                                  @db.VarChar(100)
+    jenis_virtual      mda_perkuliahan_detail_jenis_virtual?
+    id_logbook         Int?
+    penilai_1          Int?
+    penilai_2          Int?
+    penilai_3          Int?
+    penilai_4          Int?
+    penilai_5          Int?
+    penilai_6          Int?
+    penilai_7          Int?
+    penilai_8          Int?
+    penilai_9          Int?
+    penilai_10         Int?
+    daftar_mahasiswa   String?                                  @db.Text
+    daftar_dosen       String?                                  @db.Text
+    daftar_bahan       String?                                  @db.Text
+    daftar_absensi     String?                                  @db.Text
+    status_absensi     mda_perkuliahan_detail_status_absensi?
+    status_kegiatan    mda_perkuliahan_detail_status_kegiatan?
+    status_penilaian   mda_perkuliahan_detail_status_penilaian?
+    waktu_dibuat       DateTime?                                @db.DateTime(0)
+    waktu_dirubah      String?                                  @db.Text
+    dibuat_oleh        Int?
+    dirubah_oleh       String?                                  @db.Text
+    riwayat_perubahan  String?                                  @db.Text
+}
+
+model mda_rekap_absensi {
+    id                    Int                          @id @default(autoincrement())
+    id_perkuliahan        Int?
+    id_perkuliahan_detail Int?
+    id_mahasiswa          Int?
+    id_dosen              Int?
+    kehadiran             mda_rekap_absensi_kehadiran?
+    keterangan            String?                      @db.VarChar(50)
+    waktu_dibuat          DateTime?                    @db.DateTime(0)
+    waktu_dirubah         String?                      @db.Text
+    dibuat_oleh           Int?
+    dirubah_oleh          String?                      @db.Text
+    riwayat_perubahan     String?                      @db.Text
+}
+
+model mda_rubrik_penilaian {
+    id                Int                           @id @default(autoincrement())
+    kategori          String?                       @db.Text
+    deskripsi         String?                       @db.Text
+    keterangan        String?                       @db.Text
+    skala             Int?                          @db.SmallInt
+    negatif           mda_rubrik_penilaian_negatif?
+    pilihan           String?                       @db.Text
+    id_perkuliahan    Int?
+    materi_ke         Int?                          @db.SmallInt
+    waktu_dibuat      DateTime?                     @db.DateTime(0)
+    waktu_dirubah     String?                       @db.Text
+    dibuat_oleh       Int?
+    dirubah_oleh      String?                       @db.Text
+    riwayat_perubahan String?                       @db.Text
+}
+
+model set_akses {
+    id           Int     @id @default(autoincrement())
+    tingkat_user String? @db.VarChar(20)
+    controller   String? @db.VarChar(50)
+    fungsi       String? @db.VarChar(50)
+    kode         String? @db.VarChar(6)
+    modul        String? @db.VarChar(50)
+    kegiatan     String? @db.VarChar(50)
+    id_aplikasi  Int?    @db.SmallInt
+}
+
+model set_kegiatan {
+    id           Int                      @id @default(autoincrement()) @db.SmallInt
+    kode         String?                  @db.VarChar(6)
+    modul        set_kegiatan_modul?
+    kegiatan     String?                  @db.VarChar(100)
+    controller   set_kegiatan_controller?
+    fungsi       set_kegiatan_fungsi?
+    waktu_dibuat DateTime?                @db.Timestamp(0)
+    id_aplikasi  Int?                     @db.SmallInt
+}
+
+model set_tingkat_user {
+    id           Int     @id @default(autoincrement()) @db.SmallInt
+    tingkat_user String? @db.VarChar(20)
+}
+
+model set_user {
+    id                Int                   @id @default(autoincrement())
+    username          String?               @db.VarChar(60)
+    password          String?               @db.VarChar(60)
+    auth_key          String?               @db.VarChar(60)
+    access_token      String?               @db.VarChar(60)
+    email             String?               @db.VarChar(60)
+    nama              String?               @db.VarChar(60)
+    tingkat_user      String?               @db.VarChar(50)
+    tingkat_istiqomah String?               @db.VarChar(50)
+    status_user       set_user_status_user?
+    dibuat_oleh       Int?
+    dirubah_oleh      String?               @db.Text
+    waktu_dibuat      DateTime?             @db.DateTime(0)
+    waktu_dirubah     String?               @db.Text
+    riwayat_perubahan String?               @db.MediumText
+    station           Int?                  @db.SmallInt
+    sesi              Int?                  @db.SmallInt
+    id_dosen          Int?
+    id_mahasiswa      Int?
+}
+
+enum ist_item_kategori_bagian {
+    Penetapan_dan_Persiapan @map("Penetapan dan Persiapan")
+    Pelaksanaan
+    Evaluasi
+}
+
+enum ist_item_laporan_status {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+}
+
+enum mda_bobot_bkd_versi_rumus {
+    A
+    B
+    C
+    D
+    E
+    F
+    G
+    H
+    I
+    J
+    K
+    L
+    M
+    N
+    O
+    P
+    Q
+}
+
+enum mda_daftar_pejabat_status {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+}
+
+enum mda_penilaian_prak_jenis_nilai {
+    LP
+    KP
+}
+
+enum mda_penilaian_tp_pk_jenis_nilai {
+    TP
+    PK
+}
+
+enum ist_emi_pertanyaan_status {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+}
+
+enum ist_item_laporan_bagian {
+    Penetapan_dan_Persiapan @map("Penetapan dan Persiapan")
+    Pelaksanaan
+    Evaluasi
+}
+
+enum mda_bobot_bkd_status {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+}
+
+enum mda_daftar_pejabat_jabatan {
+    Dekan
+    Kaprodi
+    Sekprodi
+}
+
+enum mda_kelompok_jenis_kelompok {
+    DK
+    KKD
+    SUM_1
+    SUM_2
+}
+
+enum mda_master_dosen_status_dosen {
+    PNS
+    DT
+    DTT
+    Part_Time @map("Part-Time")
+}
+
+enum mda_master_modul_tahun_ke {
+    TAHUN_1 @map("1")
+    TAHUN_2 @map("2")
+    TAHUN_3 @map("3")
+    TAHUN_4 @map("4")
+}
+
+enum mda_master_prodi_tahap {
+    Akademik
+    Profesi
+}
+
+enum set_kegiatan_modul {
+    Modul_pendataan_master      @map("Modul pendataan master")
+    Modul_setting_perkuliahan   @map("Modul setting perkuliahan")
+    Modul_akses_dosen           @map("Modul akses dosen")
+    Modul_akses_mahasiswa       @map("Modul akses mahasiswa")
+    Modul_monitoring            @map("Modul monitoring")
+    Modul_statistik             @map("Modul statistik")
+    Modul_setting_user          @map("Modul setting user")
+    Modul_Laporan               @map("Modul Laporan")
+    Istiqomah_RKD               @map("Istiqomah RKD")
+    Istiqomah_RKD_Dosen         @map("Istiqomah RKD Dosen")
+    Istiqomah_BKD               @map("Istiqomah BKD")
+    Istiqomah_Statistik_Laporan @map("Istiqomah Statistik Laporan")
+    Istiqomah_Emi               @map("Istiqomah Emi")
+}
+
+enum ist_pengajuan_penelitian_status {
+    Belum_diperiksa @map("Belum diperiksa")
+    Disetujui
+    Tidak_Disetujui @map("Tidak Disetujui")
+    Direview_Ulang  @map("Direview Ulang")
+}
+
+enum ist_pengajuan_pengabdian_status {
+    Belum_diperiksa @map("Belum diperiksa")
+    Disetujui
+    Tidak_Disetujui @map("Tidak Disetujui")
+    Direview_Ulang  @map("Direview Ulang")
+}
+
+enum ist_pengajuan_penunjang_status {
+    Belum_diperiksa @map("Belum diperiksa")
+    Disetujui
+    Tidak_disetujui @map("Tidak disetujui")
+    Direview_ulang  @map("Direview ulang")
+}
+
+enum mda_master_dosen_status_dosen_emi {
+    Tetap
+    Tidak_Tetap @map("Tidak Tetap")
+}
+
+enum mda_absensi_detail_status {
+    Belum_Disetujui @map("Belum Disetujui")
+    Sudah_Disetujui @map("Sudah Disetujui")
+}
+
+enum mda_jenis_penilaian_tipe_kegiatan {
+    Tanpa_Nilai      @map("Tanpa Nilai")
+    Dengan_Penilaian @map("Dengan Penilaian")
+}
+
+enum mda_laporan_bkd_status {
+    Belum_dibuka  @map("Belum dibuka")
+    Belum_dicetak @map("Belum dicetak")
+    Sudah_dicetak @map("Sudah dicetak")
+}
+
+enum set_kegiatan_controller {
+    jenis_penilaian    @map("jenis-penilaian")
+    master_dosen       @map("master-dosen")
+    master_kurikulum   @map("master-kurikulum")
+    master_mahasiswa   @map("master-mahasiswa")
+    master_modul       @map("master-modul")
+    perkuliahan
+    perkuliahan_detail @map("perkuliahan-detail")
+    rubrik_penilaian   @map("rubrik-penilaian")
+    set_user           @map("set-user")
+    pengajuan_rkd      @map("pengajuan-rkd")
+    daftar_modul       @map("daftar-modul")
+    daftar_periode     @map("daftar-periode")
+    emi_dosen          @map("emi-dosen")
+}
+
+enum mda_jenis_penilaian_tipe_penilaian {
+    Individu
+    Kelompok
+}
+
+enum mda_rekap_absensi_kehadiran {
+    Hadir
+    Tidak_Hadir @map("Tidak Hadir")
+}
+
+enum mda_rubrik_penilaian_negatif {
+    Ya
+    Tidak
+}
+
+enum set_kegiatan_fungsi {
+    index
+    view
+    create
+    update
+    delete
+    setting_akses                  @map("setting-akses")
+    add_akses                      @map("add-akses")
+    delete_akses                   @map("delete-akses")
+    add_tingkat_user               @map("add-tingkat-user")
+    reset_password                 @map("reset-password")
+    ubah_password                  @map("ubah-password")
+    modal_rubrik                   @map("modal-rubrik")
+    ambil_rubrik                   @map("ambil-rubrik")
+    remove_rubrik                  @map("remove-rubrik")
+    upload_dosen                   @map("upload-dosen")
+    upload_mahasiswa               @map("upload-mahasiswa")
+    upload_mapping_kelompok        @map("upload-mapping-kelompok")
+    index_perkuliahan              @map("index-perkuliahan")
+    index_admin                    @map("index-admin")
+    index_dosen                    @map("index-dosen")
+    input_bahan                    @map("input-bahan")
+    input_link                     @map("input-link")
+    remove_bahan                   @map("remove-bahan")
+    daftar_modul_berjalan          @map("daftar-modul-berjalan")
+    daftar_modul_selesai           @map("daftar-modul-selesai")
+    lihat_rincian_kegiatan         @map("lihat-rincian-kegiatan")
+    lihat_rincian_kegiatan_selesai @map("lihat-rincian-kegiatan-selesai")
+    pembuatan_dk                   @map("pembuatan-dk")
+    generate_dk                    @map("generate-dk")
+    ambil_dosen                    @map("ambil-dosen")
+    remove_dosen                   @map("remove-dosen")
+    up_dosen                       @map("up-dosen")
+    down_dosen                     @map("down-dosen")
+    generate_perkuliahan           @map("generate-perkuliahan")
+    input_absensi                  @map("input-absensi")
+    remove_hadir                   @map("remove-hadir")
+    remove_tidak_hadir             @map("remove-tidak-hadir")
+    simpan_seluruh_absen           @map("simpan-seluruh-absen")
+    input_penilaian                @map("input-penilaian")
+    proses_input_nilai             @map("proses-input-nilai")
+    lihat_penilaian                @map("lihat-penilaian")
+    input_penilaian_kelompok       @map("input-penilaian-kelompok")
+    proses_input_nilai_kelompok    @map("proses-input-nilai-kelompok")
+    lihat_penilaian_kelompok       @map("lihat-penilaian-kelompok")
+    lihat_penilaian_new            @map("lihat-penilaian-new")
+    input_penilaian_new            @map("input-penilaian-new")
+    proses_input_nilai_new         @map("proses-input-nilai-new")
+    upload_bpm                     @map("upload-bpm")
+    upload_pemicu                  @map("upload-pemicu")
+    lihat_pemicu                   @map("lihat-pemicu")
+    lihat_tutor_guide              @map("lihat-tutor-guide")
+    rincian_status_kegiatan        @map("rincian-status-kegiatan")
+    timpa_file_pemicu              @map("timpa-file-pemicu")
+    input_mahasiswa                @map("input-mahasiswa")
+    remove_mahasiswa               @map("remove-mahasiswa")
+    generate_per_kegiatan          @map("generate-per-kegiatan")
+    pembuatan_tp                   @map("pembuatan-tp")
+    ambil_tim_modul                @map("ambil-tim-modul")
+    setting_tim_modul              @map("setting-tim-modul")
+    ambil_pakar                    @map("ambil-pakar")
+    remove_pakar                   @map("remove-pakar")
+    generate_progress              @map("generate-progress")
+    pembuatan_kkd                  @map("pembuatan-kkd")
+    setting_materi                 @map("setting-materi")
+    remove_materi                  @map("remove-materi")
+    setting_sayap                  @map("setting-sayap")
+    ambil_tutor                    @map("ambil-tutor")
+    remove_tutor                   @map("remove-tutor")
+    generate_kkd                   @map("generate-kkd")
+    review_kkd                     @map("review-kkd")
+    ambil_sumatif                  @map("ambil-sumatif")
+    upload_rubrik_kkd              @map("upload-rubrik-kkd")
+    ceklist_kkd                    @map("ceklist-kkd")
+    generate_nilai                 @map("generate-nilai")
+    progress_generate_nilai        @map("progress-generate-nilai")
+    ambil_rekap_tertentu           @map("ambil-rekap-tertentu")
+    rekap_nilai_tertentu           @map("rekap-nilai-tertentu")
+    setting_bobot                  @map("setting-bobot")
+    meducal_nilai_akhir            @map("meducal-nilai-akhir")
+    progress_meducal               @map("progress-meducal")
+    monitoring
+    rekap_rkd                      @map("rekap-rkd")
+    daftar_periode                 @map("daftar-periode")
+    rekap_rincian                  @map("rekap-rincian")
+    modal_dosen                    @map("modal-dosen")
+    remove_tim_modul               @map("remove-tim-modul")
+    up_tim_modul                   @map("up-tim-modul")
+    down_tim_modul                 @map("down-tim-modul")
+    monitoring_pengisian           @map("monitoring-pengisian")
+    rekap_per_kegiatan             @map("rekap-per-kegiatan")
+    rekap_per_modul                @map("rekap-per-modul")
+    aktifkan_periode               @map("aktifkan-periode")
+    non_aktifkan_periode           @map("non-aktifkan-periode")
+    modal_dosen_kegiatan           @map("modal-dosen-kegiatan")
+    ambil_dosen_kegiatan           @map("ambil-dosen-kegiatan")
+    remove_dosen_kegiatan          @map("remove-dosen-kegiatan")
+    up_dosen_kegiatan              @map("up-dosen-kegiatan")
+    down_dosen_kegiatan            @map("down-dosen-kegiatan")
+    cut_dosen_kegiatan             @map("cut-dosen-kegiatan")
+    cut_dosen_kegiatan_new         @map("cut-dosen-kegiatan-new")
+    paste_dosen_kegiatan           @map("paste-dosen-kegiatan")
+    paste_dosen_kegiatan_new       @map("paste-dosen-kegiatan-new")
+    download_per_kegiatan          @map("download-per-kegiatan")
+    review_rekap_by_admin          @map("review-rekap-by-admin")
+    download_per_modul             @map("download-per-modul")
+    ambil_tim_penelitian           @map("ambil-tim-penelitian")
+    remove_tim_penelitian          @map("remove-tim-penelitian")
+    setting_tim_penelitian         @map("setting-tim-penelitian")
+    modal_dosen_periode            @map("modal-dosen-periode")
+    ambil_tim_pengabdian           @map("ambil-tim-pengabdian")
+    remove_tim_pengabdian          @map("remove-tim-pengabdian")
+    setting_tim_pengabdian         @map("setting-tim-pengabdian")
+    daftar_penelitian              @map("daftar-penelitian")
+    daftar_pengabdian              @map("daftar-pengabdian")
+    daftar_penunjang               @map("daftar-penunjang")
+    daftar_rkd_full                @map("daftar-rkd-full")
+    validasi_penelitian            @map("validasi-penelitian")
+    proses_validasi_penelitian     @map("proses-validasi-penelitian")
+    validasi_pengabdian            @map("validasi-pengabdian")
+    proses_validasi_pengabdian     @map("proses-validasi-pengabdian")
+    ubah_status_selesai            @map("ubah-status-selesai")
+    ubah_status_aktif              @map("ubah-status-aktif")
+    terapkan_hasil_rapat           @map("terapkan-hasil-rapat")
+    cetak_rekap_by_admin           @map("cetak-rekap-by-admin")
+    rekap_detail_rkd               @map("rekap-detail-rkd")
+    landing_menu                   @map("landing-menu")
+    pengajuan_rkd                  @map("pengajuan-rkd")
+    modal_modul                    @map("modal-modul")
+    input_pengajuan                @map("input-pengajuan")
+    proses_pengajuan               @map("proses-pengajuan")
+    review_rekap_rkd               @map("review-rekap-rkd")
+    cetak_rekap_rkd                @map("cetak-rekap-rkd")
+    tim_modul                      @map("tim-modul")
+    rincian_pengajuan_rkd          @map("rincian-pengajuan-rkd")
+    ubah_bimbingan                 @map("ubah-bimbingan")
+    penelitian_index               @map("penelitian-index")
+    penelitian_tambah              @map("penelitian-tambah")
+    penelitian_ubah                @map("penelitian-ubah")
+    penelitian_delete              @map("penelitian-delete")
+    pengabdian_index               @map("pengabdian-index")
+    pengabdian_tambah              @map("pengabdian-tambah")
+    pengabdian_ubah                @map("pengabdian-ubah")
+    pengabdian_delete              @map("pengabdian-delete")
+    penunjang_index                @map("penunjang-index")
+    penunjang_tambah               @map("penunjang-tambah")
+    penunjang_ubah                 @map("penunjang-ubah")
+    penunjang_delete               @map("penunjang-delete")
+    cetak_rkd_full                 @map("cetak-rkd-full")
+    pbl_nonmodul_index             @map("pbl-nonmodul-index")
+    input_pengajuan_ujian          @map("input-pengajuan-ujian")
+    data_personal                  @map("data-personal")
+    realisasi_bkd                  @map("realisasi-bkd")
+    rekap_bkd_admin                @map("rekap-bkd-admin")
+    realisasi_bkd_admin            @map("realisasi-bkd-admin")
+    statistik_rkd_periode          @map("statistik-rkd-periode")
+    link_ijazah                    @map("link-ijazah")
+    cetak_rekap_bkd                @map("cetak-rekap-bkd")
+    index_mahasiswa                @map("index-mahasiswa")
+    index_periode                  @map("index-periode")
+    daftar_absensi_dosen_dk        @map("daftar-absensi-dosen-dk")
+    daftar_absensi_dosen_kkd       @map("daftar-absensi-dosen-kkd")
+    daftar_absensi_fasil           @map("daftar-absensi-fasil")
+    daftar_absensi_tutor           @map("daftar-absensi-tutor")
+    cetak_absensi_fasil            @map("cetak-absensi-fasil")
+    cetak_absensi_tutor            @map("cetak-absensi-tutor")
+    delete_kkd_materi              @map("delete-kkd-materi")
+    delete_kkd_ujian               @map("delete-kkd-ujian")
+    delete_kegiatan_kkd            @map("delete-kegiatan-kkd")
+    bank_tutor_guide               @map("bank-tutor-guide")
+    download_file_tg               @map("download-file-tg")
+    copy_file_tg                   @map("copy-file-tg")
+    paste_file_tg                  @map("paste-file-tg")
+}
+
+enum ist_pengajuan_pengabdian_jenis_kegiatan {
+    Internal_UIN     @map("Internal UIN")
+    Eksternal_UIN    @map("Eksternal UIN")
+    Pengurus_Lembaga @map("Pengurus Lembaga")
+    Lain_lain        @map("Lain-lain")
+}
+
+enum ist_pengajuan_rkd_status {
+    Belum_Disetujui @map("Belum Disetujui")
+    Sudah_Disetujui @map("Sudah Disetujui")
+}
+
+enum ist_daftar_modul_panjang_modul {
+    PANJANG_2 @map("2")
+    PANJANG_3 @map("3")
+    PANJANG_4 @map("4")
+    PANJANG_5 @map("5")
+    PANJANG_6 @map("6")
+    PANJANG_7 @map("7")
+    PANJANG_8 @map("8")
+}
+
+enum set_user_status_user {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+    Keluar
+}
+
+enum ist_daftar_modul_mulai_minggu_ke {
+    MINGGU_1  @map("1")
+    MINGGU_2  @map("2")
+    MINGGU_3  @map("3")
+    MINGGU_4  @map("4")
+    MINGGU_5  @map("5")
+    MINGGU_6  @map("6")
+    MINGGU_7  @map("7")
+    MINGGU_8  @map("8")
+    MINGGU_9  @map("9")
+    MINGGU_10 @map("10")
+    MINGGU_11 @map("11")
+    MINGGU_12 @map("12")
+    MINGGU_13 @map("13")
+    MINGGU_14 @map("14")
+    MINGGU_15 @map("15")
+    MINGGU_16 @map("16")
+    MINGGU_17 @map("17")
+    MINGGU_18 @map("18")
+    MINGGU_19 @map("19")
+    MINGGU_20 @map("20")
+    MINGGU_21 @map("21")
+    MINGGU_22 @map("22")
+    MINGGU_23 @map("23")
+    MINGGU_24 @map("24")
+    MINGGU_25 @map("25")
+    MINGGU_26 @map("26")
+    MINGGU_27 @map("27")
+    MINGGU_28 @map("28")
+    MINGGU_29 @map("29")
+    MINGGU_30 @map("30")
+    MINGGU_31 @map("31")
+    MINGGU_32 @map("32")
+    MINGGU_33 @map("33")
+    MINGGU_34 @map("34")
+    MINGGU_35 @map("35")
+    MINGGU_36 @map("36")
+    MINGGU_37 @map("37")
+    MINGGU_38 @map("38")
+    MINGGU_39 @map("39")
+    MINGGU_40 @map("40")
+    MINGGU_41 @map("41")
+    MINGGU_42 @map("42")
+    MINGGU_43 @map("43")
+    MINGGU_44 @map("44")
+    MINGGU_45 @map("45")
+    MINGGU_46 @map("46")
+    MINGGU_47 @map("47")
+    MINGGU_48 @map("48")
+    MINGGU_49 @map("49")
+    MINGGU_50 @map("50")
+    MINGGU_51 @map("51")
+    MINGGU_52 @map("52")
+}
+
+enum ist_daftar_modul_selesai_minggu_ke {
+    MINGGU_1  @map("1")
+    MINGGU_2  @map("2")
+    MINGGU_3  @map("3")
+    MINGGU_4  @map("4")
+    MINGGU_5  @map("5")
+    MINGGU_6  @map("6")
+    MINGGU_7  @map("7")
+    MINGGU_8  @map("8")
+    MINGGU_9  @map("9")
+    MINGGU_10 @map("10")
+    MINGGU_11 @map("11")
+    MINGGU_12 @map("12")
+    MINGGU_13 @map("13")
+    MINGGU_14 @map("14")
+    MINGGU_15 @map("15")
+    MINGGU_16 @map("16")
+    MINGGU_17 @map("17")
+    MINGGU_18 @map("18")
+    MINGGU_19 @map("19")
+    MINGGU_20 @map("20")
+    MINGGU_21 @map("21")
+    MINGGU_22 @map("22")
+    MINGGU_23 @map("23")
+    MINGGU_24 @map("24")
+    MINGGU_25 @map("25")
+    MINGGU_26 @map("26")
+    MINGGU_27 @map("27")
+    MINGGU_28 @map("28")
+    MINGGU_29 @map("29")
+    MINGGU_30 @map("30")
+    MINGGU_31 @map("31")
+    MINGGU_32 @map("32")
+    MINGGU_33 @map("33")
+    MINGGU_34 @map("34")
+    MINGGU_35 @map("35")
+    MINGGU_36 @map("36")
+    MINGGU_37 @map("37")
+    MINGGU_38 @map("38")
+    MINGGU_39 @map("39")
+    MINGGU_40 @map("40")
+    MINGGU_41 @map("41")
+    MINGGU_42 @map("42")
+    MINGGU_43 @map("43")
+    MINGGU_44 @map("44")
+    MINGGU_45 @map("45")
+    MINGGU_46 @map("46")
+    MINGGU_47 @map("47")
+    MINGGU_48 @map("48")
+    MINGGU_49 @map("49")
+    MINGGU_50 @map("50")
+    MINGGU_51 @map("51")
+    MINGGU_52 @map("52")
+}
+
+enum ist_daftar_modul_frame_ke {
+    FRAME_1 @map("1")
+    FRAME_2 @map("2")
+    FRAME_3 @map("3")
+    FRAME_4 @map("4")
+    FRAME_5 @map("5")
+}
+
+enum mda_perkuliahan_detail_jenis_virtual {
+    Ya
+    Tidak
+}
+
+enum ist_item_laporan_jenis_pengisian {
+    Pilihan_Poin @map("Pilihan Poin")
+    Isian_Uraian @map("Isian Uraian")
+}
+
+enum ist_daftar_modul_jenis_ujian {
+    OSCE
+    SOCA
+    UKMPPD_Nasional @map("UKMPPD Nasional")
+}
+
+enum mda_perkuliahan_status_perkuliahan {
+    Tidak_Aktif @map("Tidak Aktif")
+    Aktif
+    Selesai
+}
+
+enum ist_item_laporan_jenis_akses {
+    Tim_Modul_saja     @map("Tim Modul saja")
+    Asesor_saja        @map("Asesor saja")
+    Tim_GJM_saja       @map("Tim GJM saja")
+    Tim_Modul___Asesor @map("Tim Modul & Asesor")
+    Asesor___Tim_GJM   @map("Asesor & Tim GJM")
+}
+
+enum ist_daftar_modul_status {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+    Selesai
+}
+
+enum ist_daftar_periode_status {
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+}
+
+enum ist_daftar_periode_status_pbl_modul {
+    Belum_Aktif @map("Belum Aktif")
+    Aktif
+    Tidak_Aktif @map("Tidak Aktif")
+    Selesai
+}
+
+enum ist_laporan_emi_status_laporan {
+    Berjalan
+    Selesai
+}
+
+enum mda_perkuliahan_detail_status_absensi {
+    Belum_diisi    @map("Belum diisi")
+    Diisi_sebagian @map("Diisi sebagian")
+    Sudah_diisi    @map("Sudah diisi")
+}
+
+enum mda_perkuliahan_detail_status_kegiatan {
+    Belum_dimulai   @map("Belum dimulai")
+    Sedang_Berjalan @map("Sedang Berjalan")
+    Selesai
+}
+
+enum mda_perkuliahan_detail_status_penilaian {
+    Belum_dinilai    @map("Belum dinilai")
+    Dinilai_sebagian @map("Dinilai sebagian")
+    Sudah_dinilai    @map("Sudah dinilai")
+    Tanpa_penilaian  @map("Tanpa penilaian")
+}
+
+enum ist_laporan_emi_status_nilai_tim_modul {
+    Belum_Selesai @map("Belum Selesai")
+    Sudah_Selesai @map("Sudah Selesai")
+}
+
+enum ist_laporan_emi_status_nilai_penilai {
+    Belum_Selesai @map("Belum Selesai")
+    Sudah_Selesai @map("Sudah Selesai")
+}

@@ -1,0 +1,372 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/lib/prisma/generated/schema1"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_SCHEMA1")
+}
+
+model Admin {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique @db.VarChar(60)
+  password   String   @db.VarChar(255) // Hash password
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status     String   @default("Aktif") @db.VarChar(20) // Aktif/Tidak Aktif
+}
+
+// Model untuk Sesi Penilaian (mengaktifkan/nonaktifkan penilaian)
+model SesiPenilaian {
+  id           Int      @id @default(autoincrement())
+  sesi_mulai   DateTime @db.Date
+  sesi_selesai DateTime @db.Date
+  modul_id     Int?
+  status       String   @default("Aktif") @db.VarChar(20) // Aktif/Tidak Aktif
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  modul Modul? @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+}
+
+model TahunAjaran {
+  id           Int      @id @default(autoincrement())
+  tahun_ajaran String   @unique @db.VarChar(10)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  moduls       Modul[]
+}
+
+// Model untuk Dosen (dibuat oleh admin, disinkronkan ke Schema 2)
+model Dosen {
+  id            Int       @id @default(autoincrement())
+  nama_depan    String?   @db.VarChar(50)
+  tanggal_lahir DateTime? @db.Date
+  username      String?   @unique @db.VarChar(60)
+  password      String?   @db.VarChar(255)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  mda_dosen_id  Int?      @unique
+  moduls        Modul[] // Relasi ke modul sebagai penanggung jawab
+  pemicus       Pemicu[] // Relasi ke pemicu
+}
+
+// Model untuk Mahasiswa (dibuat oleh admin, disinkronkan ke Schema 2)
+model Mahasiswa {
+  id             Int            @id @default(autoincrement())
+  nama_depan     String?        @db.VarChar(50)
+  nama_belakang  String?        @db.VarChar(50)
+  tanggal_lahir  DateTime?      @db.Date
+  jenis_kelamin  JenisKelamin?
+  nim            String?        @unique @db.VarChar(15)
+  angkatan       Int?
+  username       String?        @unique @db.VarChar(60)
+  password       String?        @db.VarChar(255)
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+  peserta_moduls PesertaModul[]
+}
+
+enum JenisKelamin {
+  Pria
+  Perempuan
+}
+
+model Modul {
+  id                 Int                @id @default(autoincrement())
+  nama_modul         String             @db.VarChar(100)
+  penanggung_jawab   String             @db.VarChar(100)
+  tahun_mulai        Int
+  tahun_selesai      Int
+  total_siswa        Int                @default(0)
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @updatedAt
+  pemicus            Pemicu[]
+  penilaian_moduls   PenilaianModul[]
+  peserta_moduls     PesertaModul[]
+  kelompoks          Kelompok[]
+  bobot_nilai_akhirs BobotNilaiAkhir[]
+  bobot_nilai_proses BobotNilaiProses[]
+  modul_praktikums   ModulPraktikum[]
+  sesi_penilaian     SesiPenilaian[]
+  Dosen              Dosen?             @relation(fields: [dosenId], references: [id])
+  dosenId            Int?
+  TahunAjaran        TahunAjaran?       @relation(fields: [tahunAjaranId], references: [id])
+  tahunAjaranId      Int?
+}
+
+model BobotNilaiAkhir {
+  id            Int      @id @default(autoincrement())
+  modul_id      Int
+  modul         Modul    @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  nilai_sumatif Decimal  @db.Decimal(5, 2)
+  nilai_proses  Decimal  @db.Decimal(5, 2)
+  nilai_praktik Decimal  @db.Decimal(5, 2)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@unique([modul_id])
+}
+
+model BobotNilaiProses {
+  id             Int      @id @default(autoincrement())
+  modul_id       Int
+  modul          Modul    @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  diskusi        Decimal  @db.Decimal(5, 2)
+  buku_catatan   Decimal  @db.Decimal(5, 2)
+  temu_pakar     Decimal  @db.Decimal(5, 2)
+  peta_konsep    Decimal  @db.Decimal(5, 2)
+  proses_praktik Decimal  @db.Decimal(5, 2)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  @@unique([modul_id])
+}
+
+model Praktikum {
+  id                                Int                              @id @default(autoincrement())
+  nama                              String                           @db.VarChar(100)
+  created_at                        DateTime                         @default(now())
+  updated_at                        DateTime                         @updatedAt
+  modul_praktikums                  ModulPraktikum[]
+  penilaian_proses_praktikum        PenilaianProsesPraktikum[]
+  penilaian_praktikum               PenilaianPraktikum[]
+  penilaian_proses_praktikum_detail PenilaianProsesPraktikumDetail[]
+}
+
+model ModulPraktikum {
+  id           Int       @id @default(autoincrement())
+  modul_id     Int
+  modul        Modul     @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  praktikum_id Int
+  praktikum    Praktikum @relation(fields: [praktikum_id], references: [id])
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  @@unique([modul_id, praktikum_id])
+}
+
+model Ilmu {
+  id         Int      @id @default(autoincrement())
+  nama_ilmu  String   @db.VarChar(100)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  pemicus    Pemicu[]
+}
+
+model Pemicu {
+  id           Int      @id @default(autoincrement())
+  modul_id     Int
+  modul        Modul    @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  ilmu_id      Int
+  ilmu         Ilmu     @relation(fields: [ilmu_id], references: [id])
+  dosen_id     Int?
+  nomor_pemicu Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  Dosen        Dosen?   @relation(fields: [dosenId], references: [id])
+  dosenId      Int?
+}
+
+model PenilaianModul {
+  id                          Int                        @id @default(autoincrement())
+  modul_id                    Int
+  modul                       Modul                      @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  total_soal_sum1             Int                        @default(0)
+  total_soal_sum2             Int                        @default(0)
+  total_her_sum1              Int                        @default(0)
+  total_her_sum2              Int                        @default(0)
+  created_at                  DateTime                   @default(now())
+  updated_at                  DateTime                   @updatedAt
+  penilaian_proses_praktikums PenilaianProsesPraktikum[]
+}
+
+model PenilaianProsesPraktikum {
+  id                 Int            @id @default(autoincrement())
+  penilaian_modul_id Int
+  penilaian_modul    PenilaianModul @relation(fields: [penilaian_modul_id], references: [id], onDelete: Cascade)
+  praktikum_id       Int
+  praktikum          Praktikum?     @relation(fields: [praktikum_id], references: [id])
+  jenis_nilai        String?        @db.VarChar(50) // Contoh: "LP", "KP"
+  jenis_nilai_id     Int?
+  bobot              Decimal        @db.Decimal(5, 2)
+  created_at         DateTime       @default(now())
+  updated_at         DateTime       @updatedAt
+}
+
+model PesertaModul {
+  id                                Int                              @id @default(autoincrement())
+  modul_id                          Int
+  modul                             Modul                            @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  nim                               String
+  created_at                        DateTime                         @default(now())
+  updated_at                        DateTime                         @updatedAt
+  kelompok_anggotas                 KelompokAnggota[]
+  mahasiswa                         Mahasiswa?                       @relation(fields: [mahasiswaId], references: [id])
+  mahasiswaId                       Int?
+  penilaian_sumatif                 PenilaianSumatif?
+  penilaian_praktikum               PenilaianPraktikum[]
+  penilaian_proses                  PenilaianProses?
+  penilaian_akhir                   PenilaianAkhir?
+  penilaian_buku_catatan            PenilaianBukuCatatan[]
+  penilaian_temu_pakar              PenilaianTemuPakar[]
+  penilaian_peta_konsep             PenilaianPetaKonsep[]
+  penilaian_proses_praktikum_detail PenilaianProsesPraktikumDetail[]
+  penilaian_diskusi_kelompok        PenilaianDiskusiKelompok[]
+
+  @@unique([modul_id, nim])
+}
+
+model Kelompok {
+  id            Int               @id @default(autoincrement())
+  modul_id      Int
+  modul         Modul             @relation(fields: [modul_id], references: [id], onDelete: Cascade)
+  nama_kelompok String            @db.VarChar(50)
+  created_at    DateTime          @default(now())
+  updated_at    DateTime          @updatedAt
+  anggotas      KelompokAnggota[]
+}
+
+model KelompokAnggota {
+  id               Int          @id @default(autoincrement())
+  kelompok_id      Int
+  kelompok         Kelompok     @relation(fields: [kelompok_id], references: [id], onDelete: Cascade)
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id])
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([kelompok_id, peserta_modul_id])
+}
+
+model PenilaianBukuCatatan {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  label            String       @db.VarChar(10) // Misalnya "1", "2", "3", "4"
+  nilai            Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id, label])
+}
+
+model PenilaianDiskusiKelompok {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  kelompok_id      String       @db.VarChar(10) // ID kelompok dari model Kelompok
+  pemicu_id        Int // ID pemicu dari model Pemicu
+  nilai            Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id, kelompok_id, pemicu_id])
+}
+
+model PenilaianTemuPakar {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  label            String       @db.VarChar(10) // Misalnya "1", "2", "3", "4"
+  nilai            Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id, label])
+}
+
+model PenilaianPetaKonsep {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  pemicu_id        Int // ID pemicu dari Pemicu model
+  ilmu             String       @db.VarChar(100) // Misalnya "Jantung", "Darah"
+  dokter           String       @db.VarChar(100)
+  nilai            Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id, pemicu_id, ilmu])
+}
+
+model PenilaianProsesPraktikumDetail {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  praktikum_id     Int
+  praktikum        Praktikum    @relation(fields: [praktikum_id], references: [id], onDelete: Cascade)
+  jenis_nilai      String       @db.VarChar(50) // Misalnya "KKD Tutorial"
+  nilai            Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id, praktikum_id, jenis_nilai])
+}
+
+model PenilaianSumatif {
+  id                   Int          @id @default(autoincrement())
+  peserta_modul_id     Int
+  peserta_modul        PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  total_benar_sum1     Int
+  total_benar_sum2     Int
+  total_benar_her_sum1 Int?
+  total_benar_her_sum2 Int?
+  nilai_akhir          Float
+  created_at           DateTime     @default(now())
+  updated_at           DateTime     @updatedAt
+
+  @@unique([peserta_modul_id])
+}
+
+model PenilaianPraktikum {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  praktikum_id     Int
+  praktikum        Praktikum    @relation(fields: [praktikum_id], references: [id], onDelete: Cascade)
+  nilai            Float
+  nilai_her        Float
+  nilai_akhir      Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id, praktikum_id])
+}
+
+model PenilaianProses {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  diskusi_kelompok Float
+  buku_catatan     Float
+  temu_pakar       Float
+  peta_konsep      Float
+  proses_praktikum Float
+  nilai_akhir      Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id])
+}
+
+model PenilaianAkhir {
+  id               Int          @id @default(autoincrement())
+  peserta_modul_id Int
+  peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
+  nilai_sumatif    Float
+  nilai_proses     Float
+  nilai_praktikum  Float
+  nilai_akhir      Float
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+
+  @@unique([peserta_modul_id])
+}
