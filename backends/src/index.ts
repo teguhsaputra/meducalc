@@ -6,7 +6,7 @@ import route from "./routes/schema1";
 dotenv.config();
 
 const app: Express = express();
-const port = 8880;
+const port = 8080;
 const corsConfig: object = {
   origin: [
     "http://localhost:3005",
