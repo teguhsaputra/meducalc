@@ -459,7 +459,7 @@ class PenilaianModulServices {
             }
         });
     }
-    static InputPenilaian(userId, role, nim, input) {
+    static InputPenilaian(userId, role, nim, namaModul, input) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
             try {
@@ -471,6 +471,7 @@ class PenilaianModulServices {
                         throw new Error("Admin not found");
                     }
                 }
+                const trimmedNamaModul = namaModul.trim();
                 const pesertaSchema2 = yield db2_1.default.mda_master_mahasiswa.findFirst({
                     where: { nim },
                 });
@@ -485,7 +486,12 @@ class PenilaianModulServices {
                     throw new Error("Peserta not found");
                 }
                 const pesertaModul = yield db1_1.default.pesertaModul.findFirst({
-                    where: { nim },
+                    where: {
+                        nim,
+                        modul: {
+                            nama_modul: trimmedNamaModul,
+                        },
+                    },
                 });
                 if (!pesertaModul) {
                     throw new Error("Peserta not registered in any modul");
@@ -588,22 +594,14 @@ class PenilaianModulServices {
                 const nilaiAkhir = Number(((finalSumatif * bobotNilaiAkhir.nilaiSumatif) / 100 +
                     (nilaiProses * bobotNilaiAkhir.nilaiProses) / 100 +
                     (nilaiPraktikumRata * bobotNilaiAkhir.nilaiPraktik) / 100).toFixed(2));
-                yield db1_1.default.penilaianSumatif.upsert({
-                    where: { peserta_modul_id: pesertaModul.id },
-                    update: {
-                        total_benar_sum1: input.totalBenarSumatif1,
-                        total_benar_sum2: input.totalBenarSumatif2,
-                        total_benar_her_sum1: totalHerSum1 > 0 ? input.totalBenarHerSumatif1 : null,
-                        total_benar_her_sum2: totalHerSum2 > 0 ? input.totalBenarHerSumatif2 : null,
-                        nilai_akhir: Number(finalSumatif.toFixed(2)), // Pastikan disimpan dengan 2 desimal
-                    },
-                    create: {
+                yield db1_1.default.penilaianSumatif.create({
+                    data: {
                         peserta_modul_id: pesertaModul.id,
                         total_benar_sum1: input.totalBenarSumatif1,
                         total_benar_sum2: input.totalBenarSumatif2,
                         total_benar_her_sum1: totalHerSum1 > 0 ? input.totalBenarHerSumatif1 : null,
                         total_benar_her_sum2: totalHerSum2 > 0 ? input.totalBenarHerSumatif2 : null,
-                        nilai_akhir: Number(finalSumatif.toFixed(2)), // Pastikan disimpan dengan 2 desimal
+                        nilai_akhir: Number(finalSumatif.toFixed(2)),
                     },
                 });
                 const praktikumData = nilaiPraktikumValues.map((v) => ({
@@ -613,24 +611,12 @@ class PenilaianModulServices {
                     nilai_her: Number(v.nilaiHer.toFixed(2)),
                     nilai_akhir: Number(Math.max(v.nilai, v.nilaiHer).toFixed(2)),
                 }));
-                yield db1_1.default.penilaianPraktikum.deleteMany({
-                    where: { peserta_modul_id: pesertaModul.id },
-                });
                 yield db1_1.default.penilaianPraktikum.createMany({
                     data: praktikumData,
                     skipDuplicates: true,
                 });
-                yield db1_1.default.penilaianProses.upsert({
-                    where: { peserta_modul_id: pesertaModul.id },
-                    update: {
-                        diskusi_kelompok: Number(diskusiKelompokAvg.toFixed(2)),
-                        buku_catatan: Number(catatanAvg.toFixed(2)),
-                        temu_pakar: Number(temuPakarAvg.toFixed(2)),
-                        peta_konsep: Number(petaKoncepAvg.toFixed(2)),
-                        proses_praktikum: Number(prosesPraktikumAvg.toFixed(2)),
-                        nilai_akhir: Number(nilaiProses.toFixed(2)),
-                    },
-                    create: {
+                yield db1_1.default.penilaianProses.create({
+                    data: {
                         peserta_modul_id: pesertaModul.id,
                         diskusi_kelompok: Number(diskusiKelompokAvg.toFixed(2)),
                         buku_catatan: Number(catatanAvg.toFixed(2)),
@@ -640,15 +626,8 @@ class PenilaianModulServices {
                         nilai_akhir: Number(nilaiProses.toFixed(2)),
                     },
                 });
-                yield db1_1.default.penilaianAkhir.upsert({
-                    where: { peserta_modul_id: pesertaModul.id },
-                    update: {
-                        nilai_sumatif: Number(finalSumatif.toFixed(2)),
-                        nilai_proses: Number(nilaiProses.toFixed(2)),
-                        nilai_praktikum: Number(nilaiPraktikumRata.toFixed(2)),
-                        nilai_akhir: Number(nilaiAkhir.toFixed(2)),
-                    },
-                    create: {
+                yield db1_1.default.penilaianAkhir.create({
+                    data: {
                         peserta_modul_id: pesertaModul.id,
                         nilai_sumatif: Number(finalSumatif.toFixed(2)),
                         nilai_proses: Number(nilaiProses.toFixed(2)),
@@ -665,9 +644,6 @@ class PenilaianModulServices {
                         nilai: Number(parseFloat(value).toFixed(2)),
                     };
                 });
-                yield db1_1.default.penilaianDiskusiKelompok.deleteMany({
-                    where: { peserta_modul_id: pesertaModul.id },
-                });
                 yield db1_1.default.penilaianDiskusiKelompok.createMany({
                     data: diskusiKelompokData,
                     skipDuplicates: true,
@@ -677,9 +653,6 @@ class PenilaianModulServices {
                     label,
                     nilai: Number(parseFloat(value).toFixed(2)),
                 }));
-                yield db1_1.default.penilaianBukuCatatan.deleteMany({
-                    where: { peserta_modul_id: pesertaModul.id },
-                });
                 yield db1_1.default.penilaianBukuCatatan.createMany({
                     data: bukuCatatanData,
                     skipDuplicates: true,
@@ -689,9 +662,6 @@ class PenilaianModulServices {
                     label,
                     nilai: Number(parseFloat(value).toFixed(2)),
                 }));
-                yield db1_1.default.penilaianTemuPakar.deleteMany({
-                    where: { peserta_modul_id: pesertaModul.id },
-                });
                 yield db1_1.default.penilaianTemuPakar.createMany({
                     data: temuPakarData,
                     skipDuplicates: true,
@@ -703,9 +673,6 @@ class PenilaianModulServices {
                     dokter: detail.dokter || "",
                     nilai: Number(parseFloat(detail.nilai).toFixed(2)),
                 })));
-                yield db1_1.default.penilaianPetaKonsep.deleteMany({
-                    where: { peserta_modul_id: pesertaModul.id },
-                });
                 yield db1_1.default.penilaianPetaKonsep.createMany({
                     data: petaKoncepData,
                     skipDuplicates: true,
@@ -714,21 +681,17 @@ class PenilaianModulServices {
                 modul.modul_praktikums.forEach((mp) => {
                     praktikumMap.set(mp.praktikum.nama.toLowerCase(), mp.praktikum_id);
                 });
-                const prosesPraktikumData = Object.entries(input.prosesPraktikumNilai).map(([key, detail]) => {
-                    const [praktikumName] = key.split("-");
+                const prosesPraktikumData = Object.entries(input.prosesPraktikumNilai).flatMap(([praktikumName, jenisObj]) => {
                     const praktikumId = praktikumMap.get(praktikumName.toLowerCase());
                     if (!praktikumId) {
                         throw new Error(`Praktikum dengan nama ${praktikumName} tidak ditemukan untuk modul ini`);
                     }
-                    return {
+                    return Object.entries(jenisObj).map(([jenisNilaiKey, detail]) => ({
                         peserta_modul_id: pesertaModul.id,
                         praktikum_id: praktikumId,
-                        jenis_nilai: detail.jenisNilai || "",
+                        jenis_nilai: detail.jenisNilai || jenisNilaiKey || "",
                         nilai: Number(parseFloat(detail.nilai).toFixed(2)),
-                    };
-                });
-                yield db1_1.default.penilaianProsesPraktikumDetail.deleteMany({
-                    where: { peserta_modul_id: pesertaModul.id },
+                    }));
                 });
                 yield db1_1.default.penilaianProsesPraktikumDetail.createMany({
                     data: prosesPraktikumData,
@@ -740,7 +703,7 @@ class PenilaianModulServices {
             }
         });
     }
-    static getHasilInputPenilaian(userId, role, nim) {
+    static getHasilInputPenilaian(userId, role, namaModul, nim) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c, _d, _e, _f;
             try {
@@ -752,6 +715,7 @@ class PenilaianModulServices {
                         throw new Error("Admin not found");
                     }
                 }
+                const trimmedNamaModul = namaModul.trim();
                 const pesertaSchema2 = yield db2_1.default.mda_master_mahasiswa.findFirst({
                     where: { nim },
                 });
@@ -766,7 +730,12 @@ class PenilaianModulServices {
                     throw new Error("Peserta not found");
                 }
                 const pesertaModul = yield db1_1.default.pesertaModul.findFirst({
-                    where: { nim },
+                    where: {
+                        nim,
+                        modul: {
+                            nama_modul: trimmedNamaModul,
+                        },
+                    },
                 });
                 if (!pesertaModul) {
                     throw new Error("Peserta not registered in any modul");
@@ -861,7 +830,7 @@ class PenilaianModulServices {
                 const temuPakarDetail = yield db1_1.default.penilaianTemuPakar.findMany({
                     where: { peserta_modul_id: pesertaModul.id },
                 });
-                const petaKoncepDetail = yield db1_1.default.penilaianPetaKonsep.findMany({
+                const petaKonsepDetail = yield db1_1.default.penilaianPetaKonsep.findMany({
                     where: { peserta_modul_id: pesertaModul.id },
                 });
                 const prosesPraktikumDetail = yield db1_1.default.penilaianProsesPraktikumDetail.findMany({
@@ -897,15 +866,15 @@ class PenilaianModulServices {
                 if (!penilaianAkhir) {
                     throw new Error("Penilaian akhir not found for this peserta");
                 }
-                const petaKoncepPerPemicu = {};
-                petaKoncepDetail.forEach((entry) => {
-                    if (!petaKoncepPerPemicu[entry.pemicu_id]) {
-                        petaKoncepPerPemicu[entry.pemicu_id] = [];
+                const petaKonsepPerPemicu = {};
+                petaKonsepDetail.forEach((entry) => {
+                    if (!petaKonsepPerPemicu[entry.pemicu_id]) {
+                        petaKonsepPerPemicu[entry.pemicu_id] = [];
                     }
-                    petaKoncepPerPemicu[entry.pemicu_id].push(Number(entry.nilai));
+                    petaKonsepPerPemicu[entry.pemicu_id].push(Number(entry.nilai));
                 });
-                const rataRataPerPemicu = Object.keys(petaKoncepPerPemicu).reduce((acc, pemicu) => {
-                    const nilaiPemicu = petaKoncepPerPemicu[Number(pemicu)];
+                const rataRataPerPemicu = Object.keys(petaKonsepPerPemicu).reduce((acc, pemicu) => {
+                    const nilaiPemicu = petaKonsepPerPemicu[Number(pemicu)];
                     const rataRata = nilaiPemicu.length > 0
                         ? Number((nilaiPemicu.reduce((sum, val) => sum + val, 0) /
                             nilaiPemicu.length).toFixed(2))
@@ -948,7 +917,7 @@ class PenilaianModulServices {
                                 Number(d.nilai.toFixed(2)),
                             ])),
                             temuPakar: Object.fromEntries(temuPakarDetail.map((d) => [d.label, Number(d.nilai.toFixed(2))])),
-                            petaKoncep: petaKoncepDetail.reduce((acc, d) => {
+                            petaKonsep: petaKonsepDetail.reduce((acc, d) => {
                                 if (!acc[d.pemicu_id])
                                     acc[d.pemicu_id] = {};
                                 acc[d.pemicu_id][d.ilmu] = {
@@ -999,10 +968,10 @@ class PenilaianModulServices {
                                     nilai: Number(d.nilai.toFixed(2)),
                                 })),
                             },
-                            petaKoncep: {
+                            petaKonsep: {
                                 nilaiAkhir: Number(penilaianProses.peta_konsep.toFixed(2)),
                                 rataRataPerPemicu: rataRataPerPemicu,
-                                detail: petaKoncepDetail.map((d) => ({
+                                detail: petaKonsepDetail.map((d) => ({
                                     pemicu: d.pemicu_id,
                                     ilmu: d.ilmu,
                                     dokter: d.dokter,
@@ -1062,7 +1031,16 @@ class PenilaianModulServices {
                     include: {
                         penilaian_sumatif: true,
                         penilaian_praktikum: true,
-                        penilaian_akhir: true,
+                        penilaian_akhir: {
+                            select: {
+                                id: true,
+                                nilai_sumatif: true,
+                                nilai_praktikum: true,
+                                nilai_proses: true,
+                                nilai_akhir: true,
+                                created_at: true,
+                            },
+                        },
                     },
                 });
                 if (!pesertaModul || pesertaModul.length === 0) {

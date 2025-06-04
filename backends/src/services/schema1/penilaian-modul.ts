@@ -528,6 +528,7 @@ class PenilaianModulServices {
     userId: number,
     role: string,
     nim: string,
+    namaModul: string,
     input: PenilaianInput
   ) {
     try {
@@ -540,6 +541,8 @@ class PenilaianModulServices {
           throw new Error("Admin not found");
         }
       }
+
+      const trimmedNamaModul = namaModul.trim();
 
       const pesertaSchema2 = await prismaMysql.mda_master_mahasiswa.findFirst({
         where: { nim },
@@ -558,7 +561,12 @@ class PenilaianModulServices {
       }
 
       const pesertaModul = await prisma.pesertaModul.findFirst({
-        where: { nim },
+        where: {
+          nim,
+          modul: {
+            nama_modul: trimmedNamaModul,
+          },
+        },
       });
 
       if (!pesertaModul) {
@@ -749,18 +757,8 @@ class PenilaianModulServices {
         ).toFixed(2)
       );
 
-      await prisma.penilaianSumatif.upsert({
-        where: { peserta_modul_id: pesertaModul.id },
-        update: {
-          total_benar_sum1: input.totalBenarSumatif1,
-          total_benar_sum2: input.totalBenarSumatif2,
-          total_benar_her_sum1:
-            totalHerSum1 > 0 ? input.totalBenarHerSumatif1 : null,
-          total_benar_her_sum2:
-            totalHerSum2 > 0 ? input.totalBenarHerSumatif2 : null,
-          nilai_akhir: Number(finalSumatif.toFixed(2)), // Pastikan disimpan dengan 2 desimal
-        },
-        create: {
+      await prisma.penilaianSumatif.create({
+        data: {
           peserta_modul_id: pesertaModul.id,
           total_benar_sum1: input.totalBenarSumatif1,
           total_benar_sum2: input.totalBenarSumatif2,
@@ -768,7 +766,7 @@ class PenilaianModulServices {
             totalHerSum1 > 0 ? input.totalBenarHerSumatif1 : null,
           total_benar_her_sum2:
             totalHerSum2 > 0 ? input.totalBenarHerSumatif2 : null,
-          nilai_akhir: Number(finalSumatif.toFixed(2)), // Pastikan disimpan dengan 2 desimal
+          nilai_akhir: Number(finalSumatif.toFixed(2)),
         },
       });
 
@@ -780,26 +778,13 @@ class PenilaianModulServices {
         nilai_akhir: Number(Math.max(v.nilai, v.nilaiHer).toFixed(2)),
       }));
 
-      await prisma.penilaianPraktikum.deleteMany({
-        where: { peserta_modul_id: pesertaModul.id },
-      });
-
       await prisma.penilaianPraktikum.createMany({
         data: praktikumData,
         skipDuplicates: true,
       });
 
-      await prisma.penilaianProses.upsert({
-        where: { peserta_modul_id: pesertaModul.id },
-        update: {
-          diskusi_kelompok: Number(diskusiKelompokAvg.toFixed(2)),
-          buku_catatan: Number(catatanAvg.toFixed(2)),
-          temu_pakar: Number(temuPakarAvg.toFixed(2)),
-          peta_konsep: Number(petaKoncepAvg.toFixed(2)),
-          proses_praktikum: Number(prosesPraktikumAvg.toFixed(2)),
-          nilai_akhir: Number(nilaiProses.toFixed(2)),
-        },
-        create: {
+      await prisma.penilaianProses.create({
+        data: {
           peserta_modul_id: pesertaModul.id,
           diskusi_kelompok: Number(diskusiKelompokAvg.toFixed(2)),
           buku_catatan: Number(catatanAvg.toFixed(2)),
@@ -810,15 +795,8 @@ class PenilaianModulServices {
         },
       });
 
-      await prisma.penilaianAkhir.upsert({
-        where: { peserta_modul_id: pesertaModul.id },
-        update: {
-          nilai_sumatif: Number(finalSumatif.toFixed(2)),
-          nilai_proses: Number(nilaiProses.toFixed(2)),
-          nilai_praktikum: Number(nilaiPraktikumRata.toFixed(2)),
-          nilai_akhir: Number(nilaiAkhir.toFixed(2)),
-        },
-        create: {
+      await prisma.penilaianAkhir.create({
+        data: {
           peserta_modul_id: pesertaModul.id,
           nilai_sumatif: Number(finalSumatif.toFixed(2)),
           nilai_proses: Number(nilaiProses.toFixed(2)),
@@ -838,9 +816,7 @@ class PenilaianModulServices {
           nilai: Number(parseFloat(value).toFixed(2)),
         };
       });
-      await prisma.penilaianDiskusiKelompok.deleteMany({
-        where: { peserta_modul_id: pesertaModul.id },
-      });
+
       await prisma.penilaianDiskusiKelompok.createMany({
         data: diskusiKelompokData,
         skipDuplicates: true,
@@ -853,9 +829,7 @@ class PenilaianModulServices {
           nilai: Number(parseFloat(value).toFixed(2)),
         })
       );
-      await prisma.penilaianBukuCatatan.deleteMany({
-        where: { peserta_modul_id: pesertaModul.id },
-      });
+
       await prisma.penilaianBukuCatatan.createMany({
         data: bukuCatatanData,
         skipDuplicates: true,
@@ -868,9 +842,7 @@ class PenilaianModulServices {
           nilai: Number(parseFloat(value).toFixed(2)),
         })
       );
-      await prisma.penilaianTemuPakar.deleteMany({
-        where: { peserta_modul_id: pesertaModul.id },
-      });
+
       await prisma.penilaianTemuPakar.createMany({
         data: temuPakarData,
         skipDuplicates: true,
@@ -886,9 +858,7 @@ class PenilaianModulServices {
             nilai: Number(parseFloat(detail.nilai).toFixed(2)),
           }))
       );
-      await prisma.penilaianPetaKonsep.deleteMany({
-        where: { peserta_modul_id: pesertaModul.id },
-      });
+
       await prisma.penilaianPetaKonsep.createMany({
         data: petaKoncepData,
         skipDuplicates: true,
@@ -901,26 +871,19 @@ class PenilaianModulServices {
 
       const prosesPraktikumData = Object.entries(
         input.prosesPraktikumNilai
-      ).map(([key, detail]) => {
-        const [praktikumName] = key.split("-");
+      ).flatMap(([praktikumName, jenisObj]) => {
         const praktikumId = praktikumMap.get(praktikumName.toLowerCase());
-
         if (!praktikumId) {
           throw new Error(
             `Praktikum dengan nama ${praktikumName} tidak ditemukan untuk modul ini`
           );
         }
-
-        return {
+        return Object.entries(jenisObj).map(([jenisNilaiKey, detail]) => ({
           peserta_modul_id: pesertaModul.id,
           praktikum_id: praktikumId,
-          jenis_nilai: detail.jenisNilai || "",
+          jenis_nilai: detail.jenisNilai || jenisNilaiKey || "",
           nilai: Number(parseFloat(detail.nilai).toFixed(2)),
-        };
-      });
-
-      await prisma.penilaianProsesPraktikumDetail.deleteMany({
-        where: { peserta_modul_id: pesertaModul.id },
+        }));
       });
 
       await prisma.penilaianProsesPraktikumDetail.createMany({
@@ -935,6 +898,7 @@ class PenilaianModulServices {
   static async getHasilInputPenilaian(
     userId: number,
     role: string,
+    namaModul: string,
     nim: string
   ) {
     try {
@@ -947,6 +911,8 @@ class PenilaianModulServices {
           throw new Error("Admin not found");
         }
       }
+
+      const trimmedNamaModul = namaModul.trim();
 
       const pesertaSchema2 = await prismaMysql.mda_master_mahasiswa.findFirst({
         where: { nim },
@@ -965,7 +931,12 @@ class PenilaianModulServices {
       }
 
       const pesertaModul = await prisma.pesertaModul.findFirst({
-        where: { nim },
+        where: {
+          nim,
+          modul: {
+            nama_modul: trimmedNamaModul,
+          },
+        },
       });
 
       if (!pesertaModul) {
@@ -1356,7 +1327,16 @@ class PenilaianModulServices {
         include: {
           penilaian_sumatif: true,
           penilaian_praktikum: true,
-          penilaian_akhir: true,
+          penilaian_akhir: {
+            select: {
+              id: true,
+              nilai_sumatif: true,
+              nilai_praktikum: true,
+              nilai_proses: true,
+              nilai_akhir: true,
+              created_at: true,
+            },
+          },
         },
       });
 

@@ -5,6 +5,8 @@ import route from "./routes/schema1";
 
 dotenv.config();
 
+console.log("DATABASE_URL_SCHEMA1", process.env.DATABASE_URL_SCHEMA1);
+
 const app: Express = express();
 const port = 3006;
 const corsConfig: object = {

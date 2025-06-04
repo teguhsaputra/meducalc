@@ -146,3 +146,49 @@ export function useAddDosen() {
 
   return { mutate, isPending };
 }
+
+// DOSEN "not dosen for admin"
+
+export function useGetModulDosen(
+  pageIndex: number = 0,
+  pageSize: number = 10,
+  searchModul = "",
+  searchSchoolYear = ""
+) {
+  const token = useAuthStore((state) => state.token);
+  const validatedPageIndex = Math.max(0, pageIndex);
+  const page = validatedPageIndex + 1;
+
+  const { data, isPending } = useQuery({
+    queryKey: [
+      "get-modul-dosen",
+      page,
+      pageSize,
+      searchModul,
+      searchSchoolYear,
+    ],
+    queryFn: async () => {
+      const res = await axiosInstace.get("/dosen/modul", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          limit: pageSize,
+          searchModul,
+          searchSchoolYear,
+        },
+      });
+      return res.data;
+    },
+  });
+
+  return {
+    data: data?.data?.data || [],
+    currentPage: data?.currentPage || 1,
+    totalPages: data?.totalPages || 1,
+    totalItems: data?.totalItems || 0,
+    itemsPerPage: pageSize,
+    isPending,
+  };
+}

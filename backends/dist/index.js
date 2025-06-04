@@ -8,11 +8,17 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const schema1_1 = __importDefault(require("./routes/schema1"));
 dotenv_1.default.config();
+console.log("DATABASE_URL_SCHEMA1", process.env.DATABASE_URL_SCHEMA1);
 const app = (0, express_1.default)();
 const port = 3006;
 const corsConfig = {
-    origin: "*",
+    origin: [
+        "http://localhost:3005",
+        "https://meducalc.rftdigitalsolution.com",
+        "http://localhost:3000",
+    ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"],
     preflightContinue: false,
     optionsSuccessStatus: 204,
 };

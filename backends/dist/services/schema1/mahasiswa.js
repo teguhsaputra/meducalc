@@ -774,7 +774,7 @@ class MahasiswaServices {
                 const temuPakarDetail = yield db1_1.default.penilaianTemuPakar.findMany({
                     where: { peserta_modul_id: pesertaModul.id },
                 });
-                const petaKoncepDetail = yield db1_1.default.penilaianPetaKonsep.findMany({
+                const petaKonsepDetail = yield db1_1.default.penilaianPetaKonsep.findMany({
                     where: { peserta_modul_id: pesertaModul.id },
                 });
                 const prosesPraktikumDetail = yield db1_1.default.penilaianProsesPraktikumDetail.findMany({
@@ -810,15 +810,15 @@ class MahasiswaServices {
                 if (!penilaianAkhir) {
                     throw new Error("Penilaian akhir not found for this peserta");
                 }
-                const petaKoncepPerPemicu = {};
-                petaKoncepDetail.forEach((entry) => {
-                    if (!petaKoncepPerPemicu[entry.pemicu_id]) {
-                        petaKoncepPerPemicu[entry.pemicu_id] = [];
+                const petaKonsepPerPemicu = {};
+                petaKonsepDetail.forEach((entry) => {
+                    if (!petaKonsepPerPemicu[entry.pemicu_id]) {
+                        petaKonsepPerPemicu[entry.pemicu_id] = [];
                     }
-                    petaKoncepPerPemicu[entry.pemicu_id].push(Number(entry.nilai));
+                    petaKonsepPerPemicu[entry.pemicu_id].push(Number(entry.nilai));
                 });
-                const rataRataPerPemicu = Object.keys(petaKoncepPerPemicu).reduce((acc, pemicu) => {
-                    const nilaiPemicu = petaKoncepPerPemicu[Number(pemicu)];
+                const rataRataPerPemicu = Object.keys(petaKonsepPerPemicu).reduce((acc, pemicu) => {
+                    const nilaiPemicu = petaKonsepPerPemicu[Number(pemicu)];
                     const rataRata = nilaiPemicu.length > 0
                         ? Number((nilaiPemicu.reduce((sum, val) => sum + val, 0) /
                             nilaiPemicu.length).toFixed(2))
@@ -861,7 +861,7 @@ class MahasiswaServices {
                                 Number(d.nilai.toFixed(2)),
                             ])),
                             temuPakar: Object.fromEntries(temuPakarDetail.map((d) => [d.label, Number(d.nilai.toFixed(2))])),
-                            petaKoncep: petaKoncepDetail.reduce((acc, d) => {
+                            petaKonsep: petaKonsepDetail.reduce((acc, d) => {
                                 if (!acc[d.pemicu_id])
                                     acc[d.pemicu_id] = {};
                                 acc[d.pemicu_id][d.ilmu] = {
@@ -912,10 +912,10 @@ class MahasiswaServices {
                                     nilai: Number(d.nilai.toFixed(2)),
                                 })),
                             },
-                            petaKoncep: {
+                            petaKonsep: {
                                 nilaiAkhir: Number(penilaianProses.peta_konsep.toFixed(2)),
                                 rataRataPerPemicu: rataRataPerPemicu,
-                                detail: petaKoncepDetail.map((d) => ({
+                                detail: petaKonsepDetail.map((d) => ({
                                     pemicu: d.pemicu_id,
                                     ilmu: d.ilmu,
                                     dokter: d.dokter,

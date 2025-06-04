@@ -81,10 +81,10 @@ class PenilaianModulControllers {
   static async inputPenilaian(req: Request, res: Response) {
     try {
       const { userId, role } = res.locals.user;
-      const { nim } = req.params;
+      const { nim, namaModul } = req.params;
       const { input } = req.body;
 
-      await PenilaianModulServices.InputPenilaian(userId, role, nim, input);
+      await PenilaianModulServices.InputPenilaian(userId, role, nim, namaModul, input);
 
       res.status(200).json({
         status: true,
@@ -99,11 +99,12 @@ class PenilaianModulControllers {
   static async getHasilInputPenilaian(req: Request, res: Response) {
     try {
       const { userId, role } = res.locals.user;
-      const { nim } = req.params;
+      const { namaModul, nim } = req.params;
 
       const data = await PenilaianModulServices.getHasilInputPenilaian(
         userId,
         role,
+        namaModul,
         nim
       );
 

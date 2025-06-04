@@ -92,6 +92,65 @@ class DosenControllers {
       res.status(500).json({ message: err.message, status: false });
     }
   }
+
+  static async getModulDosen(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { page = 1, limit = 10, searchModul, searchSchoolYear } = req.query;
+
+      const data = await DosenServices.getModulDosen(
+        userId,
+        role,
+        Number(page),
+        Number(limit),
+        searchModul as string,
+        searchSchoolYear as string
+      );
+
+      res.status(200).json({
+        status: true,
+        data,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+
+  static async getModulDosenDetailHasilPenilaian(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { namaModul } = req.params;
+      const {
+        page = 1,
+        limit = 10,
+        searchSiswa,
+        searchNim,
+        sortOrder = "asc",
+        tingkatFilter = "",
+      } = req.query;
+
+      const data = await DosenServices.getModulDosenDetailHasilPenilaian(
+        userId,
+        role,
+        namaModul,
+        Number(page),
+        Number(limit),
+        searchSiswa as string,
+        searchNim as string,
+        sortOrder as "asc" | "desc",
+        tingkatFilter as "A" | "B" | "C" | "D" | "E" | ""
+      );
+
+      res.status(200).json({
+        status: true,
+        data,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
 }
 
 export default DosenControllers;

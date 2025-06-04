@@ -10,7 +10,10 @@ export type PenilaianInput = {
   temuPakarNilai: Record<string, string>;
   petaKonsepNilai: Record<
     string,
-    Record<string, { dokter?: string; nilai: string }>
+    Record<string, { ilmu?: string; dokter?: string; nilai: string }>
   >;
-  prosesPraktikumNilai: Record<string, { jenisNilai?: string; nilai: string }>;
-}
+  prosesPraktikumNilai: Record<
+    string,
+    Record<string, { praktikum: string; jenisNilai?: string; nilai: string }>
+  >;
+};

@@ -5,10 +5,11 @@ import NimDetailHasil from "@/features/admin/hasil-penilaian/slug-listing-hasil/
 import { useGetHasilInputPenilaian } from "@/services/api/hasil-penilaian";
 import React from "react";
 
-type PageProps = { params: { nim: string } };
+type PageProps = { params: {slug: string, nim: string } };
 
 const Page = ({ params }: PageProps) => {
-  const { data, isPending } = useGetHasilInputPenilaian(params.nim);
+  const namaModul = decodeURIComponent(params.slug);
+  const { data, isPending } = useGetHasilInputPenilaian(namaModul, params.nim);
 
   return (
     <div>

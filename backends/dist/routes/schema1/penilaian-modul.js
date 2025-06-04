@@ -43,8 +43,8 @@ const usePenilaianModulRoute = express.Router();
 usePenilaianModulRoute.get("/penilaian/modul", admin_middleware_1.authenticateUser, penilaian_modul_1.default.getModulByDosen);
 usePenilaianModulRoute.get("/penilaian/modul/:namaModul", admin_middleware_1.authenticateUser, penilaian_modul_1.default.getModulDetailForInputPenilaian);
 usePenilaianModulRoute.get("/penilaian/modul/peserta/:namaModul/:nim", admin_middleware_1.authenticateUser, penilaian_modul_1.default.getModulByNim);
-usePenilaianModulRoute.post("/penilaian/modul/peserta/:nim", admin_middleware_1.authenticateUser, penilaian_modul_1.default.inputPenilaian);
+usePenilaianModulRoute.post("/penilaian/modul/peserta/:namaModul/:nim", admin_middleware_1.authenticateUser, penilaian_modul_1.default.inputPenilaian);
 //hasil penilaian
-usePenilaianModulRoute.get("/hasil/modul/peserta/:nim", admin_middleware_1.authenticateUser, penilaian_modul_1.default.getHasilInputPenilaian);
+usePenilaianModulRoute.get("/hasil/modul/peserta/:namaModul/:nim", admin_middleware_1.authenticateUser, penilaian_modul_1.default.getHasilInputPenilaian);
 usePenilaianModulRoute.get("/hasil/modul/:namaModul", admin_middleware_1.authenticateUser, penilaian_modul_1.default.getModulDetailHasilPenilaian);
 exports.default = usePenilaianModulRoute;

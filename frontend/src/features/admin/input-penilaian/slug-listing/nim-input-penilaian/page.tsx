@@ -69,7 +69,7 @@ const formSchema = z.object({
 const NimInputPenilaian = ({ namaModul, nim }: Props) => {
   const router = useRouter();
   const { mutate: submitPenilaian, isPending: isSubmitting } =
-    useInputPenilaian(nim);
+    useInputPenilaian(namaModul, nim);
   const { data: modulData } = useGetModulByNim(namaModul, nim);
 
   const uniquePemicuList = modulData?.pemicus
@@ -112,12 +112,14 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
           acc[praktikumKey][jenisKey] = {
             praktikum: pp.praktikum,
             jenisNilai: pp.jenis_nilai,
-            nilai: pp.nilai || "",
+            nilai: pp.nilai != null ? String(pp.nilai) : "",
           };
 
           return acc;
         }, {} as Record<string, Record<string, { praktikum?: string; jenisNilai?: string; nilai: string }>>)
     : {};
+
+  console.log("proses praktikum data", prosesPraktikumData);
 
   const defaultValues = {
     totalBenarSumatif1: 0,
@@ -640,23 +642,44 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
                 Form Penilaian Proses Praktikum
               </span>
               <span className="text-xs">Masukkan Data Dengan Benar</span>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
-                {Object.entries(prosesPraktikumData as Record<string, Record<string, { praktikum?: string; jenisNilai?: string; nilai: string }>>).map(
-                  ([praktikumKey, jenisNilaiObj]) =>
-                    Object.entries(jenisNilaiObj).map(
-                      ([jenisNilaiKey, data]) => (
+                {Object.entries(
+                  prosesPraktikumData as Record<
+                    string,
+                    Record<
+                      string,
+                      { praktikum?: string; jenisNilai?: string; nilai: string }
+                    >
+                  >
+                ).map(([praktikumKey, jenisNilaiObj]) =>
+                  Object.entries(jenisNilaiObj).map(
+                    ([jenisNilaiKeyRaw, data]) => {
+                      const jenisNilaiKey = jenisNilaiKeyRaw.trim();
+
+                      return (
                         <div
                           key={`${praktikumKey}-${jenisNilaiKey}`}
                           className="flex items-center gap-4"
                         >
                           <div className="flex flex-col w-full gap-3">
                             <Label>Nama Praktikum</Label>
-                            <Input value={data.praktikum} readOnly />
+                            <Input
+                              {...form.register(
+                                `prosesPraktikumNilai.${praktikumKey}.${jenisNilaiKey}.praktikum` as const
+                              )}
+                              value={data.praktikum}
+                            />
                           </div>
 
                           <div className="flex flex-col w-full gap-3">
                             <Label>Jenis Nilai</Label>
-                            <Input value={data.jenisNilai} readOnly />
+                            <Input
+                              {...form.register(
+                                `prosesPraktikumNilai.${praktikumKey}.${jenisNilaiKey}.jenisNilai` as const
+                              )}
+                              value={data.jenisNilai}
+                            />
                           </div>
 
                           <FormField
@@ -670,6 +693,7 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
                                     type="number"
                                     placeholder="Masukkan nilai"
                                     {...field}
+                                    value={field.value}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -677,8 +701,9 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
                             )}
                           />
                         </div>
-                      )
-                    )
+                      );
+                    }
+                  )
                 )}
               </div>
             </div>

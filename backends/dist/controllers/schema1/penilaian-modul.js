@@ -70,9 +70,9 @@ class PenilaianModulControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { nim } = req.params;
+                const { nim, namaModul } = req.params;
                 const { input } = req.body;
-                yield penilaian_modul_1.default.InputPenilaian(userId, role, nim, input);
+                yield penilaian_modul_1.default.InputPenilaian(userId, role, nim, namaModul, input);
                 res.status(200).json({
                     status: true,
                     message: "Berhasil di simpan",
@@ -88,8 +88,8 @@ class PenilaianModulControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { nim } = req.params;
-                const data = yield penilaian_modul_1.default.getHasilInputPenilaian(userId, role, nim);
+                const { namaModul, nim } = req.params;
+                const data = yield penilaian_modul_1.default.getHasilInputPenilaian(userId, role, namaModul, nim);
                 res.status(200).json({
                     status: true,
                     data,

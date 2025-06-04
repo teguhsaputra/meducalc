@@ -123,14 +123,14 @@ export function useGetModulByNim(namaModul: string, nim: string) {
   };
 }
 
-export function useInputPenilaian(nim: string) {
+export function useInputPenilaian(namaModul: string, nim: string) {
   const token = useAuthStore((state) => state.token);
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["input-penilaian", nim],
+    mutationKey: ["input-penilaian", namaModul, nim],
     mutationFn: async (input: TPenilaianInput) => {
       const res = await axiosInstace.post(
-        `/penilaian/modul/peserta/${nim}`,
+        `/penilaian/modul/peserta/${namaModul}/${nim}`,
         {
           input,
         },

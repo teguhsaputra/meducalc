@@ -80,5 +80,40 @@ class DosenControllers {
             }
         });
     }
+    static getModulDosen(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { page = 1, limit = 10, searchModul, searchSchoolYear } = req.query;
+                const data = yield dosen_1.default.getModulDosen(userId, role, Number(page), Number(limit), searchModul, searchSchoolYear);
+                res.status(200).json({
+                    status: true,
+                    data,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static getModulDosenDetailHasilPenilaian(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { namaModul } = req.params;
+                const { page = 1, limit = 10, searchSiswa, searchNim, sortOrder = "asc", tingkatFilter = "", } = req.query;
+                const data = yield dosen_1.default.getModulDosenDetailHasilPenilaian(userId, role, namaModul, Number(page), Number(limit), searchSiswa, searchNim, sortOrder, tingkatFilter);
+                res.status(200).json({
+                    status: true,
+                    data,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
 }
 exports.default = DosenControllers;

@@ -56,13 +56,13 @@ export function useGetModulDetailHasilPenilaian(
   };
 }
 
-export function useGetHasilInputPenilaian(nim: string) {
+export function useGetHasilInputPenilaian(namaModul: string, nim: string) {
   const token = useAuthStore((state) => state.token);
 
   const { data, isPending } = useQuery({
     queryKey: ["get-hasil-input-penilaian"],
     queryFn: async () => {
-      const res = await axiosInstace.get(`/hasil/modul/peserta/${nim}`, {
+      const res = await axiosInstace.get(`/hasil/modul/peserta/${namaModul}/${nim}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

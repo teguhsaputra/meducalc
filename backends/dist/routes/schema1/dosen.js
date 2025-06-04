@@ -40,8 +40,12 @@ const express = __importStar(require("express"));
 const dosen_1 = __importDefault(require("../../controllers/schema1/dosen"));
 const admin_middleware_1 = require("../../middlewares/admin-middleware");
 const useDosenRoute = express.Router();
+// admin
 useDosenRoute.get("/ilmu-dosen", dosen_1.default.getIlmuAndDosen);
 useDosenRoute.get("/dosen-modul", admin_middleware_1.authenticateUser, dosen_1.default.getDosenModul);
 useDosenRoute.get("/modul-by-dosen", admin_middleware_1.authenticateUser, dosen_1.default.getModulByDosen);
 useDosenRoute.post("/admin/add-dosen", admin_middleware_1.authenticateUser, dosen_1.default.addDosen);
+// dosen
+useDosenRoute.get("/dosen/modul", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosen);
+useDosenRoute.get("/dosen/hasil/modul/:namaModul", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosenDetailHasilPenilaian);
 exports.default = useDosenRoute;
