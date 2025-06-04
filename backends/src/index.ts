@@ -6,11 +6,12 @@ import route from "./routes/schema1";
 dotenv.config();
 
 const app: Express = express();
-const port = 8081;
+const port = 8880;
 const corsConfig: object = {
   origin: [
     "http://localhost:3005",
     "https://meducalc.rftdigitalsolution.com",
+    "https://meducalc-api.rftdigitalsolution.com",
     "http://localhost:3000",
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",

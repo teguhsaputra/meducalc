@@ -9,7 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const schema1_1 = __importDefault(require("./routes/schema1"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = 8081;
+const port = 8880;
 const corsConfig = {
     origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
