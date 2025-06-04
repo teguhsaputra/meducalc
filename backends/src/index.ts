@@ -29,4 +29,8 @@ app.set("trust proxy", true);
 
 app.use("/api/", route);
 
+app.listen(port, () => {
+  console.log(`⚡️ Server is running at http://localhost:${port}`);
+});
+
 export default app;
