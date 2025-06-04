@@ -13,6 +13,7 @@ const corsConfig: object = {
   origin: [
     "http://localhost:3005",
     "https://meducalc.rftdigitalsolution.com",
+    "https://meducalc-api.rftdigitalsolution.com",
     "http://localhost:3000",
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -24,6 +25,7 @@ const corsConfig: object = {
 app.use(cors(corsConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set("trust proxy", true);
 
 app.use("/api/", route);
 
@@ -75,6 +77,6 @@ app.use("/api/", route);
 //   }
 // });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
