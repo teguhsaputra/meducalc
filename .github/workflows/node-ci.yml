@@ -19,14 +19,14 @@ jobs:
         cache: 'npm'
 
     # BACKEND
-    - name: Install backend dependencies
+    - name: Install backends dependencies
       run: |
-        cd backend
+        cd backends
         npm install
 
-    - name: Build backend
+    - name: Build backends
       run: |
-        cd backend
+        cd backends
         npm run build
 
     # FRONTEND
