@@ -23,6 +23,7 @@ const corsConfig: object = {
 app.use(cors(corsConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set("trust proxy", true);
 
 app.use("/api/", route);
 
