@@ -56,15 +56,17 @@ const formSchema = z.object({
     )
   ),
   prosesPraktikumNilai: z.record(
-    z.object({
-      praktikum: z.string().optional(),
-      jenisNilai: z.string().optional(),
-      nilai: z.string().nonempty({ message: "Nilai tidak boleh kosong" }),
-    })
+    z.record(
+      z.object({
+        praktikum: z.string().optional(),
+        jenisNilai: z.string().optional(),
+        nilai: z.string().nonempty({ message: "Nilai tidak boleh kosong" }),
+      })
+    )
   ),
 });
 
-const NimInputPenilaian = ({namaModul, nim }: Props) => {
+const NimInputPenilaian = ({ namaModul, nim }: Props) => {
   const router = useRouter();
   const { mutate: submitPenilaian, isPending: isSubmitting } =
     useInputPenilaian(nim);
@@ -95,22 +97,26 @@ const NimInputPenilaian = ({namaModul, nim }: Props) => {
       }, {})
     : {};
 
-    console.log("peta konsep", petaKonsepData);
-    
-
   const prosesPraktikumData = modulData?.penilaian_moduls
     ?.penilaian_proses_praktikums
-    ? modulData?.penilaian_moduls?.penilaian_proses_praktikums
+    ? modulData.penilaian_moduls.penilaian_proses_praktikums
         .sort((a: any, b: any) => a.praktikum.localeCompare(b.praktikum))
         .reduce((acc: any, pp: any) => {
-          const key = `${pp.praktikum}-${pp.jenis_nilai}`;
-          acc[key] = {
+          const praktikumKey = pp.praktikum;
+          const jenisKey = pp.jenis_nilai;
+
+          if (!acc[praktikumKey]) {
+            acc[praktikumKey] = {};
+          }
+
+          acc[praktikumKey][jenisKey] = {
             praktikum: pp.praktikum,
-            jenisNilai: pp.jenis_nilai, // Data dari API
-            nilai: pp.nilai || "", // Hanya nilai yang perlu diisi
+            jenisNilai: pp.jenis_nilai,
+            nilai: pp.nilai || "",
           };
+
           return acc;
-        }, {})
+        }, {} as Record<string, Record<string, { praktikum?: string; jenisNilai?: string; nilai: string }>>)
     : {};
 
   const defaultValues = {
@@ -162,7 +168,7 @@ const NimInputPenilaian = ({namaModul, nim }: Props) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    // submitPenilaian(values);
+    submitPenilaian(values);
   }
 
   return (
@@ -585,32 +591,24 @@ const NimInputPenilaian = ({namaModul, nim }: Props) => {
                       >
                     ).map(([ilmu, data]) => (
                       <div key={ilmu} className="flex items-center gap-4">
-                        <FormField
-                          control={form.control}
-                          name={`petaKonsepNilai.${nomorPemicu}.${ilmu}.ilmu`}
-                          render={({ field }) => (
-                            <FormItem className="w-full">
-                              <FormLabel>Nama Ilmu</FormLabel>
-                              <FormControl>
-                                <Input value={data.ilmu} readOnly />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name={`petaKonsepNilai.${nomorPemicu}.${ilmu}.dokter`}
-                          render={({ field }) => (
-                            <FormItem className="w-full">
-                              <FormLabel>Nama Dokter</FormLabel>
-                              <FormControl>
-                                <Input value={data.dokter} readOnly />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                        <div className="flex flex-col w-full">
+                          <Label className="mb-4">Nama Ilmu</Label>
+                          <Input
+                            {...form.register(
+                              `petaKonsepNilai.${nomorPemicu}.${ilmu}.ilmu` as const
+                            )}
+                            value={data.ilmu}
+                          />
+                        </div>
+                        <div className="flex flex-col w-full">
+                          <Label className="mb-4">Nama Dokter</Label>
+                          <Input
+                            {...form.register(
+                              `petaKonsepNilai.${nomorPemicu}.${ilmu}.dokter` as const
+                            )}
+                            value={data.dokter}
+                          />
+                        </div>
                         <FormField
                           control={form.control}
                           name={`petaKonsepNilai.${nomorPemicu}.${ilmu}.nilai`}
@@ -619,7 +617,7 @@ const NimInputPenilaian = ({namaModul, nim }: Props) => {
                               <FormLabel>Nilai</FormLabel>
                               <FormControl>
                                 <Input
-                                  type="number"
+                                  type="text"
                                   placeholder="Masukkan nilai"
                                   {...field}
                                   value={field.value}
@@ -642,42 +640,46 @@ const NimInputPenilaian = ({namaModul, nim }: Props) => {
                 Form Penilaian Proses Praktikum
               </span>
               <span className="text-xs">Masukkan Data Dengan Benar</span>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg::grid-cols-3 w-full mt-4 gap-4">
-                {Object.entries(
-                  prosesPraktikumData as Record<
-                    string,
-                    { praktikum: string; jenisNilai: string; nilai: number }
-                  >
-                ).map(([key, data]) => (
-                  <div key={key} className="flex items-center gap-4">
-                    <div className="flex flex-col w-full gap-3">
-                      <Label>Nama Praktikum</Label>
-                      <Input value={data.praktikum} readOnly />
-                    </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
+                {Object.entries(prosesPraktikumData as Record<string, Record<string, { praktikum?: string; jenisNilai?: string; nilai: string }>>).map(
+                  ([praktikumKey, jenisNilaiObj]) =>
+                    Object.entries(jenisNilaiObj).map(
+                      ([jenisNilaiKey, data]) => (
+                        <div
+                          key={`${praktikumKey}-${jenisNilaiKey}`}
+                          className="flex items-center gap-4"
+                        >
+                          <div className="flex flex-col w-full gap-3">
+                            <Label>Nama Praktikum</Label>
+                            <Input value={data.praktikum} readOnly />
+                          </div>
 
-                    <div className="flex flex-col w-full gap-3">
-                      <Label>Jenis Nilai</Label>
-                      <Input value={data.jenisNilai} readOnly />
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name={`prosesPraktikumNilai.${key}.nilai`}
-                      render={({ field }) => (
-                        <FormItem className="w-full">
-                          <FormLabel>Nilai</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Masukkan nilai"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ))}
+                          <div className="flex flex-col w-full gap-3">
+                            <Label>Jenis Nilai</Label>
+                            <Input value={data.jenisNilai} readOnly />
+                          </div>
+
+                          <FormField
+                            control={form.control}
+                            name={`prosesPraktikumNilai.${praktikumKey}.${jenisNilaiKey}.nilai`}
+                            render={({ field }) => (
+                              <FormItem className="w-full">
+                                <FormLabel>Nilai</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    placeholder="Masukkan nilai"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )
+                    )
+                )}
               </div>
             </div>
 

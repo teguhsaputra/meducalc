@@ -943,7 +943,7 @@ class MahasiswaServices {
         where: { peserta_modul_id: pesertaModul.id },
       });
 
-      const petaKoncepDetail = await prisma.penilaianPetaKonsep.findMany({
+      const petaKonsepDetail = await prisma.penilaianPetaKonsep.findMany({
         where: { peserta_modul_id: pesertaModul.id },
       });
 
@@ -998,17 +998,17 @@ class MahasiswaServices {
         throw new Error("Penilaian akhir not found for this peserta");
       }
 
-      const petaKoncepPerPemicu: { [key: number]: number[] } = {};
-      petaKoncepDetail.forEach((entry) => {
-        if (!petaKoncepPerPemicu[entry.pemicu_id]) {
-          petaKoncepPerPemicu[entry.pemicu_id] = [];
+      const petaKonsepPerPemicu: { [key: number]: number[] } = {};
+      petaKonsepDetail.forEach((entry) => {
+        if (!petaKonsepPerPemicu[entry.pemicu_id]) {
+          petaKonsepPerPemicu[entry.pemicu_id] = [];
         }
-        petaKoncepPerPemicu[entry.pemicu_id].push(Number(entry.nilai));
+        petaKonsepPerPemicu[entry.pemicu_id].push(Number(entry.nilai));
       });
 
-      const rataRataPerPemicu = Object.keys(petaKoncepPerPemicu).reduce(
+      const rataRataPerPemicu = Object.keys(petaKonsepPerPemicu).reduce(
         (acc, pemicu) => {
-          const nilaiPemicu = petaKoncepPerPemicu[Number(pemicu)];
+          const nilaiPemicu = petaKonsepPerPemicu[Number(pemicu)];
           const rataRata =
             nilaiPemicu.length > 0
               ? Number(
@@ -1064,7 +1064,7 @@ class MahasiswaServices {
             temuPakar: Object.fromEntries(
               temuPakarDetail.map((d) => [d.label, Number(d.nilai.toFixed(2))])
             ),
-            petaKoncep: petaKoncepDetail.reduce((acc, d) => {
+            petaKonsep: petaKonsepDetail.reduce((acc, d) => {
               if (!acc[d.pemicu_id]) acc[d.pemicu_id] = {};
               acc[d.pemicu_id][d.ilmu] = {
                 dokter: d.dokter,
@@ -1120,10 +1120,10 @@ class MahasiswaServices {
                 nilai: Number(d.nilai.toFixed(2)),
               })),
             },
-            petaKoncep: {
+            petaKonsep: {
               nilaiAkhir: Number(penilaianProses.peta_konsep.toFixed(2)),
               rataRataPerPemicu: rataRataPerPemicu,
-              detail: petaKoncepDetail.map((d) => ({
+              detail: petaKonsepDetail.map((d) => ({
                 pemicu: d.pemicu_id,
                 ilmu: d.ilmu,
                 dokter: d.dokter,

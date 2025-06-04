@@ -8,8 +8,13 @@ dotenv.config();
 const app: Express = express();
 const port = 3006;
 const corsConfig: object = {
-  origin: "*",
+  origin: [
+    "http://localhost:3005",
+    "https://meducalc.rftdigitalsolution.com",
+    "http://localhost:3000",
+  ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };

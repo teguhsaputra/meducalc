@@ -20,6 +20,7 @@ export function useGetModulDetailHasilPenilaian(
       "get-modul-detail-hasil-penilaian",
       page,
       pageSize,
+      namaModul,
       searchSiswa,
       searchNim,
       sortOrder,

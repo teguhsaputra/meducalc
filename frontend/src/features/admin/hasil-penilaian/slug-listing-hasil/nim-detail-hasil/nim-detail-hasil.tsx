@@ -278,7 +278,7 @@ export default function NimDetailHasil({
                     <Label>Rata Rata Peta Konsep P{pemicu}</Label>
                     <Input
                       value={
-                        nilaiProses?.petaKonsep.rataRataPerPemicu?.[
+                        nilaiProses?.petaKonsep?.rataRataPerPemicu?.[
                           Number(pemicu)
                         ] || ""
                       }
