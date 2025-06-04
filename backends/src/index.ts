@@ -6,7 +6,7 @@ import route from "./routes/schema1";
 dotenv.config();
 
 const app: Express = express();
-const port = 3006;
+const port = 8080;
 const corsConfig: object = {
   origin: [
     "http://localhost:3005",
@@ -73,6 +73,6 @@ app.use("/api/", route);
 //   }
 // });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
