@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy via SSH using PM2 for frontend & backend
+      - name: Deploy via SSH using PM2 for frontend & backends
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HOST }}
@@ -49,16 +49,16 @@ jobs:
             PORT=3005 pm2 start npm --name "web-meducalc" -- start
 
             # ================= BACKEND =================
-            cd /www/wwwroot/meducalc.rftdigitalsolution.com/backend
+            cd /www/wwwroot/meducalc.rftdigitalsolution.com/backends
 
-            echo "📦 Updating backend..."
+            echo "📦 Updating backends..."
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git pull origin main
 
             npm ci
             npm run build
 
-            echo "🔁 Restarting backend (port 3006)..."
-            pm2 delete api-web-meducalc || echo "No existing backend process"
+            echo "🔁 Restarting backends (port 3006)..."
+            pm2 delete api-web-meducalc || echo "No existing backends process"
             PORT=3006 pm2 start npm --name "api-web-meducalc" -- start
 
             # ================= SAVE STATE =================
