@@ -26,6 +26,7 @@ const corsConfig = {
 app.use((0, cors_1.default)(corsConfig));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.set("trust proxy", true);
 app.use("/api/", schema1_1.default);
-exports.default = app;
+app.listen(port, "0.0.0.0", () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});

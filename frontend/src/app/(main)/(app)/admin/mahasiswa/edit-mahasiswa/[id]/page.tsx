@@ -177,136 +177,42 @@ const Page = ({ params }: PageProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex mt-5">
-        <span className="text-5xl font-bold tracking-[-3%]">
+        <span className="text-3xl md:text-5xl font-bold tracking-[-3%]">
           Edit Mahasiswa
         </span>
       </div>
 
       <Separator className="h-0.5 rounded-full my-6" />
 
-      <div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div>
-              <div className="flex flex-col mb-5">
-                <span className="text-2xl font-bold">Data Diri</span>
-                <span className="text-xs text-foreground font-normal">
-                  Harap memasukkan data dengan benar
-                </span>
-              </div>
-              <div className="flex items-center gap-4">
-                <FormField
-                  control={form.control}
-                  name="namaDepan"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Nama Depan</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="namaBelakang"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Nama Belakang</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div>
+            <div className="flex flex-col mb-5">
+              <span className="text-xl md:text-2xl font-bold">Data Diri</span>
+              <span className="text-xs text-foreground font-normal">
+                Harap memasukkan data dengan benar
+              </span>
             </div>
-
-            <Separator className="h-0.5 rounded-full my-6" />
-
-            <div>
-              <div className="flex flex-col mb-5">
-                <span className="text-base font-semibold">Tanggal Lahir</span>
-                <span className="text-xs text-foreground font-normal">
-                  Harap memasukkan data dengan benar
-                </span>
-              </div>
-              <div className="flex items-center gap-4">
-                <FormItem className="w-full">
-                  <FormLabel>Hari</FormLabel>
-                  <Select onValueChange={setDay} value={day}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {days.map((d) => (
-                          <SelectItem key={d} value={d}>
-                            {d}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-                <FormItem className="w-full">
-                  <FormLabel>Bulan</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      setMonth(value);
-                      if (day) {
-                        setDay("");
-                      }
-                    }}
-                    value={month}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="08" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {months.map((m) => (
-                          <SelectItem key={m.value} value={m.value}>
-                            {m.label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-                <FormItem className="w-full">
-                  <FormLabel>Tahun</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      setYear(value);
-                      if (day) {
-                        setDay("");
-                      }
-                    }}
-                    value={year}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="2022" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {years.map((y) => (
-                          <SelectItem key={y} value={y}>
-                            {y}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              </div>
+            <div className="flex flex-col md:flex-row gap-4">
               <FormField
                 control={form.control}
-                name="tanggalLahir"
+                name="namaDepan"
                 render={({ field }) => (
-                  <FormItem className="hidden">
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>Nama Depan</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="namaBelakang"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>Nama Belakang</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -315,128 +221,184 @@ const Page = ({ params }: PageProps) => {
                 )}
               />
             </div>
-            <div>
-              <div className="flex flex-col mb-5">
-                <span className="text-base font-semibold">Data Kampus</span>
-                <span className="text-xs text-foreground font-normal">
-                  Harap memasukkan data dengan benar
-                </span>
-              </div>
-              <div className="flex items-center gap-4">
-                <FormField
-                  control={form.control}
-                  name="jenisKelamin"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Jenis Kelamin</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Pilih jenis kelamin" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="Pria">Pria</SelectItem>
-                            <SelectItem value="Perempuan">Perempuan</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nim"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>NIM</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="angkatan"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Angkatan</FormLabel>
-                      <Select
-                        onValueChange={(value) => {
-                          setAngkatan(value);
-                        }}
-                        value={angkatan}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Pilih angkatan" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {angkatanOptions.map((y) => (
-                              <SelectItem key={y} value={y}>
-                                {y}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+          </div>
 
-            <div>
-              <div className="flex flex-col mb-5">
-                <span className="text-base font-semibold">Akun Mahasiswa</span>
-                <span className="text-xs text-foreground font-normal">
-                  Harap memasukkan data dengan benar
-                </span>
-              </div>
-              <div className="flex items-center gap-4">
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input placeholder="ricomania" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+          <Separator className="h-0.5 rounded-full my-6" />
 
-            <div className="flex justify-end gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="mb-16"
-                onClick={() => router.back()}
-              >
-                Batalkan
-              </Button>
-              <Button
-                type="submit"
-                variant="blue"
-                className="mb-16"
-                disabled={isPending}
-              >
-                Simpan Perubahan
-              </Button>
+          <div>
+            <div className="flex flex-col mb-5">
+              <span className="text-base font-semibold">Tanggal Lahir</span>
+              <span className="text-xs text-foreground font-normal">
+                Harap memasukkan data dengan benar
+              </span>
             </div>
-          </form>
-        </Form>
-      </div>
+            <div className="flex flex-col md:flex-row gap-4">
+              <FormItem className="w-full md:w-1/3">
+                <FormLabel>Hari</FormLabel>
+                <Select onValueChange={setDay} value={day}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {days.map((d) => (
+                        <SelectItem key={d} value={d}>
+                          {d}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+              <FormItem className="w-full md:w-1/3">
+                <FormLabel>Bulan</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    setMonth(value);
+                    if (day) {
+                      setDay("");
+                    }
+                  }}
+                  value={month}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="08" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {months.map((m) => (
+                        <SelectItem key={m.value} value={m.value}>
+                          {m.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+              <FormItem className="w-full md:w-1/3">
+                <FormLabel>Tahun</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    setYear(value);
+                    if (day) {
+                      setDay("");
+                    }
+                  }}
+                  value={year}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="2022" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {years.map((y) => (
+                        <SelectItem key={y} value={y}>
+                          {y}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            </div>
+            <FormField
+              control={form.control}
+              name="tanggalLahir"
+              render={({ field }) => (
+                <FormItem className="hidden">
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div>
+            <div className="flex flex-col mb-5">
+              <span className="text-base font-semibold">Data Kampus</span>
+              <span className="text-xs text-foreground font-normal">
+                Harap memasukkan data dengan benar
+              </span>
+            </div>
+            <div className="flex flex-col md:flex-row gap-4">
+              <FormField
+                control={form.control}
+                name="jenisKelamin"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/3">
+                    <FormLabel>Jenis Kelamin</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih jenis kelamin" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Pria">Pria</SelectItem>
+                          <SelectItem value="Perempuan">Perempuan</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nim"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/3">
+                    <FormLabel>NIM</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="angkatan"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/3">
+                    <FormLabel>Angkatan</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        setAngkatan(value);
+                      }}
+                      value={angkatan}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih angkatan" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {angkatanOptions.map((y) => (
+                            <SelectItem key={y} value={y}>
+                              {y}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-4">
+            <Button type="button" variant={"outline"} onClick={() => router.back()} disabled={isPending}>
+              Batalkan
+            </Button>
+            <Button type="submit" variant={"blue"} disabled={isPending}>
+              Simpan Perubahan
+            </Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };

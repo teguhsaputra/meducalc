@@ -6,7 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { HasilPenilaianModulListing } from "@/features/admin/hasil-penilaian/hasil-penilaian-modul-listing";
 import { SlugListingHasilPenilaian } from "@/features/admin/hasil-penilaian/slug-listing-hasil/slug-listing-hasil-penilaian";
 import { SlugListing } from "@/features/admin/input-penilaian/slug-listing/slug-listing";
-import { useGetModulDetailHasilPenilaian } from "@/services/api/hasil-penilaian";
+import { SlugModulDosenHasilPenilaian } from "@/features/dosen/user-dosen/components/slug-modul-dosen-listing";
+import { useGetModulDosenHasilPenilaian } from "@/services/api/dosen";
 import { useGetModulDetailForPesertaPenilaianModul } from "@/services/api/penilaian-modul";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useState } from "react";
@@ -25,14 +26,13 @@ const Page = ({ params }: PageProps) => {
   const cleanedSlug = decodeURIComponent(params.slug);
 
   const { data, currentPage, totalPages, totalItems, itemsPerPage, isPending } =
-    useGetModulDetailHasilPenilaian(
+    useGetModulDosenHasilPenilaian(
       pageIndex,
       pageSize,
       cleanedSlug,
       searchSiswa,
       searchNim,
-      sortOrder,
-      tingkatFilter
+      sortOrder
     );
   const router = useRouter();
 
@@ -113,7 +113,24 @@ const Page = ({ params }: PageProps) => {
 
       <Separator className="h-0.5 rounded-full my-6" />
 
-      <div className="mt-7"></div>
+      <div className="mt-7">
+        <SlugModulDosenHasilPenilaian
+          data={data}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          isLoading={isPending}
+          onNextPage={handleNextPage}
+          onPrevPage={handlePrevPage}
+          onSortOrderChange={handleSortOrderChange}
+          onSearch={handleSearch}
+          searchSiswa={searchSiswa}
+          searchNim={searchNim}
+          sortOrder={sortOrder}
+          slug={cleanedSlug}
+        />
+      </div>
 
       <div className="flex justify-end mt-10">
         <Button variant="blue" onClick={() => router.back()}>

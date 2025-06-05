@@ -200,11 +200,12 @@ class MahasiswaControllers {
   static async getHasilPenilaianByNimMahasiswa(req: Request, res: Response) {
     try {
       const { userId, role } = res.locals.user;
-      const { nim } = req.params;
+      const { namaModul, nim } = req.params;
 
       const data = await MahasiswaServices.getHasilPenilaianByNimMahasiswa(
         userId,
         role,
+        namaModul,
         nim
       );
 

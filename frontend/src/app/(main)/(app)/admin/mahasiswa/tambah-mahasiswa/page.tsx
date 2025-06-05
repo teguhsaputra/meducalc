@@ -161,7 +161,7 @@ const Page = () => {
   return (
     <div className="flex flex-col">
       <div className="flex mt-5">
-        <span className="text-5xl font-bold tracking-[-3%]">
+        <span className="text-4xl md:text-5xl font-bold tracking-[-3%]">
           Tambah Mahasiswa
         </span>
       </div>
@@ -178,7 +178,7 @@ const Page = () => {
                   Harap memasukkan data dengan benar
                 </span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row md:items-center md:gap-4">
                 <FormField
                   control={form.control}
                   name="namaDepan"
@@ -196,7 +196,7 @@ const Page = () => {
                   control={form.control}
                   name="namaBelakang"
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className="w-full mt-4 md:mt-0">
                       <FormLabel>Nama Belakang</FormLabel>
                       <FormControl>
                         <Input placeholder="Saputra" {...field} />
@@ -217,7 +217,7 @@ const Page = () => {
                   Harap memasukkan data dengan benar
                 </span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <FormItem className="w-full">
                   <FormLabel>Hari</FormLabel>
                   <Select onValueChange={setDay} value={day}>
@@ -240,9 +240,7 @@ const Page = () => {
                   <Select
                     onValueChange={(value) => {
                       setMonth(value);
-                      if (day) {
-                        setDay("");
-                      }
+                      if (day) setDay("");
                     }}
                     value={month}
                   >
@@ -265,9 +263,7 @@ const Page = () => {
                   <Select
                     onValueChange={(value) => {
                       setYear(value);
-                      if (day) {
-                        setDay("");
-                      }
+                      if (day) setDay("");
                     }}
                     value={year}
                   >
@@ -299,6 +295,7 @@ const Page = () => {
                 )}
               />
             </div>
+
             <div>
               <div className="flex flex-col mb-5">
                 <span className="text-base font-semibold">Data Kampus</span>
@@ -306,7 +303,7 @@ const Page = () => {
                   Harap memasukkan data dengan benar
                 </span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row md:items-center md:gap-4">
                 <FormField
                   control={form.control}
                   name="jenisKelamin"
@@ -335,7 +332,7 @@ const Page = () => {
                   control={form.control}
                   name="nim"
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className="w-full mt-4 md:mt-0">
                       <FormLabel>NIM</FormLabel>
                       <FormControl>
                         <Input {...field} />
@@ -348,7 +345,7 @@ const Page = () => {
                   control={form.control}
                   name="angkatan"
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className="w-full mt-4 md:mt-0">
                       <FormLabel>Angkatan</FormLabel>
                       <Select
                         onValueChange={(value) => {
@@ -383,7 +380,7 @@ const Page = () => {
                   Harap memasukkan data dengan benar
                 </span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row md:items-center md:gap-4">
                 <FormField
                   control={form.control}
                   name="username"
@@ -401,7 +398,7 @@ const Page = () => {
                   control={form.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className="w-full mt-4 md:mt-0">
                       <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input
@@ -417,16 +414,19 @@ const Page = () => {
               </div>
             </div>
 
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 mb-5">
               <Button
                 type="button"
                 variant="outline"
-                className="mb-16"
                 onClick={() => router.back()}
               >
                 Batalkan
               </Button>
-              <Button type="submit" variant="blue" className="mb-16" disabled={isPending}>
+              <Button
+                type="submit"
+                variant="blue"
+                disabled={isPending}
+              >
                 Tambahkan Mahasiswa
               </Button>
             </div>

@@ -45,18 +45,21 @@ const Page = () => {
       <Separator className="h-0.5 rounded-full my-6" />
 
       <div>
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col w-full">
-            <span className="text-base font-medium mb-1">Nama modul</span>
-            <SearchModul value={searchModul} onChange={setSearchModul} />
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col w-full">
+              <span className="text-base font-medium mb-1">Nama modul</span>
+              <SearchModul value={searchModul} onChange={setSearchModul} />
+            </div>
+            <div className="flex flex-col w-full">
+              <span className="text-base font-medium mb-1">Tahun Ajaran</span>
+              <SearchSchoolYear
+                value={searchSchoolYear}
+                onChange={setSearchSchoolYear}
+              />
+            </div>
           </div>
-          <div className="flex flex-col w-full">
-            <span className="text-base font-medium mb-1">Tahun Ajaran</span>
-            <SearchSchoolYear
-              value={searchSchoolYear}
-              onChange={setSearchSchoolYear}
-            />
-          </div>
+
           <Button className="mt-7 bg-[#0F172A] hover:bg-[#0F172A] ">
             Cari Data
           </Button>

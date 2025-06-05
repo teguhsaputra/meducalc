@@ -53,24 +53,20 @@ const Page = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
-        <div>
-          <h3 className="text-3xl font-bold">Mahasiswa</h3>
-        </div>
-        <div className="flex">
-          <Button
-            variant="blue"
-            onClick={() => router.push("/admin/mahasiswa/tambah-mahasiswa")}
-          >
-            Tambah Mahasiswa
-            <Plus className="w-4 h-4" />
-          </Button>
-        </div>
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
+        <h3 className="text-3xl font-bold">Mahasiswa</h3>
+        <Button
+          variant="blue"
+          onClick={() => router.push("/admin/mahasiswa/tambah-mahasiswa")}
+        >
+          Tambah Mahasiswa
+          <Plus className="w-4 h-4 ml-2" />
+        </Button>
       </div>
 
       <Separator className="h-0.5 rounded-full my-6" />
 
-      <div className="flex items-center">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
         <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">Nama Siswa</span>
           <Input
@@ -78,14 +74,14 @@ const Page = () => {
             onChange={(e) => setSearchSiswa(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full ml-8">
+        <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">NIM</span>
           <Input
             value={searchNim}
             onChange={(e) => setSearchNim(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full ml-8">
+        <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">Angkatan</span>
           <Input
             value={searchAngkatan}
@@ -93,7 +89,7 @@ const Page = () => {
           />
         </div>
         <Button
-          className="mt-7 bg-[#0F172A] hover:bg-[#0F172A] ml-2"
+          className="bg-[#0F172A] hover:bg-[#0F172A] w-full md:w-auto"
           onClick={handleSearch}
         >
           Cari Data
@@ -108,8 +104,8 @@ const Page = () => {
           totalItems={totalItems}
           itemsPerPage={itemsPerPage}
           isLoading={isPending}
-          onNextPage={() => handleNextPage()}
-          onPrevPage={() => handlePrevPage()}
+          onNextPage={handleNextPage}
+          onPrevPage={handlePrevPage}
         />
       </div>
     </div>

@@ -2,11 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { HasilPenilaianModulListing } from "@/features/admin/hasil-penilaian/hasil-penilaian-modul-listing";
 import { InputPenilaianListing } from "@/features/admin/input-penilaian/input-penilaian-listing";
+import { DosenModulInputPenilaianListing } from "@/features/dosen/user-dosen/input-penilaian/modul-input-penilaian-listing";
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
+import { useGetModulDosen } from "@/services/api/dosen";
 import { useGetModulForPenilaianModul } from "@/services/api/penilaian-modul";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
 export const dynamic = "force-static";
@@ -17,12 +19,7 @@ const Page = () => {
   const [searchModul, setSearchModul] = useState("");
   const [searchSchoolYear, setSearchSchoolYear] = useState("");
   const { data, currentPage, totalPages, totalItems, itemsPerPage, isPending } =
-    useGetModulForPenilaianModul(
-      pageIndex,
-      pageSize,
-      searchModul,
-      searchSchoolYear
-    );
+    useGetModulDosen(pageIndex, pageSize, searchModul, searchSchoolYear);
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
@@ -39,25 +36,23 @@ const Page = () => {
   return (
     <div className="flex flex-col">
       <div className="flex ">
-        <span className="text-3xl font-semibold">Penilaian Modul</span>
+        <span className="text-3xl font-semibold">Input Penilaian Modul</span>
       </div>
 
       <Separator className="h-0.5 rounded-full my-6" />
 
       <div>
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex items-center w-full gap-4">
-            <div className="flex flex-col w-full">
-              <span className="text-base font-medium mb-1">Nama modul</span>
-              <SearchModul value={searchModul} onChange={setSearchModul} />
-            </div>
-            <div className="flex flex-col w-full">
-              <span className="text-base font-medium mb-1">Tahun Ajaran</span>
-              <SearchSchoolYear
-                value={searchSchoolYear}
-                onChange={setSearchSchoolYear}
-              />
-            </div>
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col w-full">
+            <span className="text-base font-medium mb-1">Nama modul</span>
+            <SearchModul value={searchModul} onChange={setSearchModul} />
+          </div>
+          <div className="flex flex-col w-full">
+            <span className="text-base font-medium mb-1">Tahun Ajaran</span>
+            <SearchSchoolYear
+              value={searchSchoolYear}
+              onChange={setSearchSchoolYear}
+            />
           </div>
           <Button className="mt-7 bg-[#0F172A] hover:bg-[#0F172A] ">
             Cari Data
@@ -65,7 +60,7 @@ const Page = () => {
         </div>
 
         <div className="mt-7">
-          <HasilPenilaianModulListing
+          <DosenModulInputPenilaianListing
             data={data}
             currentPage={currentPage}
             totalPages={totalPages}

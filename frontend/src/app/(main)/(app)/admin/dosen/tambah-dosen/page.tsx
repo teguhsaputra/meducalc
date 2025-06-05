@@ -169,7 +169,7 @@ const Page = () => {
                   Harap memasukkan data dengan benar
                 </span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row items-center gap-4">
                 <FormItem className="w-full">
                   <FormLabel>Hari</FormLabel>
                   <Select onValueChange={setDay} value={day}>
@@ -259,7 +259,7 @@ const Page = () => {
                   Harap memasukkan data dengan benar
                 </span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row items-center gap-4">
                 <FormField
                   control={form.control}
                   name="username"
@@ -297,12 +297,12 @@ const Page = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="mt-36 mb-16"
+                className="my-5"
                 onClick={() => router.back()}
               >
                 Batalkan
               </Button>
-              <Button type="submit" variant="blue" className="mt-36 mb-16" disabled={isPending}>
+              <Button type="submit" variant="blue" className="my-5" disabled={isPending}>
                 Tambahkan Dosen
               </Button>
             </div>

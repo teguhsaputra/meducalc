@@ -187,25 +187,28 @@ const Page = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-3xl font-bold mb-6 tracking-[-0.03]">
+      <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 tracking-[-0.03]">
         Tambah Penilaian Modul
       </h2>
       <Separator className="h-0.5 bg-gray-200 rounded-full" />
-      <div className="mt-6">
-        <h3 className="text-xl font-semibold">
+      <div className="mt-4 md:mt-6">
+        <h3 className="text-lg md:text-xl font-semibold">
           Form Penilaian Modul Organ Dalam Jantung
         </h3>
-        <div className="flex flex-col mt-5">
+        <div className="flex flex-col mt-3 md:mt-5">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="flex flex-col">
-                <span className="text-lg font-semibold">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 md:space-y-8"
+            >
+              <div className="flex flex-col bg-white rounded-lg shadow-sm">
+                <span className="text-base md:text-lg font-semibold">
                   Form Soal Penilaian Sumatif
                 </span>
-                <span className="text-xs">
+                <span className="text-xs text-gray-500">
                   Pastikan Data Yang Dimasukkan Benar
                 </span>
-                <div className="flex w-full mt-4 gap-4">
+                <div className="flex flex-col md:flex-row w-full mt-3 gap-3 md:gap-4">
                   <FormField
                     control={form.control}
                     name="total_soal_sum1"
@@ -258,14 +261,15 @@ const Page = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-semibold">
+
+              <div className="flex flex-col bg-white rounded-lg shadow-sm">
+                <span className="text-base md:text-lg font-semibold">
                   Form Soal Penilaian Her Sumatif
                 </span>
-                <span className="text-xs">
+                <span className="text-xs text-gray-500">
                   Pastikan Data Yang Dimasukkan Benar
                 </span>
-                <div className="flex w-full mt-4 gap-4">
+                <div className="flex flex-col md:flex-row w-full mt-3 gap-3 md:gap-4">
                   <FormField
                     control={form.control}
                     name="total_soal_her_sum1"
@@ -318,20 +322,24 @@ const Page = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-semibold">
+
+              <div className="flex flex-col bg-white rounded-lg shadow-sm">
+                <span className="text-base md:text-lg font-semibold">
                   Form Penilaian Proses Praktikum
                 </span>
                 <span className="text-xs text-gray-500">
                   Total Penilaian Bobot Harus 100% (Sisa bobot: {sisaBobot}%)
                 </span>
-                <div className="mt-4 space-y-6">
+                <div className="mt-3 md:mt-4 space-y-4 md:space-y-6">
                   {praktikumOptions?.map((praktikum: any) => (
-                    <div key={praktikum.id}>
-                      <h4 className="text-base font-semibold text-gray-800 mb-4">
+                    <div
+                      key={praktikum.id}
+                      className="p-3 md:p-4 border rounded-lg"
+                    >
+                      <h4 className="text-sm md:text-base font-semibold text-gray-800 mb-3 md:mb-4">
                         {praktikum.nama}
                       </h4>
-                      <div className="space-y-4">
+                      <div className="space-y-3 md:space-y-4">
                         {penilaianProsesFields
                           .filter(
                             (field) => field.praktikum_id === `${praktikum.id}`
@@ -369,7 +377,7 @@ const Page = () => {
                             bobot: undefined,
                           })
                         }
-                        className="mt-4 w-full border-2 border-dashed border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+                        className="mt-3 md:mt-4 w-full border-2 border-dashed border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors text-sm md:text-base"
                         disabled={isMutating || sisaBobot <= 0}
                       >
                         <Plus className="w-4 h-4 mr-2" />
@@ -379,16 +387,23 @@ const Page = () => {
                   ))}
                 </div>
               </div>
-              <div className="flex justify-end gap-4">
+
+              <div className="flex flex-col-reverse md:flex-row justify-end gap-3 md:gap-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => router.back()}
                   disabled={isMutating}
+                  className="w-full md:w-auto"
                 >
                   Kembali
                 </Button>
-                <Button type="submit" variant="blue" disabled={isMutating}>
+                <Button
+                  type="submit"
+                  variant="blue"
+                  disabled={isMutating}
+                  className="w-full md:w-auto"
+                >
                   {isMutating ? "Menyimpan..." : "Simpan dan Selesai"}
                 </Button>
               </div>
@@ -427,20 +442,20 @@ const FormPenilaianProses = ({
   const adjustedSisaBobot = 100 - adjustedTotalBobot;
 
   return (
-    <div className="flex items-end w-full gap-3">
+    <div className="flex flex-col md:flex-row items-end w-full gap-3">
       <FormField
         control={control}
         name={`penilaianProses.${globalIndex}.praktikum_id`}
         render={({ field }) => (
           <FormItem className="w-full">
-            <FormLabel className="text-sm font-medium">
+            <FormLabel className="text-xs md:text-sm font-medium">
               Nama Praktikum
             </FormLabel>
             <FormControl>
               <Input
                 value={praktikum.nama}
                 disabled
-                className="cursor-not-allowed"
+                className="cursor-not-allowed text-xs md:text-sm"
               />
             </FormControl>
             <FormMessage />
@@ -452,7 +467,7 @@ const FormPenilaianProses = ({
         name={`penilaianProses.${globalIndex}.jenis_nilai_id`}
         render={({ field }) => (
           <FormItem className="w-full">
-            <FormLabel className="text-sm font-medium text-gray-700">
+            <FormLabel className="text-xs md:text-sm font-medium text-gray-700">
               Jenis Nilai
             </FormLabel>
             <FormControl>
@@ -461,12 +476,16 @@ const FormPenilaianProses = ({
                 value={field.value}
                 disabled={isDisabled || !jenisNilaiOptions.length}
               >
-                <SelectTrigger className="border-gray-300">
+                <SelectTrigger className="border-gray-300 text-xs md:text-sm h-10">
                   <SelectValue placeholder="Pilih Jenis Nilai" />
                 </SelectTrigger>
                 <SelectContent>
                   {jenisNilaiOptions.map((jenis) => (
-                    <SelectItem key={jenis.id} value={`${jenis.id}`}>
+                    <SelectItem
+                      key={jenis.id}
+                      value={`${jenis.id}`}
+                      className="text-xs md:text-sm"
+                    >
                       {jenis.jenis_penilaian}
                     </SelectItem>
                   ))}
@@ -482,7 +501,7 @@ const FormPenilaianProses = ({
         name={`penilaianProses.${globalIndex}.bobot`}
         render={({ field }) => (
           <FormItem className="w-full">
-            <FormLabel className="text-sm font-medium text-gray-700">
+            <FormLabel className="text-xs md:text-sm font-medium text-gray-700">
               Bobot (%) - Sisa: {adjustedSisaBobot}%
             </FormLabel>
             <FormControl>
@@ -502,7 +521,7 @@ const FormPenilaianProses = ({
                   }
                 }}
                 value={field.value ?? ""}
-                className="border-gray-300"
+                className="border-gray-300 text-xs md:text-sm h-10"
               />
             </FormControl>
             <FormMessage />
@@ -511,9 +530,9 @@ const FormPenilaianProses = ({
       />
       <Button
         type="button"
-        size="icon"
+        size="sm"
         onClick={remove}
-        className="bg-red-50 px-4 hover:bg-red-100 text-red-600 border border-red-200"
+        className="bg-red-50 px-3 h-10 hover:bg-red-100 text-red-600 border border-red-200 mb-1"
         disabled={isDisabled || localIndex === 0}
       >
         <Trash className="w-4 h-4" />

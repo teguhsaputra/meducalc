@@ -5,9 +5,11 @@ import NimDetailHasilPenilaianMahasiswa from "@/features/mahasiswa/mahasiswa/has
 import { useGetHasilPenilaianByNimMahasiswa } from "@/services/api/mahasiswa";
 import React from "react";
 
-type PageProps = { params: { nim: string } };
+type PageProps = { params: { slug: string, nim: string } };
 const Page = ({ params }: PageProps) => {
-  const { data } = useGetHasilPenilaianByNimMahasiswa(params.nim);
+  const namaModul = decodeURIComponent(params.slug);
+
+  const { data } = useGetHasilPenilaianByNimMahasiswa(namaModul, params.nim);
   return (
     <div>
       <div className="flex justify-between">

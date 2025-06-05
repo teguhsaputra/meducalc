@@ -186,9 +186,13 @@ export function AdminMahasiswaListing({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 mt-5">
+      <div className="flex flex-col md:flex-row items-center md:justify-end space-y-4 space-x-2 mt-5">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className='flex items-center justify-center text-sm font-medium'>
+          Page {table.getState().pagination.pageIndex + 1} of{' '}
+          {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button

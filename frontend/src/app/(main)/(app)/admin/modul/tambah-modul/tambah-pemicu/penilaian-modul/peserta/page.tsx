@@ -76,35 +76,45 @@ const Page = () => {
   }, [modul_id, selectedPeserta, mutate]);
 
   return (
-    <div className="flex flex-col">
-      <h2 className="text-3xl font-bold mb-6 tracking-[-0.03]">
+    <div className="flex flex-col w-full max-w-7xl mx-auto">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 tracking-tight">
         Tambah Peserta Modul
       </h2>
 
-      <Separator className="h-0.5 bg-gray-200 rounded-full" />
+      <div className="h-0.5 bg-gray-200 rounded-full mb-6" />
 
-      <div className="flex items-center pt-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
         <div className="flex flex-col w-full">
-          <span className="text-base font-medium mb-1">Nama Siswa</span>
+          <span className="text-sm sm:text-base font-medium mb-1">
+            Nama Siswa
+          </span>
           <Input
             value={namaSiswa}
             onChange={(e) => setNamaSiswa(e.target.value)}
+            className="w-full"
           />
         </div>
-        <div className="flex flex-col w-full ml-8">
-          <span className="text-base font-medium mb-1">NIM</span>
-          <Input value={nim} onChange={(e) => setNim(e.target.value)} />
+        <div className="flex flex-col w-full">
+          <span className="text-sm sm:text-base font-medium mb-1">NIM</span>
+          <Input
+            value={nim}
+            onChange={(e) => setNim(e.target.value)}
+            className="w-full"
+          />
         </div>
-        <div className="flex flex-col w-full ml-8">
-          <span className="text-base font-medium mb-1">Angkatan</span>
+        <div className="flex flex-col w-full">
+          <span className="text-sm sm:text-base font-medium mb-1">
+            Angkatan
+          </span>
           <Input
             placeholder="2024"
             value={angkatan}
             onChange={(e) => setAngkatan(e.target.value)}
+            className="w-full"
           />
         </div>
         <Button
-          className="mt-7 bg-[#0F172A] hover:bg-[#0F172A] ml-2"
+          className="mt-6 sm:mt-7 bg-[#0F172A] hover:bg-[#1e2a44] w-full sm:w-auto"
           onClick={handleSearch}
         >
           Cari Data
@@ -118,7 +128,7 @@ const Page = () => {
       </div>
 
       {selectedPeserta.length > 0 && (
-        <div className="mt-4 p-2 bg-gray-100 border border-gray-300 rounded-md">
+        <div className="mt-4 p-3 bg-gray-100 border border-gray-300 rounded-md">
           <span className="text-sm text-gray-700">
             {selectedPeserta.length} Siswa Dipilih untuk Modul{" "}
             {modul_id || "Nama Modul Tidak Diketahui"}
@@ -126,15 +136,19 @@ const Page = () => {
         </div>
       )}
 
-      <div className="flex justify-end pt-20">
-        <Button variant="outline" onClick={() => router.back()}>
+      <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row justify-end gap-4">
+        <Button
+          variant="outline"
+          onClick={() => router.back()}
+          className="w-full sm:w-auto"
+        >
           Kembali
         </Button>
         <Button
           variant="blue"
           onClick={handleSave}
           disabled={isPending || selectedPeserta.length === 0}
-          className="ml-4"
+          className="w-full sm:w-auto"
         >
           {isPending ? "Menyimpan..." : "Simpan dan Lanjutkan"}
         </Button>

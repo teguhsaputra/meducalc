@@ -2,6 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import NimDetailHasil from "@/features/admin/hasil-penilaian/slug-listing-hasil/nim-detail-hasil/nim-detail-hasil";
+import NimPesertaModulDosen from "@/features/dosen/user-dosen/components/nim-peserta-modul-listing";
 import { useGetHasilInputPenilaian } from "@/services/api/hasil-penilaian";
 import React from "react";
 
@@ -13,11 +14,13 @@ const Page = ({ params }: PageProps) => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row md:justify-between gap-4">
+      <div className="flex justify-between">
         <div>
-          <span className="text-3xl font-semibold">Penilaian Modul</span>
+          <span className="text-3xl font-semibold">
+            Rangkuman Nilai {data?.data.nama_modul}
+          </span>
         </div>
-        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
+        <div className="flex items-center gap-4">
           <div className="flex flex-col">
             <span className="text-sm">Nama</span>
             <span className="text-sm font-bold">{data?.data.nama_siswa}</span>
@@ -50,7 +53,7 @@ const Page = ({ params }: PageProps) => {
       <Separator className="h-0.5 rounded-full my-6" />
 
       <div>
-        <NimDetailHasil
+        <NimPesertaModulDosen
           modul={data?.data.modul}
           inputPenilaian={data?.data.inputPenilaian}
           nilaiSumatif={data?.data.nilaiSumatif}

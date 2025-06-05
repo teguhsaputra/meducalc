@@ -299,13 +299,13 @@ export function useGetModulMahasiswa(
   };
 }
 
-export function useGetHasilPenilaianByNimMahasiswa(nim: string) {
+export function useGetHasilPenilaianByNimMahasiswa(namaModul: string, nim: string) {
   const token = useAuthStore((state) => state.token);
 
   const { data, isPending } = useQuery({
     queryKey: ["get-hasil-penilaian-by-nim"],
     queryFn: async () => {
-      const res = await axiosInstace.get(`/user/mahasiswa/${nim}`, {
+      const res = await axiosInstace.get(`/user/mahasiswa/${namaModul}/${nim}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

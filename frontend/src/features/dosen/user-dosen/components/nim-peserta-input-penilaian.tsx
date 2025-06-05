@@ -18,6 +18,7 @@ import {
   useInputPenilaian,
 } from "@/services/api/penilaian-modul";
 import { Label } from "@/components/ui/label";
+import { useGetModulDosenByNimPeserta, useModulDosenInputPenilaian } from "@/services/api/dosen";
 
 type Props = {
   namaModul: string;
@@ -66,11 +67,11 @@ const formSchema = z.object({
   ),
 });
 
-const NimInputPenilaian = ({ namaModul, nim }: Props) => {
+const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
   const router = useRouter();
   const { mutate: submitPenilaian, isPending: isSubmitting } =
-    useInputPenilaian(namaModul, nim);
-  const { data: modulData } = useGetModulByNim(namaModul, nim);
+    useModulDosenInputPenilaian(namaModul, nim);
+  const { data: modulData } = useGetModulDosenByNimPeserta(namaModul, nim);
 
   const uniquePemicuList = modulData?.pemicus
     ? Array.from(new Set(modulData.pemicus.map((p: any) => p.nomorPemicu)))
@@ -177,11 +178,11 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
     <div className="flex flex-col">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div>
-          <h3 className="text-2xl md:text-3xl font-bold">
+          <h3 className="text-3xl font-bold">
             Input Nilai {modulData?.nama_modul || "Modul"}
           </h3>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 text-sm mt-5 md:mt-0">
+        <div className="flex items-center gap-10 md:gap-5 text-sm mt-5 md:mt-0">
           <div className="flex flex-col">
             <span>Nama</span>
             <span className="font-bold">
@@ -360,9 +361,9 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
                 Form Penilaian Akhir Praktikum
               </span>
               <span className="text-xs">Masukkan Data Dengan Benar</span>
-              <div className="grid grid-cols-1 md:grid-cols-2 w-full mt-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
                 {modulData?.praktikums.map((praktikum: any) => (
-                  <div key={praktikum.id} className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+                  <div key={praktikum.id} className="flex items-center gap-4">
                     <FormField
                       control={form.control}
                       name={`nilaiPraktikum.${praktikum.id}`}
@@ -407,7 +408,7 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
               <span className="text-xs">Masukkan Data Dengan Benar</span>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
                 {modulData?.praktikums.map((praktikum: any) => (
-                  <div key={praktikum.id} className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+                  <div key={praktikum.id} className="flex items-center gap-4">
                     <FormField
                       control={form.control}
                       name={`nilaiHerPraktikum.${praktikum.id}`}
@@ -592,7 +593,7 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
                         { ilmu: string; dokter: string; nilai: number }
                       >
                     ).map(([ilmu, data]) => (
-                      <div key={ilmu} className="grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                      <div key={ilmu} className="flex items-center gap-4">
                         <div className="flex flex-col w-full">
                           <Label className="mb-4">Nama Ilmu</Label>
                           <Input
@@ -660,7 +661,7 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
                       return (
                         <div
                           key={`${praktikumKey}-${jenisNilaiKey}`}
-                          className="grid grid-cols-1 md:grid-cols-3 items-center gap-4"
+                          className="flex items-center gap-4"
                         >
                           <div className="flex flex-col w-full gap-3">
                             <Label>Nama Praktikum</Label>
@@ -727,4 +728,4 @@ const NimInputPenilaian = ({ namaModul, nim }: Props) => {
   );
 };
 
-export default NimInputPenilaian;
+export default NimPesertaInputPenilaian;

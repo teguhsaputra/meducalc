@@ -20,12 +20,12 @@ export function SidebarCustom({ setOpen }: SidebarCustomProps) {
   const items = config?.sidebarNav;
   // const config = sidebarConfig[data?.role]
 
-  return (
+  return (  
     items?.length && (
       <div className="w-full">
         {items.map((item, index) => (
           <div key={index} className={cn("pb-4")}>
-            <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-semibold">
+            <h4 className="mb-1 rounded-md px-2 text-sm font-semibold">
               {item.title}
             </h4>
             {item.items?.length && (
@@ -62,7 +62,7 @@ export function SidebarCustomItems({
             key={index}
             href={item.href}
             className={cn(
-              "group flex w-full items-center gap-x-3 rounded-md border border-transparent px-2 py-2",
+              "group flex w-full items-center rounded-md border border-transparent px-2 py-2",
               item.disabled && "cursor-not-allowed opacity-60",
               pathname?.startsWith(item.href)
                 ? "font-medium text-[#2262C6] bg-[#F1F5F9]"

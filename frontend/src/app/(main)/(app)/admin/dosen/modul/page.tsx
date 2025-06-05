@@ -13,7 +13,7 @@ import { Plus } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 const Page = () => {
   const router = useRouter();
@@ -62,17 +62,19 @@ const Page = () => {
       <Separator className="h-0.5 rounded-full my-6" />
 
       <div>
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col w-full">
-            <span className="text-base font-medium mb-1">Nama modul</span>
-            <SearchModul value={searchModul} onChange={setSearchModul} />
-          </div>
-          <div className="flex flex-col w-full">
-            <span className="text-base font-medium mb-1">Tahun Ajaran</span>
-            <SearchSchoolYear
-              value={searchSchoolYear}
-              onChange={setSearchSchoolYear}
-            />
+        <div className="flex items-center flex-col md:flex-row md:justify-between gap-4">
+          <div className="flex items-center gap-4 w-full">
+            <div className="flex flex-col w-full">
+              <span className="text-base font-medium mb-1">Nama modul</span>
+              <SearchModul value={searchModul} onChange={setSearchModul} />
+            </div>
+            <div className="flex flex-col w-full">
+              <span className="text-base font-medium mb-1">Tahun Ajaran</span>
+              <SearchSchoolYear
+                value={searchSchoolYear}
+                onChange={setSearchSchoolYear}
+              />
+            </div>
           </div>
           <Button className="mt-7 bg-[#0F172A] hover:bg-[#0F172A] ">
             Cari Data

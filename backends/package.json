@@ -5,9 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "vercel-build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --watch src --exec ts-node src/index.ts",
+    "dev": "nodemon src/index.ts -p 3006",
     "psql::generate": "npx prisma generate --schema prisma/schema.prisma",
     "psql::migrate": "npx prisma migrate dev --schema prisma/schema.prisma",
     "psql::studio": "npx prisma studio --schema prisma/schema.prisma",

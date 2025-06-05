@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { useRouter, usePathname } from "next/navigation";
 import React from "react";
+import MobileSidebar from "@/components/layout/mobile-sidebar";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -32,14 +33,15 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
+
       <div className="flex min-h-screen">
         <aside className="fixed top-24 z-30 hidden w-[250px] h-[calc(100vh-6rem)] rounded-tr-[30px] shrink-0 md:block bg-[#2262C6]">
           <ScrollArea className="h-full px-4 py-6 pr-6 lg:py-8">
             <SidebarCustom />
           </ScrollArea>
         </aside>
-        <main className="flex-1 md:ml-[250px] min-h-[calc(100vh-6rem)] overflow-y-auto pt-24">
-          <PageContainer>
+        <main className="flex-1 md:ml-[250px] min-h-[calc(100vh-6rem)] overflow-y-auto pt-20 md:pt-24">
+          <PageContainer scrollable={false}>
             <div>
               <Breadcrumb className="mb-4">
                 <BreadcrumbList>

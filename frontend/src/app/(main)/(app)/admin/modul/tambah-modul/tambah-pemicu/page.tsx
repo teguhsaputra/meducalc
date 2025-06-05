@@ -38,11 +38,17 @@ const formSchema = z.object({
               ilmuId: z
                 .string()
                 .min(1, "Pilih ilmu yang valid")
-                .refine((val) => !isNaN(parseInt(val, 10)), "Ilmu ID harus berupa angka"),
+                .refine(
+                  (val) => !isNaN(parseInt(val, 10)),
+                  "Ilmu ID harus berupa angka"
+                ),
               dokterId: z
                 .string()
                 .min(1, "Pilih dokter yang valid")
-                .refine((val) => !isNaN(parseInt(val, 10)), "Dokter ID harus berupa angka"),
+                .refine(
+                  (val) => !isNaN(parseInt(val, 10)),
+                  "Dokter ID harus berupa angka"
+                ),
             })
           )
           .min(1, "Setidaknya satu ilmu dan dokter harus dipilih"),
@@ -109,11 +115,11 @@ const TambahPemicuPage = () => {
     }
 
     mutate({ pemicus });
-  };
+  }
 
   return (
-    <div className="flex flex-col ">
-      <h2 className="text-3xl font-bold mb-6 tracking-[-0.03]">
+    <div className="flex flex-col">
+      <h2 className="text-3xl font-bold mb-6 tracking-[-0.03em]">
         Tambah Pemicu
       </h2>
       <Separator className="h-0.5 bg-gray-200 rounded-full" />
@@ -141,6 +147,7 @@ const TambahPemicuPage = () => {
                 pemicuFields={pemicuFields}
               />
             ))}
+
             <Button
               type="button"
               variant="default"
@@ -153,7 +160,8 @@ const TambahPemicuPage = () => {
             >
               + Tambah Pemicu
             </Button>
-            <div className="flex justify-end gap-4 mt-6">
+
+            <div className="flex flex-col md:flex-row justify-end gap-4 mt-6">
               <Button variant="outline">Kembali</Button>
               <Button type="submit" variant="blue">
                 {isPending ? "Menyimpan..." : "Simpan dan Lanjutkan"}
@@ -179,18 +187,8 @@ const PemicuItem = ({
   index: number;
   removePemicu: (index: number) => void;
   register: any;
-  doctors: [
-    {
-      id: number;
-      nama_dosen: string;
-    }
-  ];
-  ilmus: [
-    {
-      id: number;
-      nama_ilmu: string;
-    }
-  ];
+  doctors: { id: number; nama_dosen: string }[];
+  ilmus: { id: number; nama_ilmu: string }[];
   pemicuFields: any[];
 }) => {
   const {
@@ -213,12 +211,15 @@ const PemicuItem = ({
         </div>
 
         {ilmuDokterFields.map((ilmuDokterField, ilmuDokterIndex) => (
-          <div key={ilmuDokterField.id} className="flex items-end w-full">
+          <div
+            key={ilmuDokterField.id}
+            className="flex flex-col md:flex-row md:items-end w-full gap-4"
+          >
             <FormField
               control={control}
               name={`pemicu.${index}.ilmuDokter.${ilmuDokterIndex}.ilmuId`}
               render={({ field }) => (
-                <FormItem className="w-full mr-4">
+                <FormItem className="w-full md:mr-4">
                   <FormLabel>Pilih Ilmu</FormLabel>
                   <FormControl>
                     <Select
@@ -242,11 +243,12 @@ const PemicuItem = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
               name={`pemicu.${index}.ilmuDokter.${ilmuDokterIndex}.dokterId`}
               render={({ field }) => (
-                <FormItem className="w-full mr-4">
+                <FormItem className="w-full md:mr-4">
                   <FormLabel>Pilih Dokter</FormLabel>
                   <FormControl>
                     <Select
@@ -270,6 +272,7 @@ const PemicuItem = ({
                 </FormItem>
               )}
             />
+
             <div>
               <Button
                 type="button"
@@ -294,6 +297,7 @@ const PemicuItem = ({
             </div>
           </div>
         ))}
+
         <Button
           type="button"
           variant="outline"

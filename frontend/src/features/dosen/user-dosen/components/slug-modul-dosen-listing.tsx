@@ -52,7 +52,7 @@ import {
 } from "@/components/ui/select";
 import { formatDate } from "@/lib/utils";
 
-export type TModulHasilPenilaian = {
+export type TModulDosenHasilPenilaian = {
   id: string;
   nama_siswa: string;
   nim: string;
@@ -62,7 +62,7 @@ export type TModulHasilPenilaian = {
   created_at: string;
 };
 
-export const columns: ColumnDef<TModulHasilPenilaian>[] = [
+export const columns: ColumnDef<TModulDosenHasilPenilaian>[] = [
   {
     accessorKey: "no",
     header: "No",
@@ -117,7 +117,7 @@ export const columns: ColumnDef<TModulHasilPenilaian>[] = [
       return (
         <div className="flex justify-center gap-4">
           <Link
-            href={`/admin/hasil-penilaian/${encodeURIComponent(
+            href={`/dosen/hasil-penilaian/${encodeURIComponent(
               slug
             )}/${row.getValue("nim")}`}
           >
@@ -129,7 +129,7 @@ export const columns: ColumnDef<TModulHasilPenilaian>[] = [
   },
 ];
 
-export function SlugListingHasilPenilaian({
+export function SlugModulDosenHasilPenilaian({
   data,
   currentPage,
   totalPages,
@@ -139,15 +139,13 @@ export function SlugListingHasilPenilaian({
   onNextPage,
   onPrevPage,
   onSortOrderChange,
-  onTingkatFilterChange,
   onSearch,
   searchSiswa,
   searchNim,
   sortOrder,
-  tingkatFilter,
   slug,
 }: {
-  data: TModulHasilPenilaian[];
+  data: TModulDosenHasilPenilaian[];
   currentPage: number;
   totalPages: number;
   totalItems: number;
@@ -156,12 +154,10 @@ export function SlugListingHasilPenilaian({
   onNextPage: () => void;
   onPrevPage: () => void;
   onSortOrderChange: (sortOrder: "asc" | "desc") => void;
-  onTingkatFilterChange: (tingkat: "A" | "B" | "C" | "D" | "E" | "") => void;
   onSearch: (searchSiswa: string, searchNim: string) => void;
   searchSiswa: string;
   searchNim: string;
   sortOrder: "asc" | "desc";
-  tingkatFilter: "A" | "B" | "C" | "D" | "E" | "";
   slug?: string;
 }) {
   const table = useReactTable({
@@ -178,7 +174,7 @@ export function SlugListingHasilPenilaian({
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-3 md:grid-cols-5 items-center py-4 gap-4">
+      <div className="flex items-center py-4 gap-4">
         <div className="flex gap-4 w-full max-w-4xl">
           <div className="flex flex-col w-full gap-2">
             <Label>Nama Siswa</Label>
@@ -215,28 +211,6 @@ export function SlugListingHasilPenilaian({
               <SelectGroup>
                 <SelectItem value="asc">Terendah ke Tertinggi</SelectItem>
                 <SelectItem value="desc">Tertinggi ke Terendah</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Select
-            value={tingkatFilter === "" ? "all" : tingkatFilter}
-            onValueChange={(value) => {
-              onTingkatFilterChange(
-                value === "all" ? "" : (value as "A" | "B" | "C" | "D" | "E")
-              );
-            }}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Nilai Akhir Modul" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="all">Semua</SelectItem>
-                <SelectItem value="A">A</SelectItem>
-                <SelectItem value="B">B</SelectItem>
-                <SelectItem value="C">C</SelectItem>
-                <SelectItem value="D">D</SelectItem>
-                <SelectItem value="E">E</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -292,7 +266,7 @@ export function SlugListingHasilPenilaian({
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col md:flex-row items-center md:justify-end space-y-4 space-x-2 mt-5">
+      <div className="flex items-center justify-end space-x-2 mt-5">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>

@@ -77,7 +77,7 @@ const Page = () => {
       }
 
       console.log("sedning nims", [selectedPeserta.nim]);
-      
+
       addPesertaMutate(
         {
           kelompokId,
@@ -105,96 +105,100 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <h2 className="text-3xl font-bold pb-6 tracking-[-0.03]">
+    <div className="flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 className="text-2xl sm:text-3xl font-bold pb-4 sm:pb-6 tracking-tight">
         Kelompok Modul
       </h2>
 
-      <Separator className="h-0.5 bg-gray-200 rounded-full" />
+      <div className="h-0.5 bg-gray-200 rounded-full mb-6" />
 
-      <div className="flex flex-row gap-4 pt-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1">
-          {kelompokList?.map((kelompok: Kelompok) => {
-            const anggotaKelompok = kelompokAnggota
-              ? kelompokAnggota.find(
-                  (ka: KelompokAnggota) => ka.id === kelompok.id
-                )?.anggota || []
-              : [];
-            console.log(
-              `Anggota untuk ${kelompok.nama_kelompok}:`,
-              anggotaKelompok
-            );
-            return (
-              <div
-                key={kelompok.id}
-                className="w-full border border-gray-200 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow relative"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold">
-                    {kelompok.nama_kelompok}
-                  </h3>
-                  <Button
-                    size="icon"
-                    onClick={() => handleHapusKelompok(kelompok.id)}
-                    className="text-red-500 hover:text-red-700 bg-accent hover:bg-accent"
-                  >
-                    <Trash className="w-4 h-4" />
-                  </Button>
-                </div>
-                <ul className="list-disc list-inside text-sm space-y-1 mb-2">
-                  {anggotaKelompok.map((anggota: any) => (
-                    <li
-                      key={anggota.id}
-                      className="flex items-center justify-between"
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+        <div className="flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {kelompokList?.map((kelompok: Kelompok) => {
+              const anggotaKelompok = kelompokAnggota
+                ? kelompokAnggota.find(
+                    (ka: KelompokAnggota) => ka.id === kelompok.id
+                  )?.anggota || []
+                : [];
+              console.log(
+                `Anggota untuk ${kelompok.nama_kelompok}:`,
+                anggotaKelompok
+              );
+              return (
+                <div
+                  key={kelompok.id}
+                  className="w-full border border-gray-200 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-base sm:text-lg font-semibold truncate">
+                      {kelompok.nama_kelompok}
+                    </h3>
+                    <Button
+                      size="icon"
+                      onClick={() => handleHapusKelompok(kelompok.id)}
+                      className="text-red-500 hover:text-red-700 bg-accent hover:bg-accent/80 shrink-0"
                     >
-                      <span>{anggota.nama_siswa}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() =>
-                          handleHapusPesertaDariKelompok(kelompok.id, anggota)
-                        }
-                        className="text-zinc-400 hover:text-red-500 rounded-full"
+                      <Trash className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <ul className="list-disc list-inside text-sm space-y-2 max-h-40 overflow-y-auto">
+                    {anggotaKelompok.map((anggota: any) => (
+                      <li
+                        key={anggota.id}
+                        className="flex items-center justify-between"
                       >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-2">
-                  <Button
-                    variant="outline"
-                    className="w-full border-2 border-dashed border-blue-500 text-blue-700"
-                    size="sm"
-                    onClick={() => handleTambahPesertaKeKelompok(kelompok.id)}
-                    disabled={!selectedPeserta || isAddingPeserta}
-                  >
-                    Pilih Kelompok
-                  </Button>
+                        <span className="truncate">{anggota.nama_siswa}</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            handleHapusPesertaDariKelompok(kelompok.id, anggota)
+                          }
+                          className="text-zinc-400 hover:text-red-500 rounded-full shrink-0"
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-3">
+                    <Button
+                      variant="outline"
+                      className="w-full border-2 border-dashed border-blue-500 text-blue-700 text-sm"
+                      size="sm"
+                      onClick={() => handleTambahPesertaKeKelompok(kelompok.id)}
+                      disabled={!selectedPeserta || isAddingPeserta}
+                    >
+                      Pilih Kelompok
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center hover:bg-gray-50 transition-colors">
-            <Button
-              variant="ghost"
-              className="text-muted-foreground"
-              onClick={handleTambahKelompok}
-              disabled={isCreatingKelompok}
-            >
-              + Tambah Kelompok
-            </Button>
+              );
+            })}
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <Button
+                variant="ghost"
+                className="text-muted-foreground text-sm"
+                onClick={handleTambahKelompok}
+                disabled={isCreatingKelompok}
+              >
+                + Tambah Kelompok
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="w-44 bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-          <h3 className="text-lg font-semibold mb-4">Peserta Modul</h3>
-          <ul className="space-y-2">
+        <div className="w-full lg:w-60 bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          <h3 className="text-base sm:text-lg font-semibold mb-4">
+            Peserta Modul
+          </h3>
+          <ul className="space-y-2 max-h-96 lg:max-h-[calc(100vh-200px)] overflow-y-auto">
             {pesertaModul?.length > 0 ? (
               pesertaModul.map((peserta: PesertaModul) => (
                 <li
                   key={peserta.id}
-                  className={`text-sm p-2 rounded cursor-pointer transition-colors flex justify-between ${
+                  className={`text-sm p-2 rounded cursor-pointer transition-colors flex justify-between items-center ${
                     selectedPeserta?.nim === peserta.nim
                       ? "bg-[#F3FDEE] text-black"
                       : "hover:bg-gray-100"
@@ -205,31 +209,38 @@ const Page = () => {
                     )
                   }
                 >
-                  <span>{peserta.nama_siswa}</span>
+                  <span className="truncate">{peserta.nama_siswa}</span>
                   <span
                     className={cn(
-                      "bg-accent hover:bg-accent rounded-full px-2 py-2 text-black",
+                      "bg-accent hover:bg-accent/80 rounded-full p-1.5",
                       selectedPeserta?.nim === peserta.nim ? "bg-green-200" : ""
                     )}
                   >
-                    <Plus className="w-2 h-2" />
+                    <Plus className="w-3 h-3" />
                   </span>
                 </li>
               ))
             ) : (
-              <li className="text-gray-500">Tidak ada peserta tersedia</li>
+              <li className="text-gray-500 text-sm">
+                Tidak ada peserta tersedia
+              </li>
             )}
           </ul>
         </div>
       </div>
 
-      <div className="mt-6 flex justify-end gap-4">
-        <Button variant="outline" onClick={() => router.back()}>
+      <div className="mt-6 flex flex-col sm:flex-row justify-end gap-4">
+        <Button
+          variant="outline"
+          onClick={() => router.back()}
+          className="w-full sm:w-auto"
+        >
           Kembali
         </Button>
         <Button
           variant="blue"
           onClick={() => router.push(`/admin/modul/tambah-modul/${modul_id}`)}
+          className="w-full sm:w-auto"
         >
           Tambah Modul
         </Button>

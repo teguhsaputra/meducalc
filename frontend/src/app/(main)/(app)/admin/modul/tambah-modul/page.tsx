@@ -96,7 +96,7 @@ type FormValues = z.infer<typeof formSchema>;
 const Page = () => {
   const { mutate, isPending } = useCreateModul();
   const { data: praktikumOptions } = useGetPraktikum();
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -158,26 +158,32 @@ const Page = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-3xl font-bold mb-6">Tambah Modul</h2>
+      <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
+        Tambah Modul
+      </h2>
 
       <Separator className="h-0.5 rounded-full" />
 
-      <div className="mt-6">
+      <div className="mt-4 md:mt-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 md:space-y-8"
+          >
+            {/* Data General Modul */}
             <div className="flex flex-col">
-              <span className="text-xl text-foreground font-semibold">
+              <span className="text-lg md:text-xl text-foreground font-semibold">
                 Data General Modul
               </span>
               <span className="text-xs font-normal">
                 Pastikan data yang dimasukkan benar
               </span>
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-3 md:gap-4 mt-2">
                 <FormField
                   control={form.control}
                   name="nama"
                   render={({ field }) => (
-                    <FormItem className="mt-3 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Nama Modul</FormLabel>
                       <FormControl>
                         <Input placeholder="Organ Dalam Jantung" {...field} />
@@ -190,7 +196,7 @@ const Page = () => {
                   control={form.control}
                   name="tahunMulai"
                   render={({ field }) => (
-                    <FormItem className="mt-3 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Tahun mulai</FormLabel>
                       <FormControl>
                         <Select
@@ -218,7 +224,7 @@ const Page = () => {
                   control={form.control}
                   name="tahunSelesai"
                   render={({ field }) => (
-                    <FormItem className="mt-3 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Tahun selesai</FormLabel>
                       <FormControl>
                         <Select
@@ -245,8 +251,9 @@ const Page = () => {
               </div>
             </div>
 
+            {/* Penanggung Jawab TIM Akademik */}
             <div className="flex flex-col">
-              <span className="text-xl text-foreground font-semibold">
+              <span className="text-lg md:text-xl text-foreground font-semibold">
                 Penanggung Jawab TIM Akademik
               </span>
               <span className="text-xs font-normal">
@@ -257,7 +264,7 @@ const Page = () => {
                 control={form.control}
                 name="timAkademik"
                 render={({ field }) => (
-                  <FormItem className="mt-3 w-full">
+                  <FormItem className="mt-2 w-full">
                     <FormLabel>Tim Akademik</FormLabel>
                     <FormControl>
                       <Input placeholder="Dr. Rico Kenny Doohan" {...field} />
@@ -268,20 +275,21 @@ const Page = () => {
               />
             </div>
 
+            {/* Pengaturan Bobot Nilai Akhir */}
             <div className="flex flex-col">
-              <span className="text-xl text-foreground font-semibold">
+              <span className="text-lg md:text-xl text-foreground font-semibold">
                 Pengaturan Bobot Nilai Akhir
               </span>
               <span className="text-xs font-normal">
                 Total penilaian bobot harus 100%
               </span>
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2">
                 <FormField
                   control={form.control}
                   name="nilaiAkhirSumatif"
                   render={({ field }) => (
-                    <FormItem className="mt-3 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Nilai Akhir Sumatif (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -306,7 +314,7 @@ const Page = () => {
                   control={form.control}
                   name="nilaiAkhirProses"
                   render={({ field }) => (
-                    <FormItem className="mt-3 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Nilai Akhir Proses (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -331,7 +339,7 @@ const Page = () => {
                   control={form.control}
                   name="nilaiAkhirPraktikum"
                   render={({ field }) => (
-                    <FormItem className="mt-3 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Nilai Akhir Praktikum (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -355,20 +363,21 @@ const Page = () => {
               </div>
             </div>
 
+            {/* Pengaturan Bobot Nilai Proses */}
             <div className="flex flex-col">
-              <span className="text-xl text-foreground font-semibold">
+              <span className="text-lg md:text-xl text-foreground font-semibold">
                 Pengaturan Bobot Nilai Proses
               </span>
               <span className="text-xs font-normal">
                 Total penilaian bobot harus 100%
               </span>
 
-              <div className="flex gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mt-2">
                 <FormField
                   control={form.control}
                   name="nilaiProsesDiskusi"
                   render={({ field }) => (
-                    <FormItem className="mt-2 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Diskusi (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -393,7 +402,7 @@ const Page = () => {
                   control={form.control}
                   name="nilaiProsesBukuCatatan"
                   render={({ field }) => (
-                    <FormItem className="mt-2 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Buku Catatan (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -418,7 +427,7 @@ const Page = () => {
                   control={form.control}
                   name="nilaiProsesTemuPakar"
                   render={({ field }) => (
-                    <FormItem className="mt-2 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Temu Pakar (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -443,7 +452,7 @@ const Page = () => {
                   control={form.control}
                   name="nilaiProsesPetaKonsep"
                   render={({ field }) => (
-                    <FormItem className="mt-2 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Peta Konsep (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -468,7 +477,7 @@ const Page = () => {
                   control={form.control}
                   name="nilaiProsesPraktik"
                   render={({ field }) => (
-                    <FormItem className="mt-2 w-full">
+                    <FormItem className="w-full">
                       <FormLabel>Proses Praktik (%)</FormLabel>
                       <FormControl>
                         <Input
@@ -492,8 +501,9 @@ const Page = () => {
               </div>
             </div>
 
+            {/* Pengaturan Praktikum */}
             <div className="flex flex-col">
-              <span className="text-xl text-foreground font-semibold">
+              <span className="text-lg md:text-xl text-foreground font-semibold">
                 Pengaturan Praktikum
               </span>
               <span className="text-xs font-normal">
@@ -501,7 +511,10 @@ const Page = () => {
               </span>
 
               {fields.map((field, index) => (
-                <div key={field.id} className="flex gap-4 mt-3 items-end">
+                <div
+                  key={field.id}
+                  className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2 items-end"
+                >
                   <FormField
                     control={form.control}
                     name={`pilihanPraktikum.${index}.value`}
@@ -532,7 +545,7 @@ const Page = () => {
                       </FormItem>
                     )}
                   />
-                  <div>
+                  <div className="mb-2 sm:mb-0">
                     {index > 0 && (
                       <Button
                         type="button"
@@ -550,15 +563,27 @@ const Page = () => {
                 type="button"
                 variant="outline"
                 onClick={() => append({ value: "" })}
-                className="mt-4 border-[1.5px] border-dashed border-gray-300 text-muted-foreground"
+                className="mt-3 border-[1.5px] border-dashed border-gray-300 text-muted-foreground"
               >
                 + Tambah Praktikum
               </Button>
             </div>
 
-            <div className="flex justify-end gap-4">
-              <Button type="button" variant="outline" onClick={() => router.back()}>Kembali</Button>
-              <Button type="submit" variant="blue" disabled={isPending}>
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 md:gap-4 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+                className="w-full sm:w-auto"
+              >
+                Kembali
+              </Button>
+              <Button
+                type="submit"
+                variant="blue"
+                disabled={isPending}
+                className="w-full sm:w-auto"
+              >
                 {isPending ? "Disimpan..." : "Simpan dan Lanjutkan"}
               </Button>
             </div>

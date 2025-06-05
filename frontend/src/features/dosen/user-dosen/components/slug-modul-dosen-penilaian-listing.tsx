@@ -27,7 +27,7 @@ import { Eye, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export type TPesertaDetailModul = {
+export type TPesertaDetailModulDosen = {
   id: string;
   nama_siswa: string;
   nim: string;
@@ -35,7 +35,7 @@ export type TPesertaDetailModul = {
   username: string;
 };
 
-export const columns: ColumnDef<TPesertaDetailModul>[] = [
+export const columns: ColumnDef<TPesertaDetailModulDosen>[] = [
   {
     accessorKey: "no",
     header: "No",
@@ -75,7 +75,7 @@ export const columns: ColumnDef<TPesertaDetailModul>[] = [
       return (
         <div className="flex justify-center gap-4">
           <Link
-            href={`/admin/input-penilaian/${encodeURIComponent(
+            href={`/dosen/input-penilaian/${encodeURIComponent(
               slug
             )}/${row.getValue("nim")}`}
           >
@@ -90,7 +90,7 @@ export const columns: ColumnDef<TPesertaDetailModul>[] = [
   },
 ];
 
-export function SlugListing({
+export function SlugModulDosenPenilaianListing({
   data,
   currentPage,
   totalPages,
@@ -101,7 +101,7 @@ export function SlugListing({
   onPrevPage,
   slug,
 }: {
-  data: TPesertaDetailModul[];
+  data: TPesertaDetailModulDosen[];
   currentPage: number;
   totalPages: number;
   totalItems: number;
@@ -181,7 +181,7 @@ export function SlugListing({
         </ScrollArea>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center md:justify-between text-sm text-muted-foreground space-y-4">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
         <div>{table.getFilteredRowModel().rows.length} row(s) selected.</div>
         <div className="flex items-center space-x-2">
           <Button

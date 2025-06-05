@@ -755,6 +755,7 @@ class MahasiswaServices {
   static async getHasilPenilaianByNimMahasiswa(
     userId: number,
     role: string,
+    namaModul: string,
     nim: string
   ) {
     try {
@@ -787,6 +788,8 @@ class MahasiswaServices {
         );
       }
 
+      const trimmedNamaModul = namaModul.trim();
+
       const pesertaSchema2 = await prismaMysql.mda_master_mahasiswa.findFirst({
         where: { nim },
       });
@@ -804,7 +807,12 @@ class MahasiswaServices {
       }
 
       const pesertaModul = await prisma.pesertaModul.findFirst({
-        where: { nim },
+        where: {
+          nim,
+          modul: {
+            nama_modul: trimmedNamaModul,
+          },
+        },
       });
 
       if (!pesertaModul) {

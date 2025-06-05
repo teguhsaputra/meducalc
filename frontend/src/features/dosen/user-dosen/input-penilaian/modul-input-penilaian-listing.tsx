@@ -65,7 +65,7 @@ export const columns: ColumnDef<TModulPenilaian>[] = [
     header: "Aksi",
     cell: ({ row }) => (
       <div className="flex justify-center gap-4">
-        <Link href={`/admin/input-penilaian/${row.getValue("nama_modul")}`}>
+        <Link href={`/dosen/input-penilaian/${row.getValue("nama_modul")}`}>
           <Eye className="w-5 h-5 " style={{ stroke: "#72A1E7" }} />
         </Link>
       </div>
@@ -73,7 +73,7 @@ export const columns: ColumnDef<TModulPenilaian>[] = [
   },
 ];
 
-export function InputPenilaianListing({
+export function DosenModulInputPenilaianListing({
   data,
   currentPage,
   totalPages,
@@ -157,7 +157,7 @@ export function InputPenilaianListing({
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col md:flex-row items-center md:justify-end space-x-2 space-y-4 mt-5">
+      <div className="flex items-center justify-end space-x-2 mt-5">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>

@@ -42,7 +42,7 @@ useMahasiswaRoute.get(
   MahasiswaControllers.getModulByMahasiswa
 );
 useMahasiswaRoute.get(
-  "/user/mahasiswa/:nim",
+  "/user/mahasiswa/:namaModul/:nim",
   authenticateUser,
   MahasiswaControllers.getHasilPenilaianByNimMahasiswa
 );

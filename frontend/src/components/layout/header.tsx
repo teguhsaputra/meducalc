@@ -12,6 +12,8 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import { useRouter } from "next/navigation";
 import AlertLogout from "../alert-logout";
 import { useGetMe } from "@/services/api/auth";
+import MobileSidebar from "./mobile-sidebar";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function Header() {
   const { data } = useGetMe();
@@ -24,8 +26,11 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 w-full h-24 shrink-0 flex items-center justify-between gap-2 px-10 bg-white z-40">
-      <div className="text-3xl font-bold">Meducalc App</div>
+    <header className="fixed top-0 left-0 w-full h-16 md:h-24 shrink-0 flex items-center justify-between gap-2 px-3 md:px-10 bg-white z-40">
+      <ScrollArea className="fixed md:hidden">
+        <MobileSidebar />
+      </ScrollArea>
+      <div className="text-3xl font-bold md:block hidden">Meducalc App</div>
       <div className="flex items-center gap-2">
         <div>
           <DropdownMenu>

@@ -1,12 +1,9 @@
-"use client";
-
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -53,7 +50,6 @@ export function DataTable<TData, TValue>({
         typeof updater === "function"
           ? updater({ pageIndex, pageSize })
           : updater;
-      console.log("new pagination", newPagination);
 
       onPageChange(newPagination.pageIndex);
       onPageSizeChange(newPagination.pageSize);
@@ -63,28 +59,23 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="flex flex-col flex-1">
-      <div className="flex overflow-hidden rounded-md border">
-        <ScrollArea className="h-full w-full">
-          <Table>
-            <TableHeader className="sticky top-0 z-10">
+    <div className="flex flex-col h-full w-full">
+      <div className="rounded-md border flex-1 overflow-hidden">
+        <ScrollArea className="h-[500px] w-full">
+          <Table className="w-full">
+            <TableHeader className="sticky top-0 bg-background z-10">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead
-                        key={header.id}
-                        className="text-muted-foreground"
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    );
-                  })}
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} className="whitespace-nowrap">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))}
                 </TableRow>
               ))}
             </TableHeader>
@@ -96,7 +87,7 @@ export function DataTable<TData, TValue>({
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="whitespace-nowrap">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -120,7 +111,8 @@ export function DataTable<TData, TValue>({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      <div className="flex flex-col gap-2.5">
+
+      <div className="py-4">
         <DataTablePagination table={table} />
       </div>
     </div>

@@ -104,7 +104,7 @@ export default function StepsSesiPenilaian() {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="mt-7 ml-2 bg-blue-600 hover:bg-blue-700">
+        <Button className="ml-2 bg-blue-600 hover:bg-blue-700">
           Aktifkan Sesi Penilaian
         </Button>
       </AlertDialogTrigger>

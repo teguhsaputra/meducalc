@@ -127,7 +127,6 @@ class DosenControllers {
         searchSiswa,
         searchNim,
         sortOrder = "asc",
-        tingkatFilter = "",
       } = req.query;
 
       const data = await DosenServices.getModulDosenDetailHasilPenilaian(
@@ -138,13 +137,116 @@ class DosenControllers {
         Number(limit),
         searchSiswa as string,
         searchNim as string,
-        sortOrder as "asc" | "desc",
-        tingkatFilter as "A" | "B" | "C" | "D" | "E" | ""
+        sortOrder as "asc" | "desc"
       );
 
       res.status(200).json({
         status: true,
         data,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+
+  static async getModulDosenHasilInputPenilaian(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { namaModul, nim } = req.params;
+
+      const data = await DosenServices.getModulDosenHasilInputPenilaian(
+        userId,
+        role,
+        namaModul,
+        nim
+      );
+
+      res.status(200).json({
+        status: true,
+        data,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+
+  static async getModulDosenDetailForInputPenilaian(
+    req: Request,
+    res: Response
+  ) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { namaModul } = req.params;
+      const {
+        page = 1,
+        limit = 10,
+        searchSiswa,
+        searchNim,
+        searchAngkatan,
+      } = req.query;
+
+      const data = await DosenServices.getModulDosenDetailForInputPenilaian(
+        userId,
+        role,
+        namaModul,
+        Number(page),
+        Number(limit),
+        searchSiswa as string,
+        searchNim as string,
+        searchAngkatan as string
+      );
+
+      res.status(200).json({
+        status: true,
+        data,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+
+  static async getModulDosenByNimPeserta(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { namaModul, nim } = req.params;
+
+      const data = await DosenServices.getModulDosenByNimPeserta(
+        userId,
+        role,
+        namaModul,
+        nim
+      );
+
+      res.status(200).json({
+        status: true,
+        data,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+
+  static async modulDosenInputPenilaian(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { nim, namaModul } = req.params;
+      const { input } = req.body;
+
+      await DosenServices.modulDosenInputPenilaian(
+        userId,
+        role,
+        nim,
+        namaModul,
+        input
+      );
+
+      res.status(200).json({
+        status: true,
+        message: "Berhasil di simpan",
       });
     } catch (error) {
       const err = error as unknown as Error;
