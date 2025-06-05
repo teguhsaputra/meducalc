@@ -29,5 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/", route);
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`⚡️ Server is running at http://localhost:${port}`);
 });
+
+export default app;

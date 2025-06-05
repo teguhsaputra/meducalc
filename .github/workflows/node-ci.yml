@@ -2,40 +2,51 @@ name: Node.js CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js 22
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-        cache: 'npm'
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "npm"
 
-    # BACKEND
-    - name: Install backends dependencies
-      run: |
-        cd backends
-        npm install
+      # BACKEND
+      - name: Install backends dependencies
+        run: |
+          cd backends
+          npm install
 
-    - name: Build backends
-      run: |
-        cd backends
-        npm run build
+      - name: Build backends
+        run: |
+          cd backends
+          npm run build
 
-    # FRONTEND
-    - name: Install frontend dependencies
-      run: |
-        cd frontend
-        npm install
+      # FRONTEND
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
 
-    - name: Build frontend
-      run: |
-        cd frontend
-        npm run build
+      # PRISMA POSTGRESQL
+      - name: Install prisma dependencies
+        run: |
+          cd backends
+          npx prisma generate --schema=prisma/schema.prisma
+
+      # PRISMA MYSQL
+      - name: Install prisma dependencies
+        run: |
+          cd backends
+          npx prisma generate --schema=prisma-mysql/schema.prisma
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
