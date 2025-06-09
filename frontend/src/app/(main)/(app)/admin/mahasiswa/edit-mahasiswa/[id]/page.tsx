@@ -388,9 +388,37 @@ const Page = ({ params }: PageProps) => {
               />
             </div>
           </div>
+          <div>
+            <div className="flex flex-col mb-5">
+              <span className="text-base font-semibold">Akun Mahasiswa</span>
+              <span className="text-xs text-foreground font-normal">
+                Harap memasukkan data dengan benar
+              </span>
+            </div>
+            <div className="flex flex-col md:flex-row gap-4">
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
 
           <div className="flex justify-end gap-4">
-            <Button type="button" variant={"outline"} onClick={() => router.back()} disabled={isPending}>
+            <Button
+              type="button"
+              variant={"outline"}
+              onClick={() => router.back()}
+              disabled={isPending}
+            >
               Batalkan
             </Button>
             <Button type="submit" variant={"blue"} disabled={isPending}>
