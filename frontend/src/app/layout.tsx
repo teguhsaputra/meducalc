@@ -25,7 +25,7 @@ export default function RootLayout({
         <NextTopLoader showSpinner={false} />
         <Providers>
           <main className="flex min-h-[100dvh] flex-col overflow-x-hidden antialiased">
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+            <Suspense fallback={<div>Load...</div>}>{children}</Suspense>
           </main>
         </Providers>
         <Sonner />
