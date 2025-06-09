@@ -25,6 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const db1_1 = __importDefault(require("../../lib/db1"));
 const db2_1 = __importDefault(require("../../lib/db2"));
+const sesi_penilaian_1 = __importDefault(require("./sesi-penilaian"));
 class PenilaianModulServices {
     static getModulForInputPenilaian(userId_1, role_1) {
         return __awaiter(this, arguments, void 0, function* (userId, role, page = 1, limit = 10, searchModul = "", searchSchoolYear = "") {
@@ -138,6 +139,14 @@ class PenilaianModulServices {
                     });
                     if (!existingAdmin) {
                         throw new Error("Admin not found");
+                    }
+                }
+                else if (role === "koordinator") {
+                    const existingKoordinator = yield db1_1.default.dosen.findUnique({
+                        where: { id: userId, role: "Koordinator" },
+                    });
+                    if (!existingKoordinator) {
+                        throw new Error("Koordinator not found");
                     }
                 }
                 const skip = (page - 1) * limit;
@@ -470,6 +479,10 @@ class PenilaianModulServices {
                     if (!existingAdmin) {
                         throw new Error("Admin not found");
                     }
+                }
+                const sesiCheck = yield sesi_penilaian_1.default.sesiPenilaian(userId, role, "check");
+                if (!sesiCheck.isActive) {
+                    throw new Error(`Penginputan nilai tidak diperbolehkan: ${sesiCheck.message}`);
                 }
                 const trimmedNamaModul = namaModul.trim();
                 const pesertaSchema2 = yield db2_1.default.mda_master_mahasiswa.findFirst({

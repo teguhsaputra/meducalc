@@ -65,6 +65,66 @@ export const sidebarConfig: Record<string, SidebarConfig> = {
     ],
   },
 
+  koordinator: {
+    sidebarNav: [
+      {
+        title: "",
+        items: [
+          {
+            title: "Modul",
+            href: "/admin/modul",
+            items: [],
+            disabled: true,
+          },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          {
+            title: "Dosen",
+            href: "/admin/dosen",
+            items: [],
+            disabled: false,
+          },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          {
+            title: "Input Penilaian",
+            href: "/admin/input-penilaian",
+            items: [],
+            disabled: true,
+          },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          {
+            title: "Hasil Penilaian",
+            href: "/admin/hasil-penilaian",
+            items: [],
+            disabled: false,
+          },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          {
+            title: "Mahasiswa",
+            href: "/admin/mahasiswa",
+            items: [],
+            disabled: true,
+          },
+        ],
+      },
+    ],
+  },
+
   dosen: {
     sidebarNav: [
       {

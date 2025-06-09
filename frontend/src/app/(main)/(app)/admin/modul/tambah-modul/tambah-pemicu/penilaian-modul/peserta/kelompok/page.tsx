@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import {
   useAddPesertaToKelompok,
   useCreateKelompok,
+  useDeleteKelompok,
+  useDeletePesertaFromKelompok,
   useGetKelompokByModul,
   useGetPesertaByModul,
   useGetPesertaKelompokAnggota,
@@ -24,6 +26,7 @@ interface PesertaModul {
 
 interface KelompokAnggota {
   id: number;
+  kelompok_id: number
   nama_kelompok: string;
   anggota: PesertaModul[];
 }
@@ -39,8 +42,14 @@ const Page = () => {
   const { data: kelompokAnggota } = useGetPesertaKelompokAnggota();
   const { mutate: createKelompokMutate, isPending: isCreatingKelompok } =
     useCreateKelompok();
+  const { mutate: deleteKelompokMutate, isPending: isDeleteKelomok } =
+    useDeleteKelompok();
   const { mutate: addPesertaMutate, isPending: isAddingPeserta } =
     useAddPesertaToKelompok();
+  const {
+    mutate: deletePesertaFromKelompokMutate,
+    isPending: isDeletePesertaKelomok,
+  } = useDeletePesertaFromKelompok();
   const router = useRouter();
   const modul_id = useModulContext((state) => state.modul_id);
 
@@ -65,8 +74,10 @@ const Page = () => {
     createKelompokMutate();
   }, [createKelompokMutate]);
 
-  const handleHapusKelompok = (id: number) => {
-    console.log("hapus kelompok", id);
+  const handleHapusKelompok = (kelompokId: number) => {
+    console.log("hapus kelompok", kelompokId);
+    deleteKelompokMutate({ kelompokId });
+    toast.success(`Kelompok berhasil dihapus`);
   };
 
   const handleTambahPesertaKeKelompok = useCallback(
@@ -97,11 +108,10 @@ const Page = () => {
     [selectedPeserta, addPesertaMutate]
   );
 
-  const handleHapusPesertaDariKelompok = (
-    kelompokId: number,
-    peserta: PesertaModul
-  ) => {
-    console.log("hapus peserta dari kelompok", kelompokId, peserta.id);
+  const handleHapusPesertaDariKelompok = (kelompokAnggotaId: number) => {
+    console.log("hapus peserta dari kelompok", kelompokAnggotaId);
+    deletePesertaFromKelompokMutate({ kelompokAnggotaId });
+    toast.success(`Peserta berhasil dihapus`);
   };
 
   return (
@@ -125,6 +135,7 @@ const Page = () => {
                 `Anggota untuk ${kelompok.nama_kelompok}:`,
                 anggotaKelompok
               );
+
               return (
                 <div
                   key={kelompok.id}
@@ -153,7 +164,7 @@ const Page = () => {
                           variant="ghost"
                           size="icon"
                           onClick={() =>
-                            handleHapusPesertaDariKelompok(kelompok.id, anggota)
+                            handleHapusPesertaDariKelompok(anggota.kelompokAnggotaId)
                           }
                           className="text-zinc-400 hover:text-red-500 rounded-full shrink-0"
                         >

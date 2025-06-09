@@ -789,6 +789,41 @@ class ModulServices {
             }
         });
     }
+    static deleteKelompok(userId, role, modul_id, kelompokId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (role === "admin") {
+                    const existingAdmin = yield db1_1.default.admin.findUnique({
+                        where: { id: userId },
+                    });
+                    if (!existingAdmin) {
+                        throw new Error("Admin not found");
+                    }
+                }
+                const modul = yield db1_1.default.modul.findUnique({
+                    where: { id: modul_id },
+                });
+                if (!modul) {
+                    throw new Error("Modul tidak ditemukan");
+                }
+                const kelompok = yield db1_1.default.kelompok.findFirst({
+                    where: {
+                        id: kelompokId,
+                        modul_id,
+                    },
+                });
+                if (!kelompok) {
+                    throw new Error("Kelompok tidak ditemukan");
+                }
+                yield db1_1.default.kelompok.delete({
+                    where: { id: kelompok.id },
+                });
+            }
+            catch (error) {
+                throw new Error(error.message);
+            }
+        });
+    }
     static addPesertaToKelompok(userId, role, modul_id, kelompokId, nims) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -895,6 +930,39 @@ class ModulServices {
             }
             catch (error) {
                 console.error("Error in addPesertaToKelompok:", error);
+                throw new Error(error.message);
+            }
+        });
+    }
+    static deletePesertaFromKelompok(userId, role, kelompokAnggotaId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (role === "admin") {
+                    const existingAdmin = yield db1_1.default.admin.findUnique({
+                        where: { id: userId },
+                    });
+                    if (!existingAdmin) {
+                        throw new Error("Admin not found");
+                    }
+                }
+                const kelompokAnggota = yield db1_1.default.kelompokAnggota.findUnique({
+                    where: { id: kelompokAnggotaId },
+                    include: {
+                        kelompok: true,
+                        peserta_modul: { select: { nim: true } },
+                    },
+                });
+                if (!kelompokAnggota) {
+                    throw new Error("Anggota kelompok tidak ditemukan");
+                }
+                if (!kelompokAnggota.kelompok) {
+                    throw new Error("Kelompok terkait tidak ditemukan");
+                }
+                yield db1_1.default.kelompokAnggota.delete({
+                    where: { id: kelompokAnggotaId },
+                });
+            }
+            catch (error) {
                 throw new Error(error.message);
             }
         });

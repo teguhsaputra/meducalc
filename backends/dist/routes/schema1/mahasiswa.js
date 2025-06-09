@@ -48,5 +48,5 @@ useMahasiswaRoute.post("/mahasiswa/add", admin_middleware_1.authenticateUser, ma
 useMahasiswaRoute.put("/mahasiswa/edit/:mahasiswaId", admin_middleware_1.authenticateUser, mahasiswa_1.default.editMahasiswaById);
 //
 useMahasiswaRoute.get("/user/mahasiswa", admin_middleware_1.authenticateUser, mahasiswa_1.default.getModulByMahasiswa);
-useMahasiswaRoute.get("/user/mahasiswa/:nim", admin_middleware_1.authenticateUser, mahasiswa_1.default.getHasilPenilaianByNimMahasiswa);
+useMahasiswaRoute.get("/user/mahasiswa/:namaModul/:nim", admin_middleware_1.authenticateUser, mahasiswa_1.default.getHasilPenilaianByNimMahasiswa);
 exports.default = useMahasiswaRoute;

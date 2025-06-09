@@ -26,8 +26,8 @@ model Admin {
 // Model untuk Sesi Penilaian (mengaktifkan/nonaktifkan penilaian)
 model SesiPenilaian {
   id           Int      @id @default(autoincrement())
-  sesi_mulai   DateTime @db.Date
-  sesi_selesai DateTime @db.Date
+  sesi_mulai   DateTime @db.Timestamptz()
+  sesi_selesai DateTime @db.Timestamptz()
   modul_id     Int?
   status       String   @default("Aktif") @db.VarChar(20) // Aktif/Tidak Aktif
   created_at   DateTime @default(now())
@@ -51,6 +51,8 @@ model Dosen {
   tanggal_lahir DateTime? @db.Date
   username      String?   @unique @db.VarChar(60)
   password      String?   @db.VarChar(255)
+  role          RoleDosen @default(Dosen)
+  status        String    @default("Aktif") @db.VarChar(20)
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
   mda_dosen_id  Int?      @unique
@@ -69,6 +71,7 @@ model Mahasiswa {
   angkatan       Int?
   username       String?        @unique @db.VarChar(60)
   password       String?        @db.VarChar(255)
+  status         String         @default("Aktif") @db.VarChar(20)
   created_at     DateTime       @default(now())
   updated_at     DateTime       @updatedAt
   peserta_moduls PesertaModul[]
@@ -79,6 +82,11 @@ enum JenisKelamin {
   Perempuan
 }
 
+enum RoleDosen {
+  Koordinator
+  Dosen
+}
+
 model Modul {
   id                 Int                @id @default(autoincrement())
   nama_modul         String             @db.VarChar(100)
@@ -86,6 +94,7 @@ model Modul {
   tahun_mulai        Int
   tahun_selesai      Int
   total_siswa        Int                @default(0)
+  status             String             @default("Aktif") @db.VarChar(20)
   created_at         DateTime           @default(now())
   updated_at         DateTime           @updatedAt
   pemicus            Pemicu[]
@@ -109,6 +118,7 @@ model BobotNilaiAkhir {
   nilai_sumatif Decimal  @db.Decimal(5, 2)
   nilai_proses  Decimal  @db.Decimal(5, 2)
   nilai_praktik Decimal  @db.Decimal(5, 2)
+  status        String   @default("Aktif") @db.VarChar(20)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
 
@@ -124,6 +134,7 @@ model BobotNilaiProses {
   temu_pakar     Decimal  @db.Decimal(5, 2)
   peta_konsep    Decimal  @db.Decimal(5, 2)
   proses_praktik Decimal  @db.Decimal(5, 2)
+  status         String   @default("Aktif") @db.VarChar(20)
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
 
@@ -133,6 +144,7 @@ model BobotNilaiProses {
 model Praktikum {
   id                                Int                              @id @default(autoincrement())
   nama                              String                           @db.VarChar(100)
+  status                            String                           @default("Aktif") @db.VarChar(20)
   created_at                        DateTime                         @default(now())
   updated_at                        DateTime                         @updatedAt
   modul_praktikums                  ModulPraktikum[]
@@ -147,6 +159,7 @@ model ModulPraktikum {
   modul        Modul     @relation(fields: [modul_id], references: [id], onDelete: Cascade)
   praktikum_id Int
   praktikum    Praktikum @relation(fields: [praktikum_id], references: [id])
+  status       String    @default("Aktif") @db.VarChar(20)
   created_at   DateTime  @default(now())
   updated_at   DateTime  @updatedAt
 
@@ -156,6 +169,7 @@ model ModulPraktikum {
 model Ilmu {
   id         Int      @id @default(autoincrement())
   nama_ilmu  String   @db.VarChar(100)
+  status     String   @default("Aktif") @db.VarChar(20)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   pemicus    Pemicu[]
@@ -169,6 +183,7 @@ model Pemicu {
   ilmu         Ilmu     @relation(fields: [ilmu_id], references: [id])
   dosen_id     Int?
   nomor_pemicu Int
+  status       String   @default("Aktif") @db.VarChar(20)
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
   Dosen        Dosen?   @relation(fields: [dosenId], references: [id])
@@ -183,6 +198,7 @@ model PenilaianModul {
   total_soal_sum2             Int                        @default(0)
   total_her_sum1              Int                        @default(0)
   total_her_sum2              Int                        @default(0)
+  status                      String                     @default("Aktif") @db.VarChar(20)
   created_at                  DateTime                   @default(now())
   updated_at                  DateTime                   @updatedAt
   penilaian_proses_praktikums PenilaianProsesPraktikum[]
@@ -197,6 +213,7 @@ model PenilaianProsesPraktikum {
   jenis_nilai        String?        @db.VarChar(50) // Contoh: "LP", "KP"
   jenis_nilai_id     Int?
   bobot              Decimal        @db.Decimal(5, 2)
+  status             String         @default("Aktif") @db.VarChar(20)
   created_at         DateTime       @default(now())
   updated_at         DateTime       @updatedAt
 }
@@ -206,6 +223,7 @@ model PesertaModul {
   modul_id                          Int
   modul                             Modul                            @relation(fields: [modul_id], references: [id], onDelete: Cascade)
   nim                               String
+  status                            String                           @default("Aktif") @db.VarChar(20)
   created_at                        DateTime                         @default(now())
   updated_at                        DateTime                         @updatedAt
   kelompok_anggotas                 KelompokAnggota[]
@@ -229,6 +247,7 @@ model Kelompok {
   modul_id      Int
   modul         Modul             @relation(fields: [modul_id], references: [id], onDelete: Cascade)
   nama_kelompok String            @db.VarChar(50)
+  status        String            @default("Aktif") @db.VarChar(20)
   created_at    DateTime          @default(now())
   updated_at    DateTime          @updatedAt
   anggotas      KelompokAnggota[]
@@ -240,6 +259,7 @@ model KelompokAnggota {
   kelompok         Kelompok     @relation(fields: [kelompok_id], references: [id], onDelete: Cascade)
   peserta_modul_id Int
   peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id])
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -252,6 +272,7 @@ model PenilaianBukuCatatan {
   peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
   label            String       @db.VarChar(10) // Misalnya "1", "2", "3", "4"
   nilai            Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -265,6 +286,7 @@ model PenilaianDiskusiKelompok {
   kelompok_id      String       @db.VarChar(10) // ID kelompok dari model Kelompok
   pemicu_id        Int // ID pemicu dari model Pemicu
   nilai            Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -277,6 +299,7 @@ model PenilaianTemuPakar {
   peserta_modul    PesertaModul @relation(fields: [peserta_modul_id], references: [id], onDelete: Cascade)
   label            String       @db.VarChar(10) // Misalnya "1", "2", "3", "4"
   nilai            Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -291,6 +314,7 @@ model PenilaianPetaKonsep {
   ilmu             String       @db.VarChar(100) // Misalnya "Jantung", "Darah"
   dokter           String       @db.VarChar(100)
   nilai            Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -305,6 +329,7 @@ model PenilaianProsesPraktikumDetail {
   praktikum        Praktikum    @relation(fields: [praktikum_id], references: [id], onDelete: Cascade)
   jenis_nilai      String       @db.VarChar(50) // Misalnya "KKD Tutorial"
   nilai            Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -320,6 +345,7 @@ model PenilaianSumatif {
   total_benar_her_sum1 Int?
   total_benar_her_sum2 Int?
   nilai_akhir          Float
+  status               String       @default("Aktif") @db.VarChar(20)
   created_at           DateTime     @default(now())
   updated_at           DateTime     @updatedAt
 
@@ -335,6 +361,7 @@ model PenilaianPraktikum {
   nilai            Float
   nilai_her        Float
   nilai_akhir      Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -351,6 +378,7 @@ model PenilaianProses {
   peta_konsep      Float
   proses_praktikum Float
   nilai_akhir      Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 
@@ -365,6 +393,7 @@ model PenilaianAkhir {
   nilai_proses     Float
   nilai_praktikum  Float
   nilai_akhir      Float
+  status           String       @default("Aktif") @db.VarChar(20)
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
 

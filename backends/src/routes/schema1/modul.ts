@@ -22,6 +22,9 @@ useModulRoute.post("/modul/admin/add-peserta", authenticateUser, ModulController
 
 // kelompok
 useModulRoute.post("/modul/admin/kelompok/add", authenticateUser, ModulControllers.createKelompok);
+useModulRoute.post("/modul/admin/kelompok/delete", authenticateUser, ModulControllers.deleteKelompok);
 useModulRoute.post("/modul/admin/kelompok/add-peserta", authenticateUser, ModulControllers.addPesertaToKelompok);
+useModulRoute.post("/modul/admin/kelompok/delete-peserta", authenticateUser, ModulControllers.deletePesertaFromKelompok);
+
 
 export default useModulRoute;

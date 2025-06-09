@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "sonner";
+import { Toaster as Sonner } from "sonner";
+import { Toaster as Toast } from "@/components/ui/toaster";
 import Providers from "@/components/layout/providers";
 import NextTopLoader from "nextjs-toploader";
 import { Suspense } from "react";
@@ -27,7 +28,8 @@ export default function RootLayout({
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           </main>
         </Providers>
-        <Toaster />
+        <Sonner />
+        <Toast />
       </body>
     </html>
   );

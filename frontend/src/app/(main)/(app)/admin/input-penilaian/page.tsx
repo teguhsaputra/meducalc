@@ -46,7 +46,7 @@ const Page = () => {
 
       <div>
         <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-full">
             <div className="flex flex-col w-full">
               <span className="text-base font-medium mb-1">Nama modul</span>
               <SearchModul value={searchModul} onChange={setSearchModul} />

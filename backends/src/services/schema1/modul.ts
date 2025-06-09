@@ -940,6 +940,48 @@ class ModulServices {
     }
   }
 
+  static async deleteKelompok(
+    userId: number,
+    role: string,
+    modul_id: number,
+    kelompokId: number
+  ) {
+    try {
+      if (role === "admin") {
+        const existingAdmin = await prisma.admin.findUnique({
+          where: { id: userId },
+        });
+
+        if (!existingAdmin) {
+          throw new Error("Admin not found");
+        }
+      }
+
+      const modul = await prisma.modul.findUnique({
+        where: { id: modul_id },
+      });
+      if (!modul) {
+        throw new Error("Modul tidak ditemukan");
+      }
+
+      const kelompok = await prisma.kelompok.findFirst({
+        where: {
+          id: kelompokId,
+          modul_id,
+        },
+      });
+      if (!kelompok) {
+        throw new Error("Kelompok tidak ditemukan");
+      }
+
+      await prisma.kelompok.delete({
+        where: { id: kelompok.id },
+      });
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
   static async addPesertaToKelompok(
     userId: number,
     role: string,
@@ -1074,6 +1116,47 @@ class ModulServices {
       return updatedAnggota;
     } catch (error) {
       console.error("Error in addPesertaToKelompok:", error);
+      throw new Error((error as Error).message);
+    }
+  }
+
+  static async deletePesertaFromKelompok(
+    userId: number,
+    role: string,
+    kelompokAnggotaId: number
+  ) {
+    try {
+      if (role === "admin") {
+        const existingAdmin = await prisma.admin.findUnique({
+          where: { id: userId },
+        });
+
+        if (!existingAdmin) {
+          throw new Error("Admin not found");
+        }
+      }
+
+      const kelompokAnggota = await prisma.kelompokAnggota.findUnique({
+        where: { id: kelompokAnggotaId },
+        include: {
+          kelompok: true,
+          peserta_modul: { select: { nim: true } },
+        },
+      });
+
+      if (!kelompokAnggota) {
+        throw new Error("Anggota kelompok tidak ditemukan");
+      }
+
+      if (!kelompokAnggota.kelompok) {
+        throw new Error("Kelompok terkait tidak ditemukan");
+      }
+
+      await prisma.kelompokAnggota.delete({
+        where: { id: kelompokAnggotaId },
+      });
+      
+    } catch (error) {
       throw new Error((error as Error).message);
     }
   }

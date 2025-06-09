@@ -163,6 +163,7 @@ class KelompokServices {
                         },
                     },
                     select: {
+                        id: true,
                         kelompok_id: true,
                         peserta_modul_id: true,
                         peserta_modul: {
@@ -262,7 +263,7 @@ class KelompokServices {
                             console.warn(`Mahasiswa dengan nim ${nim} tidak ditemukan`);
                             return { id: 0, nama_siswa: "Unknown", nim };
                         }
-                        return mahasiswa;
+                        return Object.assign(Object.assign({}, mahasiswa), { kelompokAnggotaId: anggota.id });
                     });
                     return {
                         id: kelompok.id,

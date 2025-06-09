@@ -155,11 +155,23 @@ export namespace $Enums {
 
 export type JenisKelamin = (typeof JenisKelamin)[keyof typeof JenisKelamin]
 
+
+export const RoleDosen: {
+  Koordinator: 'Koordinator',
+  Dosen: 'Dosen'
+};
+
+export type RoleDosen = (typeof RoleDosen)[keyof typeof RoleDosen]
+
 }
 
 export type JenisKelamin = $Enums.JenisKelamin
 
 export const JenisKelamin: typeof $Enums.JenisKelamin
+
+export type RoleDosen = $Enums.RoleDosen
+
+export const RoleDosen: typeof $Enums.RoleDosen
 
 /**
  * ##  Prisma Client ʲˢ
@@ -603,8 +615,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.8.2
-   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+   * Prisma Client JS version: 6.9.0
+   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
    */
   export type PrismaVersion = {
     client: string
@@ -6894,6 +6906,8 @@ export namespace Prisma {
     tanggal_lahir: Date | null
     username: string | null
     password: string | null
+    role: $Enums.RoleDosen | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     mda_dosen_id: number | null
@@ -6905,6 +6919,8 @@ export namespace Prisma {
     tanggal_lahir: Date | null
     username: string | null
     password: string | null
+    role: $Enums.RoleDosen | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     mda_dosen_id: number | null
@@ -6916,6 +6932,8 @@ export namespace Prisma {
     tanggal_lahir: number
     username: number
     password: number
+    role: number
+    status: number
     created_at: number
     updated_at: number
     mda_dosen_id: number
@@ -6939,6 +6957,8 @@ export namespace Prisma {
     tanggal_lahir?: true
     username?: true
     password?: true
+    role?: true
+    status?: true
     created_at?: true
     updated_at?: true
     mda_dosen_id?: true
@@ -6950,6 +6970,8 @@ export namespace Prisma {
     tanggal_lahir?: true
     username?: true
     password?: true
+    role?: true
+    status?: true
     created_at?: true
     updated_at?: true
     mda_dosen_id?: true
@@ -6961,6 +6983,8 @@ export namespace Prisma {
     tanggal_lahir?: true
     username?: true
     password?: true
+    role?: true
+    status?: true
     created_at?: true
     updated_at?: true
     mda_dosen_id?: true
@@ -7059,6 +7083,8 @@ export namespace Prisma {
     tanggal_lahir: Date | null
     username: string | null
     password: string | null
+    role: $Enums.RoleDosen
+    status: string
     created_at: Date
     updated_at: Date
     mda_dosen_id: number | null
@@ -7089,6 +7115,8 @@ export namespace Prisma {
     tanggal_lahir?: boolean
     username?: boolean
     password?: boolean
+    role?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mda_dosen_id?: boolean
@@ -7103,6 +7131,8 @@ export namespace Prisma {
     tanggal_lahir?: boolean
     username?: boolean
     password?: boolean
+    role?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mda_dosen_id?: boolean
@@ -7114,6 +7144,8 @@ export namespace Prisma {
     tanggal_lahir?: boolean
     username?: boolean
     password?: boolean
+    role?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mda_dosen_id?: boolean
@@ -7125,12 +7157,14 @@ export namespace Prisma {
     tanggal_lahir?: boolean
     username?: boolean
     password?: boolean
+    role?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mda_dosen_id?: boolean
   }
 
-  export type DosenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_depan" | "tanggal_lahir" | "username" | "password" | "created_at" | "updated_at" | "mda_dosen_id", ExtArgs["result"]["dosen"]>
+  export type DosenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_depan" | "tanggal_lahir" | "username" | "password" | "role" | "status" | "created_at" | "updated_at" | "mda_dosen_id", ExtArgs["result"]["dosen"]>
   export type DosenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     moduls?: boolean | Dosen$modulsArgs<ExtArgs>
     pemicus?: boolean | Dosen$pemicusArgs<ExtArgs>
@@ -7151,6 +7185,8 @@ export namespace Prisma {
       tanggal_lahir: Date | null
       username: string | null
       password: string | null
+      role: $Enums.RoleDosen
+      status: string
       created_at: Date
       updated_at: Date
       mda_dosen_id: number | null
@@ -7584,6 +7620,8 @@ export namespace Prisma {
     readonly tanggal_lahir: FieldRef<"Dosen", 'DateTime'>
     readonly username: FieldRef<"Dosen", 'String'>
     readonly password: FieldRef<"Dosen", 'String'>
+    readonly role: FieldRef<"Dosen", 'RoleDosen'>
+    readonly status: FieldRef<"Dosen", 'String'>
     readonly created_at: FieldRef<"Dosen", 'DateTime'>
     readonly updated_at: FieldRef<"Dosen", 'DateTime'>
     readonly mda_dosen_id: FieldRef<"Dosen", 'Int'>
@@ -8073,6 +8111,7 @@ export namespace Prisma {
     angkatan: number | null
     username: string | null
     password: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -8087,6 +8126,7 @@ export namespace Prisma {
     angkatan: number | null
     username: string | null
     password: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -8101,6 +8141,7 @@ export namespace Prisma {
     angkatan: number
     username: number
     password: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -8127,6 +8168,7 @@ export namespace Prisma {
     angkatan?: true
     username?: true
     password?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -8141,6 +8183,7 @@ export namespace Prisma {
     angkatan?: true
     username?: true
     password?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -8155,6 +8198,7 @@ export namespace Prisma {
     angkatan?: true
     username?: true
     password?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -8256,6 +8300,7 @@ export namespace Prisma {
     angkatan: number | null
     username: string | null
     password: string | null
+    status: string
     created_at: Date
     updated_at: Date
     _count: MahasiswaCountAggregateOutputType | null
@@ -8289,6 +8334,7 @@ export namespace Prisma {
     angkatan?: boolean
     username?: boolean
     password?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_moduls?: boolean | Mahasiswa$peserta_modulsArgs<ExtArgs>
@@ -8305,6 +8351,7 @@ export namespace Prisma {
     angkatan?: boolean
     username?: boolean
     password?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["mahasiswa"]>
@@ -8319,6 +8366,7 @@ export namespace Prisma {
     angkatan?: boolean
     username?: boolean
     password?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["mahasiswa"]>
@@ -8333,11 +8381,12 @@ export namespace Prisma {
     angkatan?: boolean
     username?: boolean
     password?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type MahasiswaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_depan" | "nama_belakang" | "tanggal_lahir" | "jenis_kelamin" | "nim" | "angkatan" | "username" | "password" | "created_at" | "updated_at", ExtArgs["result"]["mahasiswa"]>
+  export type MahasiswaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_depan" | "nama_belakang" | "tanggal_lahir" | "jenis_kelamin" | "nim" | "angkatan" | "username" | "password" | "status" | "created_at" | "updated_at", ExtArgs["result"]["mahasiswa"]>
   export type MahasiswaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_moduls?: boolean | Mahasiswa$peserta_modulsArgs<ExtArgs>
     _count?: boolean | MahasiswaCountOutputTypeDefaultArgs<ExtArgs>
@@ -8360,6 +8409,7 @@ export namespace Prisma {
       angkatan: number | null
       username: string | null
       password: string | null
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["mahasiswa"]>
@@ -8795,6 +8845,7 @@ export namespace Prisma {
     readonly angkatan: FieldRef<"Mahasiswa", 'Int'>
     readonly username: FieldRef<"Mahasiswa", 'String'>
     readonly password: FieldRef<"Mahasiswa", 'String'>
+    readonly status: FieldRef<"Mahasiswa", 'String'>
     readonly created_at: FieldRef<"Mahasiswa", 'DateTime'>
     readonly updated_at: FieldRef<"Mahasiswa", 'DateTime'>
   }
@@ -9264,6 +9315,7 @@ export namespace Prisma {
     tahun_mulai: number | null
     tahun_selesai: number | null
     total_siswa: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     dosenId: number | null
@@ -9277,6 +9329,7 @@ export namespace Prisma {
     tahun_mulai: number | null
     tahun_selesai: number | null
     total_siswa: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     dosenId: number | null
@@ -9290,6 +9343,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa: number
+    status: number
     created_at: number
     updated_at: number
     dosenId: number
@@ -9323,6 +9377,7 @@ export namespace Prisma {
     tahun_mulai?: true
     tahun_selesai?: true
     total_siswa?: true
+    status?: true
     created_at?: true
     updated_at?: true
     dosenId?: true
@@ -9336,6 +9391,7 @@ export namespace Prisma {
     tahun_mulai?: true
     tahun_selesai?: true
     total_siswa?: true
+    status?: true
     created_at?: true
     updated_at?: true
     dosenId?: true
@@ -9349,6 +9405,7 @@ export namespace Prisma {
     tahun_mulai?: true
     tahun_selesai?: true
     total_siswa?: true
+    status?: true
     created_at?: true
     updated_at?: true
     dosenId?: true
@@ -9449,6 +9506,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa: number
+    status: string
     created_at: Date
     updated_at: Date
     dosenId: number | null
@@ -9481,6 +9539,7 @@ export namespace Prisma {
     tahun_mulai?: boolean
     tahun_selesai?: boolean
     total_siswa?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
@@ -9505,6 +9564,7 @@ export namespace Prisma {
     tahun_mulai?: boolean
     tahun_selesai?: boolean
     total_siswa?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
@@ -9520,6 +9580,7 @@ export namespace Prisma {
     tahun_mulai?: boolean
     tahun_selesai?: boolean
     total_siswa?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
@@ -9535,13 +9596,14 @@ export namespace Prisma {
     tahun_mulai?: boolean
     tahun_selesai?: boolean
     total_siswa?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
     tahunAjaranId?: boolean
   }
 
-  export type ModulOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_modul" | "penanggung_jawab" | "tahun_mulai" | "tahun_selesai" | "total_siswa" | "created_at" | "updated_at" | "dosenId" | "tahunAjaranId", ExtArgs["result"]["modul"]>
+  export type ModulOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_modul" | "penanggung_jawab" | "tahun_mulai" | "tahun_selesai" | "total_siswa" | "status" | "created_at" | "updated_at" | "dosenId" | "tahunAjaranId", ExtArgs["result"]["modul"]>
   export type ModulInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pemicus?: boolean | Modul$pemicusArgs<ExtArgs>
     penilaian_moduls?: boolean | Modul$penilaian_modulsArgs<ExtArgs>
@@ -9585,6 +9647,7 @@ export namespace Prisma {
       tahun_mulai: number
       tahun_selesai: number
       total_siswa: number
+      status: string
       created_at: Date
       updated_at: Date
       dosenId: number | null
@@ -10028,6 +10091,7 @@ export namespace Prisma {
     readonly tahun_mulai: FieldRef<"Modul", 'Int'>
     readonly tahun_selesai: FieldRef<"Modul", 'Int'>
     readonly total_siswa: FieldRef<"Modul", 'Int'>
+    readonly status: FieldRef<"Modul", 'String'>
     readonly created_at: FieldRef<"Modul", 'DateTime'>
     readonly updated_at: FieldRef<"Modul", 'DateTime'>
     readonly dosenId: FieldRef<"Modul", 'Int'>
@@ -10710,6 +10774,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | null
     nilai_proses: Decimal | null
     nilai_praktik: Decimal | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -10720,6 +10785,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | null
     nilai_proses: Decimal | null
     nilai_praktik: Decimal | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -10730,6 +10796,7 @@ export namespace Prisma {
     nilai_sumatif: number
     nilai_proses: number
     nilai_praktik: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -10758,6 +10825,7 @@ export namespace Prisma {
     nilai_sumatif?: true
     nilai_proses?: true
     nilai_praktik?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -10768,6 +10836,7 @@ export namespace Prisma {
     nilai_sumatif?: true
     nilai_proses?: true
     nilai_praktik?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -10778,6 +10847,7 @@ export namespace Prisma {
     nilai_sumatif?: true
     nilai_proses?: true
     nilai_praktik?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -10875,6 +10945,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal
     nilai_proses: Decimal
     nilai_praktik: Decimal
+    status: string
     created_at: Date
     updated_at: Date
     _count: BobotNilaiAkhirCountAggregateOutputType | null
@@ -10904,6 +10975,7 @@ export namespace Prisma {
     nilai_sumatif?: boolean
     nilai_proses?: boolean
     nilai_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -10915,6 +10987,7 @@ export namespace Prisma {
     nilai_sumatif?: boolean
     nilai_proses?: boolean
     nilai_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -10926,6 +10999,7 @@ export namespace Prisma {
     nilai_sumatif?: boolean
     nilai_proses?: boolean
     nilai_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -10937,11 +11011,12 @@ export namespace Prisma {
     nilai_sumatif?: boolean
     nilai_proses?: boolean
     nilai_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type BobotNilaiAkhirOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "nilai_sumatif" | "nilai_proses" | "nilai_praktik" | "created_at" | "updated_at", ExtArgs["result"]["bobotNilaiAkhir"]>
+  export type BobotNilaiAkhirOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "nilai_sumatif" | "nilai_proses" | "nilai_praktik" | "status" | "created_at" | "updated_at", ExtArgs["result"]["bobotNilaiAkhir"]>
   export type BobotNilaiAkhirInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
   }
@@ -10963,6 +11038,7 @@ export namespace Prisma {
       nilai_sumatif: Prisma.Decimal
       nilai_proses: Prisma.Decimal
       nilai_praktik: Prisma.Decimal
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["bobotNilaiAkhir"]>
@@ -11394,6 +11470,7 @@ export namespace Prisma {
     readonly nilai_sumatif: FieldRef<"BobotNilaiAkhir", 'Decimal'>
     readonly nilai_proses: FieldRef<"BobotNilaiAkhir", 'Decimal'>
     readonly nilai_praktik: FieldRef<"BobotNilaiAkhir", 'Decimal'>
+    readonly status: FieldRef<"BobotNilaiAkhir", 'String'>
     readonly created_at: FieldRef<"BobotNilaiAkhir", 'DateTime'>
     readonly updated_at: FieldRef<"BobotNilaiAkhir", 'DateTime'>
   }
@@ -11850,6 +11927,7 @@ export namespace Prisma {
     temu_pakar: Decimal | null
     peta_konsep: Decimal | null
     proses_praktik: Decimal | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -11862,6 +11940,7 @@ export namespace Prisma {
     temu_pakar: Decimal | null
     peta_konsep: Decimal | null
     proses_praktik: Decimal | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -11874,6 +11953,7 @@ export namespace Prisma {
     temu_pakar: number
     peta_konsep: number
     proses_praktik: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -11908,6 +11988,7 @@ export namespace Prisma {
     temu_pakar?: true
     peta_konsep?: true
     proses_praktik?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -11920,6 +12001,7 @@ export namespace Prisma {
     temu_pakar?: true
     peta_konsep?: true
     proses_praktik?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -11932,6 +12014,7 @@ export namespace Prisma {
     temu_pakar?: true
     peta_konsep?: true
     proses_praktik?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -12031,6 +12114,7 @@ export namespace Prisma {
     temu_pakar: Decimal
     peta_konsep: Decimal
     proses_praktik: Decimal
+    status: string
     created_at: Date
     updated_at: Date
     _count: BobotNilaiProsesCountAggregateOutputType | null
@@ -12062,6 +12146,7 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -12075,6 +12160,7 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -12088,6 +12174,7 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -12101,11 +12188,12 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type BobotNilaiProsesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "diskusi" | "buku_catatan" | "temu_pakar" | "peta_konsep" | "proses_praktik" | "created_at" | "updated_at", ExtArgs["result"]["bobotNilaiProses"]>
+  export type BobotNilaiProsesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "diskusi" | "buku_catatan" | "temu_pakar" | "peta_konsep" | "proses_praktik" | "status" | "created_at" | "updated_at", ExtArgs["result"]["bobotNilaiProses"]>
   export type BobotNilaiProsesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
   }
@@ -12129,6 +12217,7 @@ export namespace Prisma {
       temu_pakar: Prisma.Decimal
       peta_konsep: Prisma.Decimal
       proses_praktik: Prisma.Decimal
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["bobotNilaiProses"]>
@@ -12562,6 +12651,7 @@ export namespace Prisma {
     readonly temu_pakar: FieldRef<"BobotNilaiProses", 'Decimal'>
     readonly peta_konsep: FieldRef<"BobotNilaiProses", 'Decimal'>
     readonly proses_praktik: FieldRef<"BobotNilaiProses", 'Decimal'>
+    readonly status: FieldRef<"BobotNilaiProses", 'String'>
     readonly created_at: FieldRef<"BobotNilaiProses", 'DateTime'>
     readonly updated_at: FieldRef<"BobotNilaiProses", 'DateTime'>
   }
@@ -13001,6 +13091,7 @@ export namespace Prisma {
   export type PraktikumMinAggregateOutputType = {
     id: number | null
     nama: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -13008,6 +13099,7 @@ export namespace Prisma {
   export type PraktikumMaxAggregateOutputType = {
     id: number | null
     nama: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -13015,6 +13107,7 @@ export namespace Prisma {
   export type PraktikumCountAggregateOutputType = {
     id: number
     nama: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -13032,6 +13125,7 @@ export namespace Prisma {
   export type PraktikumMinAggregateInputType = {
     id?: true
     nama?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -13039,6 +13133,7 @@ export namespace Prisma {
   export type PraktikumMaxAggregateInputType = {
     id?: true
     nama?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -13046,6 +13141,7 @@ export namespace Prisma {
   export type PraktikumCountAggregateInputType = {
     id?: true
     nama?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -13140,6 +13236,7 @@ export namespace Prisma {
   export type PraktikumGroupByOutputType = {
     id: number
     nama: string
+    status: string
     created_at: Date
     updated_at: Date
     _count: PraktikumCountAggregateOutputType | null
@@ -13166,6 +13263,7 @@ export namespace Prisma {
   export type PraktikumSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul_praktikums?: boolean | Praktikum$modul_praktikumsArgs<ExtArgs>
@@ -13178,6 +13276,7 @@ export namespace Prisma {
   export type PraktikumSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["praktikum"]>
@@ -13185,6 +13284,7 @@ export namespace Prisma {
   export type PraktikumSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["praktikum"]>
@@ -13192,11 +13292,12 @@ export namespace Prisma {
   export type PraktikumSelectScalar = {
     id?: boolean
     nama?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "created_at" | "updated_at", ExtArgs["result"]["praktikum"]>
+  export type PraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "status" | "created_at" | "updated_at", ExtArgs["result"]["praktikum"]>
   export type PraktikumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul_praktikums?: boolean | Praktikum$modul_praktikumsArgs<ExtArgs>
     penilaian_proses_praktikum?: boolean | Praktikum$penilaian_proses_praktikumArgs<ExtArgs>
@@ -13218,6 +13319,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nama: string
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["praktikum"]>
@@ -13649,6 +13751,7 @@ export namespace Prisma {
   interface PraktikumFieldRefs {
     readonly id: FieldRef<"Praktikum", 'Int'>
     readonly nama: FieldRef<"Praktikum", 'String'>
+    readonly status: FieldRef<"Praktikum", 'String'>
     readonly created_at: FieldRef<"Praktikum", 'DateTime'>
     readonly updated_at: FieldRef<"Praktikum", 'DateTime'>
   }
@@ -14181,6 +14284,7 @@ export namespace Prisma {
     id: number | null
     modul_id: number | null
     praktikum_id: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -14189,6 +14293,7 @@ export namespace Prisma {
     id: number | null
     modul_id: number | null
     praktikum_id: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -14197,6 +14302,7 @@ export namespace Prisma {
     id: number
     modul_id: number
     praktikum_id: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -14219,6 +14325,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     praktikum_id?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -14227,6 +14334,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     praktikum_id?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -14235,6 +14343,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     praktikum_id?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -14330,6 +14439,7 @@ export namespace Prisma {
     id: number
     modul_id: number
     praktikum_id: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: ModulPraktikumCountAggregateOutputType | null
@@ -14357,6 +14467,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     praktikum_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -14367,6 +14478,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     praktikum_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -14377,6 +14489,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     praktikum_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -14387,11 +14500,12 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     praktikum_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type ModulPraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "praktikum_id" | "created_at" | "updated_at", ExtArgs["result"]["modulPraktikum"]>
+  export type ModulPraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "praktikum_id" | "status" | "created_at" | "updated_at", ExtArgs["result"]["modulPraktikum"]>
   export type ModulPraktikumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
     praktikum?: boolean | PraktikumDefaultArgs<ExtArgs>
@@ -14415,6 +14529,7 @@ export namespace Prisma {
       id: number
       modul_id: number
       praktikum_id: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["modulPraktikum"]>
@@ -14845,6 +14960,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ModulPraktikum", 'Int'>
     readonly modul_id: FieldRef<"ModulPraktikum", 'Int'>
     readonly praktikum_id: FieldRef<"ModulPraktikum", 'Int'>
+    readonly status: FieldRef<"ModulPraktikum", 'String'>
     readonly created_at: FieldRef<"ModulPraktikum", 'DateTime'>
     readonly updated_at: FieldRef<"ModulPraktikum", 'DateTime'>
   }
@@ -15284,6 +15400,7 @@ export namespace Prisma {
   export type IlmuMinAggregateOutputType = {
     id: number | null
     nama_ilmu: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -15291,6 +15408,7 @@ export namespace Prisma {
   export type IlmuMaxAggregateOutputType = {
     id: number | null
     nama_ilmu: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -15298,6 +15416,7 @@ export namespace Prisma {
   export type IlmuCountAggregateOutputType = {
     id: number
     nama_ilmu: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -15315,6 +15434,7 @@ export namespace Prisma {
   export type IlmuMinAggregateInputType = {
     id?: true
     nama_ilmu?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -15322,6 +15442,7 @@ export namespace Prisma {
   export type IlmuMaxAggregateInputType = {
     id?: true
     nama_ilmu?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -15329,6 +15450,7 @@ export namespace Prisma {
   export type IlmuCountAggregateInputType = {
     id?: true
     nama_ilmu?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -15423,6 +15545,7 @@ export namespace Prisma {
   export type IlmuGroupByOutputType = {
     id: number
     nama_ilmu: string
+    status: string
     created_at: Date
     updated_at: Date
     _count: IlmuCountAggregateOutputType | null
@@ -15449,6 +15572,7 @@ export namespace Prisma {
   export type IlmuSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama_ilmu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     pemicus?: boolean | Ilmu$pemicusArgs<ExtArgs>
@@ -15458,6 +15582,7 @@ export namespace Prisma {
   export type IlmuSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama_ilmu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["ilmu"]>
@@ -15465,6 +15590,7 @@ export namespace Prisma {
   export type IlmuSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama_ilmu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["ilmu"]>
@@ -15472,11 +15598,12 @@ export namespace Prisma {
   export type IlmuSelectScalar = {
     id?: boolean
     nama_ilmu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type IlmuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_ilmu" | "created_at" | "updated_at", ExtArgs["result"]["ilmu"]>
+  export type IlmuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_ilmu" | "status" | "created_at" | "updated_at", ExtArgs["result"]["ilmu"]>
   export type IlmuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pemicus?: boolean | Ilmu$pemicusArgs<ExtArgs>
     _count?: boolean | IlmuCountOutputTypeDefaultArgs<ExtArgs>
@@ -15492,6 +15619,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nama_ilmu: string
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["ilmu"]>
@@ -15920,6 +16048,7 @@ export namespace Prisma {
   interface IlmuFieldRefs {
     readonly id: FieldRef<"Ilmu", 'Int'>
     readonly nama_ilmu: FieldRef<"Ilmu", 'String'>
+    readonly status: FieldRef<"Ilmu", 'String'>
     readonly created_at: FieldRef<"Ilmu", 'DateTime'>
     readonly updated_at: FieldRef<"Ilmu", 'DateTime'>
   }
@@ -16388,6 +16517,7 @@ export namespace Prisma {
     ilmu_id: number | null
     dosen_id: number | null
     nomor_pemicu: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     dosenId: number | null
@@ -16399,6 +16529,7 @@ export namespace Prisma {
     ilmu_id: number | null
     dosen_id: number | null
     nomor_pemicu: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     dosenId: number | null
@@ -16410,6 +16541,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id: number
     nomor_pemicu: number
+    status: number
     created_at: number
     updated_at: number
     dosenId: number
@@ -16441,6 +16573,7 @@ export namespace Prisma {
     ilmu_id?: true
     dosen_id?: true
     nomor_pemicu?: true
+    status?: true
     created_at?: true
     updated_at?: true
     dosenId?: true
@@ -16452,6 +16585,7 @@ export namespace Prisma {
     ilmu_id?: true
     dosen_id?: true
     nomor_pemicu?: true
+    status?: true
     created_at?: true
     updated_at?: true
     dosenId?: true
@@ -16463,6 +16597,7 @@ export namespace Prisma {
     ilmu_id?: true
     dosen_id?: true
     nomor_pemicu?: true
+    status?: true
     created_at?: true
     updated_at?: true
     dosenId?: true
@@ -16561,6 +16696,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id: number | null
     nomor_pemicu: number
+    status: string
     created_at: Date
     updated_at: Date
     dosenId: number | null
@@ -16591,6 +16727,7 @@ export namespace Prisma {
     ilmu_id?: boolean
     dosen_id?: boolean
     nomor_pemicu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
@@ -16605,6 +16742,7 @@ export namespace Prisma {
     ilmu_id?: boolean
     dosen_id?: boolean
     nomor_pemicu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
@@ -16619,6 +16757,7 @@ export namespace Prisma {
     ilmu_id?: boolean
     dosen_id?: boolean
     nomor_pemicu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
@@ -16633,12 +16772,13 @@ export namespace Prisma {
     ilmu_id?: boolean
     dosen_id?: boolean
     nomor_pemicu?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     dosenId?: boolean
   }
 
-  export type PemicuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "ilmu_id" | "dosen_id" | "nomor_pemicu" | "created_at" | "updated_at" | "dosenId", ExtArgs["result"]["pemicu"]>
+  export type PemicuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "ilmu_id" | "dosen_id" | "nomor_pemicu" | "status" | "created_at" | "updated_at" | "dosenId", ExtArgs["result"]["pemicu"]>
   export type PemicuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
     ilmu?: boolean | IlmuDefaultArgs<ExtArgs>
@@ -16668,6 +16808,7 @@ export namespace Prisma {
       ilmu_id: number
       dosen_id: number | null
       nomor_pemicu: number
+      status: string
       created_at: Date
       updated_at: Date
       dosenId: number | null
@@ -17102,6 +17243,7 @@ export namespace Prisma {
     readonly ilmu_id: FieldRef<"Pemicu", 'Int'>
     readonly dosen_id: FieldRef<"Pemicu", 'Int'>
     readonly nomor_pemicu: FieldRef<"Pemicu", 'Int'>
+    readonly status: FieldRef<"Pemicu", 'String'>
     readonly created_at: FieldRef<"Pemicu", 'DateTime'>
     readonly updated_at: FieldRef<"Pemicu", 'DateTime'>
     readonly dosenId: FieldRef<"Pemicu", 'Int'>
@@ -17575,6 +17717,7 @@ export namespace Prisma {
     total_soal_sum2: number | null
     total_her_sum1: number | null
     total_her_sum2: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -17586,6 +17729,7 @@ export namespace Prisma {
     total_soal_sum2: number | null
     total_her_sum1: number | null
     total_her_sum2: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -17597,6 +17741,7 @@ export namespace Prisma {
     total_soal_sum2: number
     total_her_sum1: number
     total_her_sum2: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -17628,6 +17773,7 @@ export namespace Prisma {
     total_soal_sum2?: true
     total_her_sum1?: true
     total_her_sum2?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -17639,6 +17785,7 @@ export namespace Prisma {
     total_soal_sum2?: true
     total_her_sum1?: true
     total_her_sum2?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -17650,6 +17797,7 @@ export namespace Prisma {
     total_soal_sum2?: true
     total_her_sum1?: true
     total_her_sum2?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -17748,6 +17896,7 @@ export namespace Prisma {
     total_soal_sum2: number
     total_her_sum1: number
     total_her_sum2: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianModulCountAggregateOutputType | null
@@ -17778,6 +17927,7 @@ export namespace Prisma {
     total_soal_sum2?: boolean
     total_her_sum1?: boolean
     total_her_sum2?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -17792,6 +17942,7 @@ export namespace Prisma {
     total_soal_sum2?: boolean
     total_her_sum1?: boolean
     total_her_sum2?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -17804,6 +17955,7 @@ export namespace Prisma {
     total_soal_sum2?: boolean
     total_her_sum1?: boolean
     total_her_sum2?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -17816,11 +17968,12 @@ export namespace Prisma {
     total_soal_sum2?: boolean
     total_her_sum1?: boolean
     total_her_sum2?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianModulOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "total_soal_sum1" | "total_soal_sum2" | "total_her_sum1" | "total_her_sum2" | "created_at" | "updated_at", ExtArgs["result"]["penilaianModul"]>
+  export type PenilaianModulOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "total_soal_sum1" | "total_soal_sum2" | "total_her_sum1" | "total_her_sum2" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianModul"]>
   export type PenilaianModulInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
     penilaian_proses_praktikums?: boolean | PenilaianModul$penilaian_proses_praktikumsArgs<ExtArgs>
@@ -17846,6 +17999,7 @@ export namespace Prisma {
       total_soal_sum2: number
       total_her_sum1: number
       total_her_sum2: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianModul"]>
@@ -18279,6 +18433,7 @@ export namespace Prisma {
     readonly total_soal_sum2: FieldRef<"PenilaianModul", 'Int'>
     readonly total_her_sum1: FieldRef<"PenilaianModul", 'Int'>
     readonly total_her_sum2: FieldRef<"PenilaianModul", 'Int'>
+    readonly status: FieldRef<"PenilaianModul", 'String'>
     readonly created_at: FieldRef<"PenilaianModul", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianModul", 'DateTime'>
   }
@@ -18754,6 +18909,7 @@ export namespace Prisma {
     jenis_nilai: string | null
     jenis_nilai_id: number | null
     bobot: Decimal | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -18765,6 +18921,7 @@ export namespace Prisma {
     jenis_nilai: string | null
     jenis_nilai_id: number | null
     bobot: Decimal | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -18776,6 +18933,7 @@ export namespace Prisma {
     jenis_nilai: number
     jenis_nilai_id: number
     bobot: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -18805,6 +18963,7 @@ export namespace Prisma {
     jenis_nilai?: true
     jenis_nilai_id?: true
     bobot?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -18816,6 +18975,7 @@ export namespace Prisma {
     jenis_nilai?: true
     jenis_nilai_id?: true
     bobot?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -18827,6 +18987,7 @@ export namespace Prisma {
     jenis_nilai?: true
     jenis_nilai_id?: true
     bobot?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -18925,6 +19086,7 @@ export namespace Prisma {
     jenis_nilai: string | null
     jenis_nilai_id: number | null
     bobot: Decimal
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianProsesPraktikumCountAggregateOutputType | null
@@ -18955,6 +19117,7 @@ export namespace Prisma {
     jenis_nilai?: boolean
     jenis_nilai_id?: boolean
     bobot?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     penilaian_modul?: boolean | PenilaianModulDefaultArgs<ExtArgs>
@@ -18968,6 +19131,7 @@ export namespace Prisma {
     jenis_nilai?: boolean
     jenis_nilai_id?: boolean
     bobot?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     penilaian_modul?: boolean | PenilaianModulDefaultArgs<ExtArgs>
@@ -18981,6 +19145,7 @@ export namespace Prisma {
     jenis_nilai?: boolean
     jenis_nilai_id?: boolean
     bobot?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     penilaian_modul?: boolean | PenilaianModulDefaultArgs<ExtArgs>
@@ -18994,11 +19159,12 @@ export namespace Prisma {
     jenis_nilai?: boolean
     jenis_nilai_id?: boolean
     bobot?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianProsesPraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "penilaian_modul_id" | "praktikum_id" | "jenis_nilai" | "jenis_nilai_id" | "bobot" | "created_at" | "updated_at", ExtArgs["result"]["penilaianProsesPraktikum"]>
+  export type PenilaianProsesPraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "penilaian_modul_id" | "praktikum_id" | "jenis_nilai" | "jenis_nilai_id" | "bobot" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianProsesPraktikum"]>
   export type PenilaianProsesPraktikumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     penilaian_modul?: boolean | PenilaianModulDefaultArgs<ExtArgs>
     praktikum?: boolean | PenilaianProsesPraktikum$praktikumArgs<ExtArgs>
@@ -19025,6 +19191,7 @@ export namespace Prisma {
       jenis_nilai: string | null
       jenis_nilai_id: number | null
       bobot: Prisma.Decimal
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianProsesPraktikum"]>
@@ -19458,6 +19625,7 @@ export namespace Prisma {
     readonly jenis_nilai: FieldRef<"PenilaianProsesPraktikum", 'String'>
     readonly jenis_nilai_id: FieldRef<"PenilaianProsesPraktikum", 'Int'>
     readonly bobot: FieldRef<"PenilaianProsesPraktikum", 'Decimal'>
+    readonly status: FieldRef<"PenilaianProsesPraktikum", 'String'>
     readonly created_at: FieldRef<"PenilaianProsesPraktikum", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianProsesPraktikum", 'DateTime'>
   }
@@ -19921,6 +20089,7 @@ export namespace Prisma {
     id: number | null
     modul_id: number | null
     nim: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     mahasiswaId: number | null
@@ -19930,6 +20099,7 @@ export namespace Prisma {
     id: number | null
     modul_id: number | null
     nim: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
     mahasiswaId: number | null
@@ -19939,6 +20109,7 @@ export namespace Prisma {
     id: number
     modul_id: number
     nim: number
+    status: number
     created_at: number
     updated_at: number
     mahasiswaId: number
@@ -19962,6 +20133,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     nim?: true
+    status?: true
     created_at?: true
     updated_at?: true
     mahasiswaId?: true
@@ -19971,6 +20143,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     nim?: true
+    status?: true
     created_at?: true
     updated_at?: true
     mahasiswaId?: true
@@ -19980,6 +20153,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     nim?: true
+    status?: true
     created_at?: true
     updated_at?: true
     mahasiswaId?: true
@@ -20076,6 +20250,7 @@ export namespace Prisma {
     id: number
     modul_id: number
     nim: string
+    status: string
     created_at: Date
     updated_at: Date
     mahasiswaId: number | null
@@ -20104,6 +20279,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nim?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mahasiswaId?: boolean
@@ -20126,6 +20302,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nim?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mahasiswaId?: boolean
@@ -20137,6 +20314,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nim?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mahasiswaId?: boolean
@@ -20148,12 +20326,13 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nim?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     mahasiswaId?: boolean
   }
 
-  export type PesertaModulOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "nim" | "created_at" | "updated_at" | "mahasiswaId", ExtArgs["result"]["pesertaModul"]>
+  export type PesertaModulOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "nim" | "status" | "created_at" | "updated_at" | "mahasiswaId", ExtArgs["result"]["pesertaModul"]>
   export type PesertaModulInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
     kelompok_anggotas?: boolean | PesertaModul$kelompok_anggotasArgs<ExtArgs>
@@ -20198,6 +20377,7 @@ export namespace Prisma {
       id: number
       modul_id: number
       nim: string
+      status: string
       created_at: Date
       updated_at: Date
       mahasiswaId: number | null
@@ -20639,6 +20819,7 @@ export namespace Prisma {
     readonly id: FieldRef<"PesertaModul", 'Int'>
     readonly modul_id: FieldRef<"PesertaModul", 'Int'>
     readonly nim: FieldRef<"PesertaModul", 'String'>
+    readonly status: FieldRef<"PesertaModul", 'String'>
     readonly created_at: FieldRef<"PesertaModul", 'DateTime'>
     readonly updated_at: FieldRef<"PesertaModul", 'DateTime'>
     readonly mahasiswaId: FieldRef<"PesertaModul", 'Int'>
@@ -21326,6 +21507,7 @@ export namespace Prisma {
     id: number | null
     modul_id: number | null
     nama_kelompok: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -21334,6 +21516,7 @@ export namespace Prisma {
     id: number | null
     modul_id: number | null
     nama_kelompok: string | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -21342,6 +21525,7 @@ export namespace Prisma {
     id: number
     modul_id: number
     nama_kelompok: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -21362,6 +21546,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     nama_kelompok?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -21370,6 +21555,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     nama_kelompok?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -21378,6 +21564,7 @@ export namespace Prisma {
     id?: true
     modul_id?: true
     nama_kelompok?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -21473,6 +21660,7 @@ export namespace Prisma {
     id: number
     modul_id: number
     nama_kelompok: string
+    status: string
     created_at: Date
     updated_at: Date
     _count: KelompokCountAggregateOutputType | null
@@ -21500,6 +21688,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nama_kelompok?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -21511,6 +21700,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nama_kelompok?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -21520,6 +21710,7 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nama_kelompok?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     modul?: boolean | ModulDefaultArgs<ExtArgs>
@@ -21529,11 +21720,12 @@ export namespace Prisma {
     id?: boolean
     modul_id?: boolean
     nama_kelompok?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type KelompokOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "nama_kelompok" | "created_at" | "updated_at", ExtArgs["result"]["kelompok"]>
+  export type KelompokOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "nama_kelompok" | "status" | "created_at" | "updated_at", ExtArgs["result"]["kelompok"]>
   export type KelompokInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
     anggotas?: boolean | Kelompok$anggotasArgs<ExtArgs>
@@ -21556,6 +21748,7 @@ export namespace Prisma {
       id: number
       modul_id: number
       nama_kelompok: string
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["kelompok"]>
@@ -21986,6 +22179,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Kelompok", 'Int'>
     readonly modul_id: FieldRef<"Kelompok", 'Int'>
     readonly nama_kelompok: FieldRef<"Kelompok", 'String'>
+    readonly status: FieldRef<"Kelompok", 'String'>
     readonly created_at: FieldRef<"Kelompok", 'DateTime'>
     readonly updated_at: FieldRef<"Kelompok", 'DateTime'>
   }
@@ -22454,6 +22648,7 @@ export namespace Prisma {
     id: number | null
     kelompok_id: number | null
     peserta_modul_id: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -22462,6 +22657,7 @@ export namespace Prisma {
     id: number | null
     kelompok_id: number | null
     peserta_modul_id: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -22470,6 +22666,7 @@ export namespace Prisma {
     id: number
     kelompok_id: number
     peserta_modul_id: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -22492,6 +22689,7 @@ export namespace Prisma {
     id?: true
     kelompok_id?: true
     peserta_modul_id?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -22500,6 +22698,7 @@ export namespace Prisma {
     id?: true
     kelompok_id?: true
     peserta_modul_id?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -22508,6 +22707,7 @@ export namespace Prisma {
     id?: true
     kelompok_id?: true
     peserta_modul_id?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -22603,6 +22803,7 @@ export namespace Prisma {
     id: number
     kelompok_id: number
     peserta_modul_id: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: KelompokAnggotaCountAggregateOutputType | null
@@ -22630,6 +22831,7 @@ export namespace Prisma {
     id?: boolean
     kelompok_id?: boolean
     peserta_modul_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     kelompok?: boolean | KelompokDefaultArgs<ExtArgs>
@@ -22640,6 +22842,7 @@ export namespace Prisma {
     id?: boolean
     kelompok_id?: boolean
     peserta_modul_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     kelompok?: boolean | KelompokDefaultArgs<ExtArgs>
@@ -22650,6 +22853,7 @@ export namespace Prisma {
     id?: boolean
     kelompok_id?: boolean
     peserta_modul_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     kelompok?: boolean | KelompokDefaultArgs<ExtArgs>
@@ -22660,11 +22864,12 @@ export namespace Prisma {
     id?: boolean
     kelompok_id?: boolean
     peserta_modul_id?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type KelompokAnggotaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "kelompok_id" | "peserta_modul_id" | "created_at" | "updated_at", ExtArgs["result"]["kelompokAnggota"]>
+  export type KelompokAnggotaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "kelompok_id" | "peserta_modul_id" | "status" | "created_at" | "updated_at", ExtArgs["result"]["kelompokAnggota"]>
   export type KelompokAnggotaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     kelompok?: boolean | KelompokDefaultArgs<ExtArgs>
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -22688,6 +22893,7 @@ export namespace Prisma {
       id: number
       kelompok_id: number
       peserta_modul_id: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["kelompokAnggota"]>
@@ -23118,6 +23324,7 @@ export namespace Prisma {
     readonly id: FieldRef<"KelompokAnggota", 'Int'>
     readonly kelompok_id: FieldRef<"KelompokAnggota", 'Int'>
     readonly peserta_modul_id: FieldRef<"KelompokAnggota", 'Int'>
+    readonly status: FieldRef<"KelompokAnggota", 'String'>
     readonly created_at: FieldRef<"KelompokAnggota", 'DateTime'>
     readonly updated_at: FieldRef<"KelompokAnggota", 'DateTime'>
   }
@@ -23563,6 +23770,7 @@ export namespace Prisma {
     peserta_modul_id: number | null
     label: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -23572,6 +23780,7 @@ export namespace Prisma {
     peserta_modul_id: number | null
     label: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -23581,6 +23790,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: number
     nilai: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -23604,6 +23814,7 @@ export namespace Prisma {
     peserta_modul_id?: true
     label?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -23613,6 +23824,7 @@ export namespace Prisma {
     peserta_modul_id?: true
     label?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -23622,6 +23834,7 @@ export namespace Prisma {
     peserta_modul_id?: true
     label?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -23718,6 +23931,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: string
     nilai: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianBukuCatatanCountAggregateOutputType | null
@@ -23746,6 +23960,7 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -23756,6 +23971,7 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -23766,6 +23982,7 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -23776,11 +23993,12 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianBukuCatatanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "label" | "nilai" | "created_at" | "updated_at", ExtArgs["result"]["penilaianBukuCatatan"]>
+  export type PenilaianBukuCatatanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "label" | "nilai" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianBukuCatatan"]>
   export type PenilaianBukuCatatanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -23801,6 +24019,7 @@ export namespace Prisma {
       peserta_modul_id: number
       label: string
       nilai: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianBukuCatatan"]>
@@ -24231,6 +24450,7 @@ export namespace Prisma {
     readonly peserta_modul_id: FieldRef<"PenilaianBukuCatatan", 'Int'>
     readonly label: FieldRef<"PenilaianBukuCatatan", 'String'>
     readonly nilai: FieldRef<"PenilaianBukuCatatan", 'Float'>
+    readonly status: FieldRef<"PenilaianBukuCatatan", 'String'>
     readonly created_at: FieldRef<"PenilaianBukuCatatan", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianBukuCatatan", 'DateTime'>
   }
@@ -24679,6 +24899,7 @@ export namespace Prisma {
     kelompok_id: string | null
     pemicu_id: number | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -24689,6 +24910,7 @@ export namespace Prisma {
     kelompok_id: string | null
     pemicu_id: number | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -24699,6 +24921,7 @@ export namespace Prisma {
     kelompok_id: number
     pemicu_id: number
     nilai: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -24725,6 +24948,7 @@ export namespace Prisma {
     kelompok_id?: true
     pemicu_id?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -24735,6 +24959,7 @@ export namespace Prisma {
     kelompok_id?: true
     pemicu_id?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -24745,6 +24970,7 @@ export namespace Prisma {
     kelompok_id?: true
     pemicu_id?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -24842,6 +25068,7 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianDiskusiKelompokCountAggregateOutputType | null
@@ -24871,6 +25098,7 @@ export namespace Prisma {
     kelompok_id?: boolean
     pemicu_id?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -24882,6 +25110,7 @@ export namespace Prisma {
     kelompok_id?: boolean
     pemicu_id?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -24893,6 +25122,7 @@ export namespace Prisma {
     kelompok_id?: boolean
     pemicu_id?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -24904,11 +25134,12 @@ export namespace Prisma {
     kelompok_id?: boolean
     pemicu_id?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianDiskusiKelompokOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "kelompok_id" | "pemicu_id" | "nilai" | "created_at" | "updated_at", ExtArgs["result"]["penilaianDiskusiKelompok"]>
+  export type PenilaianDiskusiKelompokOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "kelompok_id" | "pemicu_id" | "nilai" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianDiskusiKelompok"]>
   export type PenilaianDiskusiKelompokInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -24930,6 +25161,7 @@ export namespace Prisma {
       kelompok_id: string
       pemicu_id: number
       nilai: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianDiskusiKelompok"]>
@@ -25361,6 +25593,7 @@ export namespace Prisma {
     readonly kelompok_id: FieldRef<"PenilaianDiskusiKelompok", 'String'>
     readonly pemicu_id: FieldRef<"PenilaianDiskusiKelompok", 'Int'>
     readonly nilai: FieldRef<"PenilaianDiskusiKelompok", 'Float'>
+    readonly status: FieldRef<"PenilaianDiskusiKelompok", 'String'>
     readonly created_at: FieldRef<"PenilaianDiskusiKelompok", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianDiskusiKelompok", 'DateTime'>
   }
@@ -25806,6 +26039,7 @@ export namespace Prisma {
     peserta_modul_id: number | null
     label: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -25815,6 +26049,7 @@ export namespace Prisma {
     peserta_modul_id: number | null
     label: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -25824,6 +26059,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: number
     nilai: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -25847,6 +26083,7 @@ export namespace Prisma {
     peserta_modul_id?: true
     label?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -25856,6 +26093,7 @@ export namespace Prisma {
     peserta_modul_id?: true
     label?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -25865,6 +26103,7 @@ export namespace Prisma {
     peserta_modul_id?: true
     label?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -25961,6 +26200,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: string
     nilai: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianTemuPakarCountAggregateOutputType | null
@@ -25989,6 +26229,7 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -25999,6 +26240,7 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -26009,6 +26251,7 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -26019,11 +26262,12 @@ export namespace Prisma {
     peserta_modul_id?: boolean
     label?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianTemuPakarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "label" | "nilai" | "created_at" | "updated_at", ExtArgs["result"]["penilaianTemuPakar"]>
+  export type PenilaianTemuPakarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "label" | "nilai" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianTemuPakar"]>
   export type PenilaianTemuPakarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -26044,6 +26288,7 @@ export namespace Prisma {
       peserta_modul_id: number
       label: string
       nilai: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianTemuPakar"]>
@@ -26474,6 +26719,7 @@ export namespace Prisma {
     readonly peserta_modul_id: FieldRef<"PenilaianTemuPakar", 'Int'>
     readonly label: FieldRef<"PenilaianTemuPakar", 'String'>
     readonly nilai: FieldRef<"PenilaianTemuPakar", 'Float'>
+    readonly status: FieldRef<"PenilaianTemuPakar", 'String'>
     readonly created_at: FieldRef<"PenilaianTemuPakar", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianTemuPakar", 'DateTime'>
   }
@@ -26923,6 +27169,7 @@ export namespace Prisma {
     ilmu: string | null
     dokter: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -26934,6 +27181,7 @@ export namespace Prisma {
     ilmu: string | null
     dokter: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -26945,6 +27193,7 @@ export namespace Prisma {
     ilmu: number
     dokter: number
     nilai: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -26972,6 +27221,7 @@ export namespace Prisma {
     ilmu?: true
     dokter?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -26983,6 +27233,7 @@ export namespace Prisma {
     ilmu?: true
     dokter?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -26994,6 +27245,7 @@ export namespace Prisma {
     ilmu?: true
     dokter?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -27092,6 +27344,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianPetaKonsepCountAggregateOutputType | null
@@ -27122,6 +27375,7 @@ export namespace Prisma {
     ilmu?: boolean
     dokter?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -27134,6 +27388,7 @@ export namespace Prisma {
     ilmu?: boolean
     dokter?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -27146,6 +27401,7 @@ export namespace Prisma {
     ilmu?: boolean
     dokter?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -27158,11 +27414,12 @@ export namespace Prisma {
     ilmu?: boolean
     dokter?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianPetaKonsepOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "pemicu_id" | "ilmu" | "dokter" | "nilai" | "created_at" | "updated_at", ExtArgs["result"]["penilaianPetaKonsep"]>
+  export type PenilaianPetaKonsepOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "pemicu_id" | "ilmu" | "dokter" | "nilai" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianPetaKonsep"]>
   export type PenilaianPetaKonsepInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -27185,6 +27442,7 @@ export namespace Prisma {
       ilmu: string
       dokter: string
       nilai: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianPetaKonsep"]>
@@ -27617,6 +27875,7 @@ export namespace Prisma {
     readonly ilmu: FieldRef<"PenilaianPetaKonsep", 'String'>
     readonly dokter: FieldRef<"PenilaianPetaKonsep", 'String'>
     readonly nilai: FieldRef<"PenilaianPetaKonsep", 'Float'>
+    readonly status: FieldRef<"PenilaianPetaKonsep", 'String'>
     readonly created_at: FieldRef<"PenilaianPetaKonsep", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianPetaKonsep", 'DateTime'>
   }
@@ -28065,6 +28324,7 @@ export namespace Prisma {
     praktikum_id: number | null
     jenis_nilai: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -28075,6 +28335,7 @@ export namespace Prisma {
     praktikum_id: number | null
     jenis_nilai: string | null
     nilai: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -28085,6 +28346,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: number
     nilai: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -28111,6 +28373,7 @@ export namespace Prisma {
     praktikum_id?: true
     jenis_nilai?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -28121,6 +28384,7 @@ export namespace Prisma {
     praktikum_id?: true
     jenis_nilai?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -28131,6 +28395,7 @@ export namespace Prisma {
     praktikum_id?: true
     jenis_nilai?: true
     nilai?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -28228,6 +28493,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: string
     nilai: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianProsesPraktikumDetailCountAggregateOutputType | null
@@ -28257,6 +28523,7 @@ export namespace Prisma {
     praktikum_id?: boolean
     jenis_nilai?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -28269,6 +28536,7 @@ export namespace Prisma {
     praktikum_id?: boolean
     jenis_nilai?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -28281,6 +28549,7 @@ export namespace Prisma {
     praktikum_id?: boolean
     jenis_nilai?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -28293,11 +28562,12 @@ export namespace Prisma {
     praktikum_id?: boolean
     jenis_nilai?: boolean
     nilai?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianProsesPraktikumDetailOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "praktikum_id" | "jenis_nilai" | "nilai" | "created_at" | "updated_at", ExtArgs["result"]["penilaianProsesPraktikumDetail"]>
+  export type PenilaianProsesPraktikumDetailOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "praktikum_id" | "jenis_nilai" | "nilai" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianProsesPraktikumDetail"]>
   export type PenilaianProsesPraktikumDetailInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
     praktikum?: boolean | PraktikumDefaultArgs<ExtArgs>
@@ -28323,6 +28593,7 @@ export namespace Prisma {
       praktikum_id: number
       jenis_nilai: string
       nilai: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianProsesPraktikumDetail"]>
@@ -28755,6 +29026,7 @@ export namespace Prisma {
     readonly praktikum_id: FieldRef<"PenilaianProsesPraktikumDetail", 'Int'>
     readonly jenis_nilai: FieldRef<"PenilaianProsesPraktikumDetail", 'String'>
     readonly nilai: FieldRef<"PenilaianProsesPraktikumDetail", 'Float'>
+    readonly status: FieldRef<"PenilaianProsesPraktikumDetail", 'String'>
     readonly created_at: FieldRef<"PenilaianProsesPraktikumDetail", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianProsesPraktikumDetail", 'DateTime'>
   }
@@ -29211,6 +29483,7 @@ export namespace Prisma {
     total_benar_her_sum1: number | null
     total_benar_her_sum2: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -29223,6 +29496,7 @@ export namespace Prisma {
     total_benar_her_sum1: number | null
     total_benar_her_sum2: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -29235,6 +29509,7 @@ export namespace Prisma {
     total_benar_her_sum1: number
     total_benar_her_sum2: number
     nilai_akhir: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -29269,6 +29544,7 @@ export namespace Prisma {
     total_benar_her_sum1?: true
     total_benar_her_sum2?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -29281,6 +29557,7 @@ export namespace Prisma {
     total_benar_her_sum1?: true
     total_benar_her_sum2?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -29293,6 +29570,7 @@ export namespace Prisma {
     total_benar_her_sum1?: true
     total_benar_her_sum2?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -29392,6 +29670,7 @@ export namespace Prisma {
     total_benar_her_sum1: number | null
     total_benar_her_sum2: number | null
     nilai_akhir: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianSumatifCountAggregateOutputType | null
@@ -29423,6 +29702,7 @@ export namespace Prisma {
     total_benar_her_sum1?: boolean
     total_benar_her_sum2?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -29436,6 +29716,7 @@ export namespace Prisma {
     total_benar_her_sum1?: boolean
     total_benar_her_sum2?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -29449,6 +29730,7 @@ export namespace Prisma {
     total_benar_her_sum1?: boolean
     total_benar_her_sum2?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -29462,11 +29744,12 @@ export namespace Prisma {
     total_benar_her_sum1?: boolean
     total_benar_her_sum2?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianSumatifOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "total_benar_sum1" | "total_benar_sum2" | "total_benar_her_sum1" | "total_benar_her_sum2" | "nilai_akhir" | "created_at" | "updated_at", ExtArgs["result"]["penilaianSumatif"]>
+  export type PenilaianSumatifOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "total_benar_sum1" | "total_benar_sum2" | "total_benar_her_sum1" | "total_benar_her_sum2" | "nilai_akhir" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianSumatif"]>
   export type PenilaianSumatifInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -29490,6 +29773,7 @@ export namespace Prisma {
       total_benar_her_sum1: number | null
       total_benar_her_sum2: number | null
       nilai_akhir: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianSumatif"]>
@@ -29923,6 +30207,7 @@ export namespace Prisma {
     readonly total_benar_her_sum1: FieldRef<"PenilaianSumatif", 'Int'>
     readonly total_benar_her_sum2: FieldRef<"PenilaianSumatif", 'Int'>
     readonly nilai_akhir: FieldRef<"PenilaianSumatif", 'Float'>
+    readonly status: FieldRef<"PenilaianSumatif", 'String'>
     readonly created_at: FieldRef<"PenilaianSumatif", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianSumatif", 'DateTime'>
   }
@@ -30376,6 +30661,7 @@ export namespace Prisma {
     nilai: number | null
     nilai_her: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -30387,6 +30673,7 @@ export namespace Prisma {
     nilai: number | null
     nilai_her: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -30398,6 +30685,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -30429,6 +30717,7 @@ export namespace Prisma {
     nilai?: true
     nilai_her?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -30440,6 +30729,7 @@ export namespace Prisma {
     nilai?: true
     nilai_her?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -30451,6 +30741,7 @@ export namespace Prisma {
     nilai?: true
     nilai_her?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -30549,6 +30840,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianPraktikumCountAggregateOutputType | null
@@ -30579,6 +30871,7 @@ export namespace Prisma {
     nilai?: boolean
     nilai_her?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -30592,6 +30885,7 @@ export namespace Prisma {
     nilai?: boolean
     nilai_her?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -30605,6 +30899,7 @@ export namespace Prisma {
     nilai?: boolean
     nilai_her?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -30618,11 +30913,12 @@ export namespace Prisma {
     nilai?: boolean
     nilai_her?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianPraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "praktikum_id" | "nilai" | "nilai_her" | "nilai_akhir" | "created_at" | "updated_at", ExtArgs["result"]["penilaianPraktikum"]>
+  export type PenilaianPraktikumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "praktikum_id" | "nilai" | "nilai_her" | "nilai_akhir" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianPraktikum"]>
   export type PenilaianPraktikumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
     praktikum?: boolean | PraktikumDefaultArgs<ExtArgs>
@@ -30649,6 +30945,7 @@ export namespace Prisma {
       nilai: number
       nilai_her: number
       nilai_akhir: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianPraktikum"]>
@@ -31082,6 +31379,7 @@ export namespace Prisma {
     readonly nilai: FieldRef<"PenilaianPraktikum", 'Float'>
     readonly nilai_her: FieldRef<"PenilaianPraktikum", 'Float'>
     readonly nilai_akhir: FieldRef<"PenilaianPraktikum", 'Float'>
+    readonly status: FieldRef<"PenilaianPraktikum", 'String'>
     readonly created_at: FieldRef<"PenilaianPraktikum", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianPraktikum", 'DateTime'>
   }
@@ -31541,6 +31839,7 @@ export namespace Prisma {
     peta_konsep: number | null
     proses_praktikum: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -31554,6 +31853,7 @@ export namespace Prisma {
     peta_konsep: number | null
     proses_praktikum: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -31567,6 +31867,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -31604,6 +31905,7 @@ export namespace Prisma {
     peta_konsep?: true
     proses_praktikum?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -31617,6 +31919,7 @@ export namespace Prisma {
     peta_konsep?: true
     proses_praktikum?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -31630,6 +31933,7 @@ export namespace Prisma {
     peta_konsep?: true
     proses_praktikum?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -31730,6 +32034,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianProsesCountAggregateOutputType | null
@@ -31762,6 +32067,7 @@ export namespace Prisma {
     peta_konsep?: boolean
     proses_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -31776,6 +32082,7 @@ export namespace Prisma {
     peta_konsep?: boolean
     proses_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -31790,6 +32097,7 @@ export namespace Prisma {
     peta_konsep?: boolean
     proses_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -31804,11 +32112,12 @@ export namespace Prisma {
     peta_konsep?: boolean
     proses_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianProsesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "diskusi_kelompok" | "buku_catatan" | "temu_pakar" | "peta_konsep" | "proses_praktikum" | "nilai_akhir" | "created_at" | "updated_at", ExtArgs["result"]["penilaianProses"]>
+  export type PenilaianProsesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "diskusi_kelompok" | "buku_catatan" | "temu_pakar" | "peta_konsep" | "proses_praktikum" | "nilai_akhir" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianProses"]>
   export type PenilaianProsesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -31833,6 +32142,7 @@ export namespace Prisma {
       peta_konsep: number
       proses_praktikum: number
       nilai_akhir: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianProses"]>
@@ -32267,6 +32577,7 @@ export namespace Prisma {
     readonly peta_konsep: FieldRef<"PenilaianProses", 'Float'>
     readonly proses_praktikum: FieldRef<"PenilaianProses", 'Float'>
     readonly nilai_akhir: FieldRef<"PenilaianProses", 'Float'>
+    readonly status: FieldRef<"PenilaianProses", 'String'>
     readonly created_at: FieldRef<"PenilaianProses", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianProses", 'DateTime'>
   }
@@ -32720,6 +33031,7 @@ export namespace Prisma {
     nilai_proses: number | null
     nilai_praktikum: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -32731,6 +33043,7 @@ export namespace Prisma {
     nilai_proses: number | null
     nilai_praktikum: number | null
     nilai_akhir: number | null
+    status: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -32742,6 +33055,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status: number
     created_at: number
     updated_at: number
     _all: number
@@ -32773,6 +33087,7 @@ export namespace Prisma {
     nilai_proses?: true
     nilai_praktikum?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -32784,6 +33099,7 @@ export namespace Prisma {
     nilai_proses?: true
     nilai_praktikum?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
   }
@@ -32795,6 +33111,7 @@ export namespace Prisma {
     nilai_proses?: true
     nilai_praktikum?: true
     nilai_akhir?: true
+    status?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -32893,6 +33210,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status: string
     created_at: Date
     updated_at: Date
     _count: PenilaianAkhirCountAggregateOutputType | null
@@ -32923,6 +33241,7 @@ export namespace Prisma {
     nilai_proses?: boolean
     nilai_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -32935,6 +33254,7 @@ export namespace Prisma {
     nilai_proses?: boolean
     nilai_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -32947,6 +33267,7 @@ export namespace Prisma {
     nilai_proses?: boolean
     nilai_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
@@ -32959,11 +33280,12 @@ export namespace Prisma {
     nilai_proses?: boolean
     nilai_praktikum?: boolean
     nilai_akhir?: boolean
+    status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PenilaianAkhirOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "nilai_sumatif" | "nilai_proses" | "nilai_praktikum" | "nilai_akhir" | "created_at" | "updated_at", ExtArgs["result"]["penilaianAkhir"]>
+  export type PenilaianAkhirOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "peserta_modul_id" | "nilai_sumatif" | "nilai_proses" | "nilai_praktikum" | "nilai_akhir" | "status" | "created_at" | "updated_at", ExtArgs["result"]["penilaianAkhir"]>
   export type PenilaianAkhirInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     peserta_modul?: boolean | PesertaModulDefaultArgs<ExtArgs>
   }
@@ -32986,6 +33308,7 @@ export namespace Prisma {
       nilai_proses: number
       nilai_praktikum: number
       nilai_akhir: number
+      status: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["penilaianAkhir"]>
@@ -33418,6 +33741,7 @@ export namespace Prisma {
     readonly nilai_proses: FieldRef<"PenilaianAkhir", 'Float'>
     readonly nilai_praktikum: FieldRef<"PenilaianAkhir", 'Float'>
     readonly nilai_akhir: FieldRef<"PenilaianAkhir", 'Float'>
+    readonly status: FieldRef<"PenilaianAkhir", 'String'>
     readonly created_at: FieldRef<"PenilaianAkhir", 'DateTime'>
     readonly updated_at: FieldRef<"PenilaianAkhir", 'DateTime'>
   }
@@ -33889,6 +34213,8 @@ export namespace Prisma {
     tanggal_lahir: 'tanggal_lahir',
     username: 'username',
     password: 'password',
+    role: 'role',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at',
     mda_dosen_id: 'mda_dosen_id'
@@ -33907,6 +34233,7 @@ export namespace Prisma {
     angkatan: 'angkatan',
     username: 'username',
     password: 'password',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -33921,6 +34248,7 @@ export namespace Prisma {
     tahun_mulai: 'tahun_mulai',
     tahun_selesai: 'tahun_selesai',
     total_siswa: 'total_siswa',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at',
     dosenId: 'dosenId',
@@ -33936,6 +34264,7 @@ export namespace Prisma {
     nilai_sumatif: 'nilai_sumatif',
     nilai_proses: 'nilai_proses',
     nilai_praktik: 'nilai_praktik',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -33951,6 +34280,7 @@ export namespace Prisma {
     temu_pakar: 'temu_pakar',
     peta_konsep: 'peta_konsep',
     proses_praktik: 'proses_praktik',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -33961,6 +34291,7 @@ export namespace Prisma {
   export const PraktikumScalarFieldEnum: {
     id: 'id',
     nama: 'nama',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -33972,6 +34303,7 @@ export namespace Prisma {
     id: 'id',
     modul_id: 'modul_id',
     praktikum_id: 'praktikum_id',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -33982,6 +34314,7 @@ export namespace Prisma {
   export const IlmuScalarFieldEnum: {
     id: 'id',
     nama_ilmu: 'nama_ilmu',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -33995,6 +34328,7 @@ export namespace Prisma {
     ilmu_id: 'ilmu_id',
     dosen_id: 'dosen_id',
     nomor_pemicu: 'nomor_pemicu',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at',
     dosenId: 'dosenId'
@@ -34010,6 +34344,7 @@ export namespace Prisma {
     total_soal_sum2: 'total_soal_sum2',
     total_her_sum1: 'total_her_sum1',
     total_her_sum2: 'total_her_sum2',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34024,6 +34359,7 @@ export namespace Prisma {
     jenis_nilai: 'jenis_nilai',
     jenis_nilai_id: 'jenis_nilai_id',
     bobot: 'bobot',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34035,6 +34371,7 @@ export namespace Prisma {
     id: 'id',
     modul_id: 'modul_id',
     nim: 'nim',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at',
     mahasiswaId: 'mahasiswaId'
@@ -34047,6 +34384,7 @@ export namespace Prisma {
     id: 'id',
     modul_id: 'modul_id',
     nama_kelompok: 'nama_kelompok',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34058,6 +34396,7 @@ export namespace Prisma {
     id: 'id',
     kelompok_id: 'kelompok_id',
     peserta_modul_id: 'peserta_modul_id',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34070,6 +34409,7 @@ export namespace Prisma {
     peserta_modul_id: 'peserta_modul_id',
     label: 'label',
     nilai: 'nilai',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34083,6 +34423,7 @@ export namespace Prisma {
     kelompok_id: 'kelompok_id',
     pemicu_id: 'pemicu_id',
     nilai: 'nilai',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34095,6 +34436,7 @@ export namespace Prisma {
     peserta_modul_id: 'peserta_modul_id',
     label: 'label',
     nilai: 'nilai',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34109,6 +34451,7 @@ export namespace Prisma {
     ilmu: 'ilmu',
     dokter: 'dokter',
     nilai: 'nilai',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34122,6 +34465,7 @@ export namespace Prisma {
     praktikum_id: 'praktikum_id',
     jenis_nilai: 'jenis_nilai',
     nilai: 'nilai',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34137,6 +34481,7 @@ export namespace Prisma {
     total_benar_her_sum1: 'total_benar_her_sum1',
     total_benar_her_sum2: 'total_benar_her_sum2',
     nilai_akhir: 'nilai_akhir',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34151,6 +34496,7 @@ export namespace Prisma {
     nilai: 'nilai',
     nilai_her: 'nilai_her',
     nilai_akhir: 'nilai_akhir',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34167,6 +34513,7 @@ export namespace Prisma {
     peta_konsep: 'peta_konsep',
     proses_praktikum: 'proses_praktikum',
     nilai_akhir: 'nilai_akhir',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34181,6 +34528,7 @@ export namespace Prisma {
     nilai_proses: 'nilai_proses',
     nilai_praktikum: 'nilai_praktikum',
     nilai_akhir: 'nilai_akhir',
+    status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -34256,6 +34604,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoleDosen'
+   */
+  export type EnumRoleDosenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleDosen'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoleDosen[]'
+   */
+  export type ListEnumRoleDosenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleDosen[]'>
     
 
 
@@ -34491,6 +34853,8 @@ export namespace Prisma {
     tanggal_lahir?: DateTimeNullableFilter<"Dosen"> | Date | string | null
     username?: StringNullableFilter<"Dosen"> | string | null
     password?: StringNullableFilter<"Dosen"> | string | null
+    role?: EnumRoleDosenFilter<"Dosen"> | $Enums.RoleDosen
+    status?: StringFilter<"Dosen"> | string
     created_at?: DateTimeFilter<"Dosen"> | Date | string
     updated_at?: DateTimeFilter<"Dosen"> | Date | string
     mda_dosen_id?: IntNullableFilter<"Dosen"> | number | null
@@ -34504,6 +34868,8 @@ export namespace Prisma {
     tanggal_lahir?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    role?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mda_dosen_id?: SortOrderInput | SortOrder
@@ -34521,6 +34887,8 @@ export namespace Prisma {
     nama_depan?: StringNullableFilter<"Dosen"> | string | null
     tanggal_lahir?: DateTimeNullableFilter<"Dosen"> | Date | string | null
     password?: StringNullableFilter<"Dosen"> | string | null
+    role?: EnumRoleDosenFilter<"Dosen"> | $Enums.RoleDosen
+    status?: StringFilter<"Dosen"> | string
     created_at?: DateTimeFilter<"Dosen"> | Date | string
     updated_at?: DateTimeFilter<"Dosen"> | Date | string
     moduls?: ModulListRelationFilter
@@ -34533,6 +34901,8 @@ export namespace Prisma {
     tanggal_lahir?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    role?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mda_dosen_id?: SortOrderInput | SortOrder
@@ -34552,6 +34922,8 @@ export namespace Prisma {
     tanggal_lahir?: DateTimeNullableWithAggregatesFilter<"Dosen"> | Date | string | null
     username?: StringNullableWithAggregatesFilter<"Dosen"> | string | null
     password?: StringNullableWithAggregatesFilter<"Dosen"> | string | null
+    role?: EnumRoleDosenWithAggregatesFilter<"Dosen"> | $Enums.RoleDosen
+    status?: StringWithAggregatesFilter<"Dosen"> | string
     created_at?: DateTimeWithAggregatesFilter<"Dosen"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Dosen"> | Date | string
     mda_dosen_id?: IntNullableWithAggregatesFilter<"Dosen"> | number | null
@@ -34570,6 +34942,7 @@ export namespace Prisma {
     angkatan?: IntNullableFilter<"Mahasiswa"> | number | null
     username?: StringNullableFilter<"Mahasiswa"> | string | null
     password?: StringNullableFilter<"Mahasiswa"> | string | null
+    status?: StringFilter<"Mahasiswa"> | string
     created_at?: DateTimeFilter<"Mahasiswa"> | Date | string
     updated_at?: DateTimeFilter<"Mahasiswa"> | Date | string
     peserta_moduls?: PesertaModulListRelationFilter
@@ -34585,6 +34958,7 @@ export namespace Prisma {
     angkatan?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_moduls?: PesertaModulOrderByRelationAggregateInput
@@ -34603,6 +34977,7 @@ export namespace Prisma {
     jenis_kelamin?: EnumJenisKelaminNullableFilter<"Mahasiswa"> | $Enums.JenisKelamin | null
     angkatan?: IntNullableFilter<"Mahasiswa"> | number | null
     password?: StringNullableFilter<"Mahasiswa"> | string | null
+    status?: StringFilter<"Mahasiswa"> | string
     created_at?: DateTimeFilter<"Mahasiswa"> | Date | string
     updated_at?: DateTimeFilter<"Mahasiswa"> | Date | string
     peserta_moduls?: PesertaModulListRelationFilter
@@ -34618,6 +34993,7 @@ export namespace Prisma {
     angkatan?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: MahasiswaCountOrderByAggregateInput
@@ -34640,6 +35016,7 @@ export namespace Prisma {
     angkatan?: IntNullableWithAggregatesFilter<"Mahasiswa"> | number | null
     username?: StringNullableWithAggregatesFilter<"Mahasiswa"> | string | null
     password?: StringNullableWithAggregatesFilter<"Mahasiswa"> | string | null
+    status?: StringWithAggregatesFilter<"Mahasiswa"> | string
     created_at?: DateTimeWithAggregatesFilter<"Mahasiswa"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Mahasiswa"> | Date | string
   }
@@ -34654,6 +35031,7 @@ export namespace Prisma {
     tahun_mulai?: IntFilter<"Modul"> | number
     tahun_selesai?: IntFilter<"Modul"> | number
     total_siswa?: IntFilter<"Modul"> | number
+    status?: StringFilter<"Modul"> | string
     created_at?: DateTimeFilter<"Modul"> | Date | string
     updated_at?: DateTimeFilter<"Modul"> | Date | string
     dosenId?: IntNullableFilter<"Modul"> | number | null
@@ -34677,6 +35055,7 @@ export namespace Prisma {
     tahun_mulai?: SortOrder
     tahun_selesai?: SortOrder
     total_siswa?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrderInput | SortOrder
@@ -34703,6 +35082,7 @@ export namespace Prisma {
     tahun_mulai?: IntFilter<"Modul"> | number
     tahun_selesai?: IntFilter<"Modul"> | number
     total_siswa?: IntFilter<"Modul"> | number
+    status?: StringFilter<"Modul"> | string
     created_at?: DateTimeFilter<"Modul"> | Date | string
     updated_at?: DateTimeFilter<"Modul"> | Date | string
     dosenId?: IntNullableFilter<"Modul"> | number | null
@@ -34726,6 +35106,7 @@ export namespace Prisma {
     tahun_mulai?: SortOrder
     tahun_selesai?: SortOrder
     total_siswa?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrderInput | SortOrder
@@ -34747,6 +35128,7 @@ export namespace Prisma {
     tahun_mulai?: IntWithAggregatesFilter<"Modul"> | number
     tahun_selesai?: IntWithAggregatesFilter<"Modul"> | number
     total_siswa?: IntWithAggregatesFilter<"Modul"> | number
+    status?: StringWithAggregatesFilter<"Modul"> | string
     created_at?: DateTimeWithAggregatesFilter<"Modul"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Modul"> | Date | string
     dosenId?: IntNullableWithAggregatesFilter<"Modul"> | number | null
@@ -34762,6 +35144,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -34773,6 +35156,7 @@ export namespace Prisma {
     nilai_sumatif?: SortOrder
     nilai_proses?: SortOrder
     nilai_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     modul?: ModulOrderByWithRelationInput
@@ -34787,6 +35171,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -34798,6 +35183,7 @@ export namespace Prisma {
     nilai_sumatif?: SortOrder
     nilai_proses?: SortOrder
     nilai_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: BobotNilaiAkhirCountOrderByAggregateInput
@@ -34816,6 +35202,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    status?: StringWithAggregatesFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeWithAggregatesFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"BobotNilaiAkhir"> | Date | string
   }
@@ -34831,6 +35218,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -34844,6 +35232,7 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     modul?: ModulOrderByWithRelationInput
@@ -34860,6 +35249,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -34873,6 +35263,7 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: BobotNilaiProsesCountOrderByAggregateInput
@@ -34893,6 +35284,7 @@ export namespace Prisma {
     temu_pakar?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    status?: StringWithAggregatesFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeWithAggregatesFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"BobotNilaiProses"> | Date | string
   }
@@ -34903,6 +35295,7 @@ export namespace Prisma {
     NOT?: PraktikumWhereInput | PraktikumWhereInput[]
     id?: IntFilter<"Praktikum"> | number
     nama?: StringFilter<"Praktikum"> | string
+    status?: StringFilter<"Praktikum"> | string
     created_at?: DateTimeFilter<"Praktikum"> | Date | string
     updated_at?: DateTimeFilter<"Praktikum"> | Date | string
     modul_praktikums?: ModulPraktikumListRelationFilter
@@ -34914,6 +35307,7 @@ export namespace Prisma {
   export type PraktikumOrderByWithRelationInput = {
     id?: SortOrder
     nama?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     modul_praktikums?: ModulPraktikumOrderByRelationAggregateInput
@@ -34928,6 +35322,7 @@ export namespace Prisma {
     OR?: PraktikumWhereInput[]
     NOT?: PraktikumWhereInput | PraktikumWhereInput[]
     nama?: StringFilter<"Praktikum"> | string
+    status?: StringFilter<"Praktikum"> | string
     created_at?: DateTimeFilter<"Praktikum"> | Date | string
     updated_at?: DateTimeFilter<"Praktikum"> | Date | string
     modul_praktikums?: ModulPraktikumListRelationFilter
@@ -34939,6 +35334,7 @@ export namespace Prisma {
   export type PraktikumOrderByWithAggregationInput = {
     id?: SortOrder
     nama?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PraktikumCountOrderByAggregateInput
@@ -34954,6 +35350,7 @@ export namespace Prisma {
     NOT?: PraktikumScalarWhereWithAggregatesInput | PraktikumScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Praktikum"> | number
     nama?: StringWithAggregatesFilter<"Praktikum"> | string
+    status?: StringWithAggregatesFilter<"Praktikum"> | string
     created_at?: DateTimeWithAggregatesFilter<"Praktikum"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Praktikum"> | Date | string
   }
@@ -34965,6 +35362,7 @@ export namespace Prisma {
     id?: IntFilter<"ModulPraktikum"> | number
     modul_id?: IntFilter<"ModulPraktikum"> | number
     praktikum_id?: IntFilter<"ModulPraktikum"> | number
+    status?: StringFilter<"ModulPraktikum"> | string
     created_at?: DateTimeFilter<"ModulPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"ModulPraktikum"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -34975,6 +35373,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     praktikum_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     modul?: ModulOrderByWithRelationInput
@@ -34989,6 +35388,7 @@ export namespace Prisma {
     NOT?: ModulPraktikumWhereInput | ModulPraktikumWhereInput[]
     modul_id?: IntFilter<"ModulPraktikum"> | number
     praktikum_id?: IntFilter<"ModulPraktikum"> | number
+    status?: StringFilter<"ModulPraktikum"> | string
     created_at?: DateTimeFilter<"ModulPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"ModulPraktikum"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -34999,6 +35399,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     praktikum_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: ModulPraktikumCountOrderByAggregateInput
@@ -35015,6 +35416,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"ModulPraktikum"> | number
     modul_id?: IntWithAggregatesFilter<"ModulPraktikum"> | number
     praktikum_id?: IntWithAggregatesFilter<"ModulPraktikum"> | number
+    status?: StringWithAggregatesFilter<"ModulPraktikum"> | string
     created_at?: DateTimeWithAggregatesFilter<"ModulPraktikum"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"ModulPraktikum"> | Date | string
   }
@@ -35025,6 +35427,7 @@ export namespace Prisma {
     NOT?: IlmuWhereInput | IlmuWhereInput[]
     id?: IntFilter<"Ilmu"> | number
     nama_ilmu?: StringFilter<"Ilmu"> | string
+    status?: StringFilter<"Ilmu"> | string
     created_at?: DateTimeFilter<"Ilmu"> | Date | string
     updated_at?: DateTimeFilter<"Ilmu"> | Date | string
     pemicus?: PemicuListRelationFilter
@@ -35033,6 +35436,7 @@ export namespace Prisma {
   export type IlmuOrderByWithRelationInput = {
     id?: SortOrder
     nama_ilmu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     pemicus?: PemicuOrderByRelationAggregateInput
@@ -35044,6 +35448,7 @@ export namespace Prisma {
     OR?: IlmuWhereInput[]
     NOT?: IlmuWhereInput | IlmuWhereInput[]
     nama_ilmu?: StringFilter<"Ilmu"> | string
+    status?: StringFilter<"Ilmu"> | string
     created_at?: DateTimeFilter<"Ilmu"> | Date | string
     updated_at?: DateTimeFilter<"Ilmu"> | Date | string
     pemicus?: PemicuListRelationFilter
@@ -35052,6 +35457,7 @@ export namespace Prisma {
   export type IlmuOrderByWithAggregationInput = {
     id?: SortOrder
     nama_ilmu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: IlmuCountOrderByAggregateInput
@@ -35067,6 +35473,7 @@ export namespace Prisma {
     NOT?: IlmuScalarWhereWithAggregatesInput | IlmuScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Ilmu"> | number
     nama_ilmu?: StringWithAggregatesFilter<"Ilmu"> | string
+    status?: StringWithAggregatesFilter<"Ilmu"> | string
     created_at?: DateTimeWithAggregatesFilter<"Ilmu"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Ilmu"> | Date | string
   }
@@ -35080,6 +35487,7 @@ export namespace Prisma {
     ilmu_id?: IntFilter<"Pemicu"> | number
     dosen_id?: IntNullableFilter<"Pemicu"> | number | null
     nomor_pemicu?: IntFilter<"Pemicu"> | number
+    status?: StringFilter<"Pemicu"> | string
     created_at?: DateTimeFilter<"Pemicu"> | Date | string
     updated_at?: DateTimeFilter<"Pemicu"> | Date | string
     dosenId?: IntNullableFilter<"Pemicu"> | number | null
@@ -35094,6 +35502,7 @@ export namespace Prisma {
     ilmu_id?: SortOrder
     dosen_id?: SortOrderInput | SortOrder
     nomor_pemicu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrderInput | SortOrder
@@ -35111,6 +35520,7 @@ export namespace Prisma {
     ilmu_id?: IntFilter<"Pemicu"> | number
     dosen_id?: IntNullableFilter<"Pemicu"> | number | null
     nomor_pemicu?: IntFilter<"Pemicu"> | number
+    status?: StringFilter<"Pemicu"> | string
     created_at?: DateTimeFilter<"Pemicu"> | Date | string
     updated_at?: DateTimeFilter<"Pemicu"> | Date | string
     dosenId?: IntNullableFilter<"Pemicu"> | number | null
@@ -35125,6 +35535,7 @@ export namespace Prisma {
     ilmu_id?: SortOrder
     dosen_id?: SortOrderInput | SortOrder
     nomor_pemicu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrderInput | SortOrder
@@ -35144,6 +35555,7 @@ export namespace Prisma {
     ilmu_id?: IntWithAggregatesFilter<"Pemicu"> | number
     dosen_id?: IntNullableWithAggregatesFilter<"Pemicu"> | number | null
     nomor_pemicu?: IntWithAggregatesFilter<"Pemicu"> | number
+    status?: StringWithAggregatesFilter<"Pemicu"> | string
     created_at?: DateTimeWithAggregatesFilter<"Pemicu"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Pemicu"> | Date | string
     dosenId?: IntNullableWithAggregatesFilter<"Pemicu"> | number | null
@@ -35159,6 +35571,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFilter<"PenilaianModul"> | number
     total_her_sum1?: IntFilter<"PenilaianModul"> | number
     total_her_sum2?: IntFilter<"PenilaianModul"> | number
+    status?: StringFilter<"PenilaianModul"> | string
     created_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -35172,6 +35585,7 @@ export namespace Prisma {
     total_soal_sum2?: SortOrder
     total_her_sum1?: SortOrder
     total_her_sum2?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     modul?: ModulOrderByWithRelationInput
@@ -35188,6 +35602,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFilter<"PenilaianModul"> | number
     total_her_sum1?: IntFilter<"PenilaianModul"> | number
     total_her_sum2?: IntFilter<"PenilaianModul"> | number
+    status?: StringFilter<"PenilaianModul"> | string
     created_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -35201,6 +35616,7 @@ export namespace Prisma {
     total_soal_sum2?: SortOrder
     total_her_sum1?: SortOrder
     total_her_sum2?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianModulCountOrderByAggregateInput
@@ -35220,6 +35636,7 @@ export namespace Prisma {
     total_soal_sum2?: IntWithAggregatesFilter<"PenilaianModul"> | number
     total_her_sum1?: IntWithAggregatesFilter<"PenilaianModul"> | number
     total_her_sum2?: IntWithAggregatesFilter<"PenilaianModul"> | number
+    status?: StringWithAggregatesFilter<"PenilaianModul"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianModul"> | Date | string
   }
@@ -35234,6 +35651,7 @@ export namespace Prisma {
     jenis_nilai?: StringNullableFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableFilter<"PenilaianProsesPraktikum"> | number | null
     bobot?: DecimalFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     penilaian_modul?: XOR<PenilaianModulScalarRelationFilter, PenilaianModulWhereInput>
@@ -35247,6 +35665,7 @@ export namespace Prisma {
     jenis_nilai?: SortOrderInput | SortOrder
     jenis_nilai_id?: SortOrderInput | SortOrder
     bobot?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     penilaian_modul?: PenilaianModulOrderByWithRelationInput
@@ -35263,6 +35682,7 @@ export namespace Prisma {
     jenis_nilai?: StringNullableFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableFilter<"PenilaianProsesPraktikum"> | number | null
     bobot?: DecimalFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     penilaian_modul?: XOR<PenilaianModulScalarRelationFilter, PenilaianModulWhereInput>
@@ -35276,6 +35696,7 @@ export namespace Prisma {
     jenis_nilai?: SortOrderInput | SortOrder
     jenis_nilai_id?: SortOrderInput | SortOrder
     bobot?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianProsesPraktikumCountOrderByAggregateInput
@@ -35295,6 +35716,7 @@ export namespace Prisma {
     jenis_nilai?: StringNullableWithAggregatesFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableWithAggregatesFilter<"PenilaianProsesPraktikum"> | number | null
     bobot?: DecimalWithAggregatesFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    status?: StringWithAggregatesFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianProsesPraktikum"> | Date | string
   }
@@ -35306,6 +35728,7 @@ export namespace Prisma {
     id?: IntFilter<"PesertaModul"> | number
     modul_id?: IntFilter<"PesertaModul"> | number
     nim?: StringFilter<"PesertaModul"> | string
+    status?: StringFilter<"PesertaModul"> | string
     created_at?: DateTimeFilter<"PesertaModul"> | Date | string
     updated_at?: DateTimeFilter<"PesertaModul"> | Date | string
     mahasiswaId?: IntNullableFilter<"PesertaModul"> | number | null
@@ -35327,6 +35750,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nim?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mahasiswaId?: SortOrderInput | SortOrder
@@ -35352,6 +35776,7 @@ export namespace Prisma {
     NOT?: PesertaModulWhereInput | PesertaModulWhereInput[]
     modul_id?: IntFilter<"PesertaModul"> | number
     nim?: StringFilter<"PesertaModul"> | string
+    status?: StringFilter<"PesertaModul"> | string
     created_at?: DateTimeFilter<"PesertaModul"> | Date | string
     updated_at?: DateTimeFilter<"PesertaModul"> | Date | string
     mahasiswaId?: IntNullableFilter<"PesertaModul"> | number | null
@@ -35373,6 +35798,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nim?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mahasiswaId?: SortOrderInput | SortOrder
@@ -35390,6 +35816,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"PesertaModul"> | number
     modul_id?: IntWithAggregatesFilter<"PesertaModul"> | number
     nim?: StringWithAggregatesFilter<"PesertaModul"> | string
+    status?: StringWithAggregatesFilter<"PesertaModul"> | string
     created_at?: DateTimeWithAggregatesFilter<"PesertaModul"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PesertaModul"> | Date | string
     mahasiswaId?: IntNullableWithAggregatesFilter<"PesertaModul"> | number | null
@@ -35402,6 +35829,7 @@ export namespace Prisma {
     id?: IntFilter<"Kelompok"> | number
     modul_id?: IntFilter<"Kelompok"> | number
     nama_kelompok?: StringFilter<"Kelompok"> | string
+    status?: StringFilter<"Kelompok"> | string
     created_at?: DateTimeFilter<"Kelompok"> | Date | string
     updated_at?: DateTimeFilter<"Kelompok"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -35412,6 +35840,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nama_kelompok?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     modul?: ModulOrderByWithRelationInput
@@ -35425,6 +35854,7 @@ export namespace Prisma {
     NOT?: KelompokWhereInput | KelompokWhereInput[]
     modul_id?: IntFilter<"Kelompok"> | number
     nama_kelompok?: StringFilter<"Kelompok"> | string
+    status?: StringFilter<"Kelompok"> | string
     created_at?: DateTimeFilter<"Kelompok"> | Date | string
     updated_at?: DateTimeFilter<"Kelompok"> | Date | string
     modul?: XOR<ModulScalarRelationFilter, ModulWhereInput>
@@ -35435,6 +35865,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nama_kelompok?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: KelompokCountOrderByAggregateInput
@@ -35451,6 +35882,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Kelompok"> | number
     modul_id?: IntWithAggregatesFilter<"Kelompok"> | number
     nama_kelompok?: StringWithAggregatesFilter<"Kelompok"> | string
+    status?: StringWithAggregatesFilter<"Kelompok"> | string
     created_at?: DateTimeWithAggregatesFilter<"Kelompok"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Kelompok"> | Date | string
   }
@@ -35462,6 +35894,7 @@ export namespace Prisma {
     id?: IntFilter<"KelompokAnggota"> | number
     kelompok_id?: IntFilter<"KelompokAnggota"> | number
     peserta_modul_id?: IntFilter<"KelompokAnggota"> | number
+    status?: StringFilter<"KelompokAnggota"> | string
     created_at?: DateTimeFilter<"KelompokAnggota"> | Date | string
     updated_at?: DateTimeFilter<"KelompokAnggota"> | Date | string
     kelompok?: XOR<KelompokScalarRelationFilter, KelompokWhereInput>
@@ -35472,6 +35905,7 @@ export namespace Prisma {
     id?: SortOrder
     kelompok_id?: SortOrder
     peserta_modul_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     kelompok?: KelompokOrderByWithRelationInput
@@ -35486,6 +35920,7 @@ export namespace Prisma {
     NOT?: KelompokAnggotaWhereInput | KelompokAnggotaWhereInput[]
     kelompok_id?: IntFilter<"KelompokAnggota"> | number
     peserta_modul_id?: IntFilter<"KelompokAnggota"> | number
+    status?: StringFilter<"KelompokAnggota"> | string
     created_at?: DateTimeFilter<"KelompokAnggota"> | Date | string
     updated_at?: DateTimeFilter<"KelompokAnggota"> | Date | string
     kelompok?: XOR<KelompokScalarRelationFilter, KelompokWhereInput>
@@ -35496,6 +35931,7 @@ export namespace Prisma {
     id?: SortOrder
     kelompok_id?: SortOrder
     peserta_modul_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: KelompokAnggotaCountOrderByAggregateInput
@@ -35512,6 +35948,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"KelompokAnggota"> | number
     kelompok_id?: IntWithAggregatesFilter<"KelompokAnggota"> | number
     peserta_modul_id?: IntWithAggregatesFilter<"KelompokAnggota"> | number
+    status?: StringWithAggregatesFilter<"KelompokAnggota"> | string
     created_at?: DateTimeWithAggregatesFilter<"KelompokAnggota"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"KelompokAnggota"> | Date | string
   }
@@ -35524,6 +35961,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFilter<"PenilaianBukuCatatan"> | number
     label?: StringFilter<"PenilaianBukuCatatan"> | string
     nilai?: FloatFilter<"PenilaianBukuCatatan"> | number
+    status?: StringFilter<"PenilaianBukuCatatan"> | string
     created_at?: DateTimeFilter<"PenilaianBukuCatatan"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianBukuCatatan"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35534,6 +35972,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35548,6 +35987,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFilter<"PenilaianBukuCatatan"> | number
     label?: StringFilter<"PenilaianBukuCatatan"> | string
     nilai?: FloatFilter<"PenilaianBukuCatatan"> | number
+    status?: StringFilter<"PenilaianBukuCatatan"> | string
     created_at?: DateTimeFilter<"PenilaianBukuCatatan"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianBukuCatatan"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35558,6 +35998,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianBukuCatatanCountOrderByAggregateInput
@@ -35575,6 +36016,7 @@ export namespace Prisma {
     peserta_modul_id?: IntWithAggregatesFilter<"PenilaianBukuCatatan"> | number
     label?: StringWithAggregatesFilter<"PenilaianBukuCatatan"> | string
     nilai?: FloatWithAggregatesFilter<"PenilaianBukuCatatan"> | number
+    status?: StringWithAggregatesFilter<"PenilaianBukuCatatan"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianBukuCatatan"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianBukuCatatan"> | Date | string
   }
@@ -35588,6 +36030,7 @@ export namespace Prisma {
     kelompok_id?: StringFilter<"PenilaianDiskusiKelompok"> | string
     pemicu_id?: IntFilter<"PenilaianDiskusiKelompok"> | number
     nilai?: FloatFilter<"PenilaianDiskusiKelompok"> | number
+    status?: StringFilter<"PenilaianDiskusiKelompok"> | string
     created_at?: DateTimeFilter<"PenilaianDiskusiKelompok"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianDiskusiKelompok"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35599,6 +36042,7 @@ export namespace Prisma {
     kelompok_id?: SortOrder
     pemicu_id?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35614,6 +36058,7 @@ export namespace Prisma {
     kelompok_id?: StringFilter<"PenilaianDiskusiKelompok"> | string
     pemicu_id?: IntFilter<"PenilaianDiskusiKelompok"> | number
     nilai?: FloatFilter<"PenilaianDiskusiKelompok"> | number
+    status?: StringFilter<"PenilaianDiskusiKelompok"> | string
     created_at?: DateTimeFilter<"PenilaianDiskusiKelompok"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianDiskusiKelompok"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35625,6 +36070,7 @@ export namespace Prisma {
     kelompok_id?: SortOrder
     pemicu_id?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianDiskusiKelompokCountOrderByAggregateInput
@@ -35643,6 +36089,7 @@ export namespace Prisma {
     kelompok_id?: StringWithAggregatesFilter<"PenilaianDiskusiKelompok"> | string
     pemicu_id?: IntWithAggregatesFilter<"PenilaianDiskusiKelompok"> | number
     nilai?: FloatWithAggregatesFilter<"PenilaianDiskusiKelompok"> | number
+    status?: StringWithAggregatesFilter<"PenilaianDiskusiKelompok"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianDiskusiKelompok"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianDiskusiKelompok"> | Date | string
   }
@@ -35655,6 +36102,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFilter<"PenilaianTemuPakar"> | number
     label?: StringFilter<"PenilaianTemuPakar"> | string
     nilai?: FloatFilter<"PenilaianTemuPakar"> | number
+    status?: StringFilter<"PenilaianTemuPakar"> | string
     created_at?: DateTimeFilter<"PenilaianTemuPakar"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianTemuPakar"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35665,6 +36113,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35679,6 +36128,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFilter<"PenilaianTemuPakar"> | number
     label?: StringFilter<"PenilaianTemuPakar"> | string
     nilai?: FloatFilter<"PenilaianTemuPakar"> | number
+    status?: StringFilter<"PenilaianTemuPakar"> | string
     created_at?: DateTimeFilter<"PenilaianTemuPakar"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianTemuPakar"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35689,6 +36139,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianTemuPakarCountOrderByAggregateInput
@@ -35706,6 +36157,7 @@ export namespace Prisma {
     peserta_modul_id?: IntWithAggregatesFilter<"PenilaianTemuPakar"> | number
     label?: StringWithAggregatesFilter<"PenilaianTemuPakar"> | string
     nilai?: FloatWithAggregatesFilter<"PenilaianTemuPakar"> | number
+    status?: StringWithAggregatesFilter<"PenilaianTemuPakar"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianTemuPakar"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianTemuPakar"> | Date | string
   }
@@ -35720,6 +36172,7 @@ export namespace Prisma {
     ilmu?: StringFilter<"PenilaianPetaKonsep"> | string
     dokter?: StringFilter<"PenilaianPetaKonsep"> | string
     nilai?: FloatFilter<"PenilaianPetaKonsep"> | number
+    status?: StringFilter<"PenilaianPetaKonsep"> | string
     created_at?: DateTimeFilter<"PenilaianPetaKonsep"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianPetaKonsep"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35732,6 +36185,7 @@ export namespace Prisma {
     ilmu?: SortOrder
     dokter?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35748,6 +36202,7 @@ export namespace Prisma {
     ilmu?: StringFilter<"PenilaianPetaKonsep"> | string
     dokter?: StringFilter<"PenilaianPetaKonsep"> | string
     nilai?: FloatFilter<"PenilaianPetaKonsep"> | number
+    status?: StringFilter<"PenilaianPetaKonsep"> | string
     created_at?: DateTimeFilter<"PenilaianPetaKonsep"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianPetaKonsep"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35760,6 +36215,7 @@ export namespace Prisma {
     ilmu?: SortOrder
     dokter?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianPetaKonsepCountOrderByAggregateInput
@@ -35779,6 +36235,7 @@ export namespace Prisma {
     ilmu?: StringWithAggregatesFilter<"PenilaianPetaKonsep"> | string
     dokter?: StringWithAggregatesFilter<"PenilaianPetaKonsep"> | string
     nilai?: FloatWithAggregatesFilter<"PenilaianPetaKonsep"> | number
+    status?: StringWithAggregatesFilter<"PenilaianPetaKonsep"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianPetaKonsep"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianPetaKonsep"> | Date | string
   }
@@ -35792,6 +36249,7 @@ export namespace Prisma {
     praktikum_id?: IntFilter<"PenilaianProsesPraktikumDetail"> | number
     jenis_nilai?: StringFilter<"PenilaianProsesPraktikumDetail"> | string
     nilai?: FloatFilter<"PenilaianProsesPraktikumDetail"> | number
+    status?: StringFilter<"PenilaianProsesPraktikumDetail"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikumDetail"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikumDetail"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35804,6 +36262,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35820,6 +36279,7 @@ export namespace Prisma {
     praktikum_id?: IntFilter<"PenilaianProsesPraktikumDetail"> | number
     jenis_nilai?: StringFilter<"PenilaianProsesPraktikumDetail"> | string
     nilai?: FloatFilter<"PenilaianProsesPraktikumDetail"> | number
+    status?: StringFilter<"PenilaianProsesPraktikumDetail"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikumDetail"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikumDetail"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35832,6 +36292,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianProsesPraktikumDetailCountOrderByAggregateInput
@@ -35850,6 +36311,7 @@ export namespace Prisma {
     praktikum_id?: IntWithAggregatesFilter<"PenilaianProsesPraktikumDetail"> | number
     jenis_nilai?: StringWithAggregatesFilter<"PenilaianProsesPraktikumDetail"> | string
     nilai?: FloatWithAggregatesFilter<"PenilaianProsesPraktikumDetail"> | number
+    status?: StringWithAggregatesFilter<"PenilaianProsesPraktikumDetail"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianProsesPraktikumDetail"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianProsesPraktikumDetail"> | Date | string
   }
@@ -35865,6 +36327,7 @@ export namespace Prisma {
     total_benar_her_sum1?: IntNullableFilter<"PenilaianSumatif"> | number | null
     total_benar_her_sum2?: IntNullableFilter<"PenilaianSumatif"> | number | null
     nilai_akhir?: FloatFilter<"PenilaianSumatif"> | number
+    status?: StringFilter<"PenilaianSumatif"> | string
     created_at?: DateTimeFilter<"PenilaianSumatif"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianSumatif"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35878,6 +36341,7 @@ export namespace Prisma {
     total_benar_her_sum1?: SortOrderInput | SortOrder
     total_benar_her_sum2?: SortOrderInput | SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35894,6 +36358,7 @@ export namespace Prisma {
     total_benar_her_sum1?: IntNullableFilter<"PenilaianSumatif"> | number | null
     total_benar_her_sum2?: IntNullableFilter<"PenilaianSumatif"> | number | null
     nilai_akhir?: FloatFilter<"PenilaianSumatif"> | number
+    status?: StringFilter<"PenilaianSumatif"> | string
     created_at?: DateTimeFilter<"PenilaianSumatif"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianSumatif"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35907,6 +36372,7 @@ export namespace Prisma {
     total_benar_her_sum1?: SortOrderInput | SortOrder
     total_benar_her_sum2?: SortOrderInput | SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianSumatifCountOrderByAggregateInput
@@ -35927,6 +36393,7 @@ export namespace Prisma {
     total_benar_her_sum1?: IntNullableWithAggregatesFilter<"PenilaianSumatif"> | number | null
     total_benar_her_sum2?: IntNullableWithAggregatesFilter<"PenilaianSumatif"> | number | null
     nilai_akhir?: FloatWithAggregatesFilter<"PenilaianSumatif"> | number
+    status?: StringWithAggregatesFilter<"PenilaianSumatif"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianSumatif"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianSumatif"> | Date | string
   }
@@ -35941,6 +36408,7 @@ export namespace Prisma {
     nilai?: FloatFilter<"PenilaianPraktikum"> | number
     nilai_her?: FloatFilter<"PenilaianPraktikum"> | number
     nilai_akhir?: FloatFilter<"PenilaianPraktikum"> | number
+    status?: StringFilter<"PenilaianPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianPraktikum"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35954,6 +36422,7 @@ export namespace Prisma {
     nilai?: SortOrder
     nilai_her?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -35971,6 +36440,7 @@ export namespace Prisma {
     nilai?: FloatFilter<"PenilaianPraktikum"> | number
     nilai_her?: FloatFilter<"PenilaianPraktikum"> | number
     nilai_akhir?: FloatFilter<"PenilaianPraktikum"> | number
+    status?: StringFilter<"PenilaianPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianPraktikum"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -35984,6 +36454,7 @@ export namespace Prisma {
     nilai?: SortOrder
     nilai_her?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianPraktikumCountOrderByAggregateInput
@@ -36003,6 +36474,7 @@ export namespace Prisma {
     nilai?: FloatWithAggregatesFilter<"PenilaianPraktikum"> | number
     nilai_her?: FloatWithAggregatesFilter<"PenilaianPraktikum"> | number
     nilai_akhir?: FloatWithAggregatesFilter<"PenilaianPraktikum"> | number
+    status?: StringWithAggregatesFilter<"PenilaianPraktikum"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianPraktikum"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianPraktikum"> | Date | string
   }
@@ -36019,6 +36491,7 @@ export namespace Prisma {
     peta_konsep?: FloatFilter<"PenilaianProses"> | number
     proses_praktikum?: FloatFilter<"PenilaianProses"> | number
     nilai_akhir?: FloatFilter<"PenilaianProses"> | number
+    status?: StringFilter<"PenilaianProses"> | string
     created_at?: DateTimeFilter<"PenilaianProses"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProses"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -36033,6 +36506,7 @@ export namespace Prisma {
     peta_konsep?: SortOrder
     proses_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -36050,6 +36524,7 @@ export namespace Prisma {
     peta_konsep?: FloatFilter<"PenilaianProses"> | number
     proses_praktikum?: FloatFilter<"PenilaianProses"> | number
     nilai_akhir?: FloatFilter<"PenilaianProses"> | number
+    status?: StringFilter<"PenilaianProses"> | string
     created_at?: DateTimeFilter<"PenilaianProses"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProses"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -36064,6 +36539,7 @@ export namespace Prisma {
     peta_konsep?: SortOrder
     proses_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianProsesCountOrderByAggregateInput
@@ -36085,6 +36561,7 @@ export namespace Prisma {
     peta_konsep?: FloatWithAggregatesFilter<"PenilaianProses"> | number
     proses_praktikum?: FloatWithAggregatesFilter<"PenilaianProses"> | number
     nilai_akhir?: FloatWithAggregatesFilter<"PenilaianProses"> | number
+    status?: StringWithAggregatesFilter<"PenilaianProses"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianProses"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianProses"> | Date | string
   }
@@ -36099,6 +36576,7 @@ export namespace Prisma {
     nilai_proses?: FloatFilter<"PenilaianAkhir"> | number
     nilai_praktikum?: FloatFilter<"PenilaianAkhir"> | number
     nilai_akhir?: FloatFilter<"PenilaianAkhir"> | number
+    status?: StringFilter<"PenilaianAkhir"> | string
     created_at?: DateTimeFilter<"PenilaianAkhir"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianAkhir"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -36111,6 +36589,7 @@ export namespace Prisma {
     nilai_proses?: SortOrder
     nilai_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     peserta_modul?: PesertaModulOrderByWithRelationInput
@@ -36126,6 +36605,7 @@ export namespace Prisma {
     nilai_proses?: FloatFilter<"PenilaianAkhir"> | number
     nilai_praktikum?: FloatFilter<"PenilaianAkhir"> | number
     nilai_akhir?: FloatFilter<"PenilaianAkhir"> | number
+    status?: StringFilter<"PenilaianAkhir"> | string
     created_at?: DateTimeFilter<"PenilaianAkhir"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianAkhir"> | Date | string
     peserta_modul?: XOR<PesertaModulScalarRelationFilter, PesertaModulWhereInput>
@@ -36138,6 +36618,7 @@ export namespace Prisma {
     nilai_proses?: SortOrder
     nilai_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: PenilaianAkhirCountOrderByAggregateInput
@@ -36157,6 +36638,7 @@ export namespace Prisma {
     nilai_proses?: FloatWithAggregatesFilter<"PenilaianAkhir"> | number
     nilai_praktikum?: FloatWithAggregatesFilter<"PenilaianAkhir"> | number
     nilai_akhir?: FloatWithAggregatesFilter<"PenilaianAkhir"> | number
+    status?: StringWithAggregatesFilter<"PenilaianAkhir"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianAkhir"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianAkhir"> | Date | string
   }
@@ -36342,6 +36824,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -36355,6 +36839,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -36367,6 +36853,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36380,6 +36868,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36393,6 +36883,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -36403,6 +36895,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36414,6 +36908,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36428,6 +36924,7 @@ export namespace Prisma {
     angkatan?: number | null
     username?: string | null
     password?: string | null
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_moduls?: PesertaModulCreateNestedManyWithoutMahasiswaInput
@@ -36443,6 +36940,7 @@ export namespace Prisma {
     angkatan?: number | null
     username?: string | null
     password?: string | null
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_moduls?: PesertaModulUncheckedCreateNestedManyWithoutMahasiswaInput
@@ -36457,6 +36955,7 @@ export namespace Prisma {
     angkatan?: NullableIntFieldUpdateOperationsInput | number | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_moduls?: PesertaModulUpdateManyWithoutMahasiswaNestedInput
@@ -36472,6 +36971,7 @@ export namespace Prisma {
     angkatan?: NullableIntFieldUpdateOperationsInput | number | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_moduls?: PesertaModulUncheckedUpdateManyWithoutMahasiswaNestedInput
@@ -36487,6 +36987,7 @@ export namespace Prisma {
     angkatan?: number | null
     username?: string | null
     password?: string | null
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -36500,6 +37001,7 @@ export namespace Prisma {
     angkatan?: NullableIntFieldUpdateOperationsInput | number | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36514,6 +37016,7 @@ export namespace Prisma {
     angkatan?: NullableIntFieldUpdateOperationsInput | number | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36524,6 +37027,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -36545,6 +37049,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -36565,6 +37070,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -36586,6 +37092,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36607,6 +37114,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -36619,6 +37127,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36630,6 +37139,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36640,6 +37150,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | DecimalJsLike | number | string
     nilai_proses: Decimal | DecimalJsLike | number | string
     nilai_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutBobot_nilai_akhirsInput
@@ -36651,6 +37162,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | DecimalJsLike | number | string
     nilai_proses: Decimal | DecimalJsLike | number | string
     nilai_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -36659,6 +37171,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutBobot_nilai_akhirsNestedInput
@@ -36670,6 +37183,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36680,6 +37194,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | DecimalJsLike | number | string
     nilai_proses: Decimal | DecimalJsLike | number | string
     nilai_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -36688,6 +37203,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36698,6 +37214,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36708,6 +37225,7 @@ export namespace Prisma {
     temu_pakar: Decimal | DecimalJsLike | number | string
     peta_konsep: Decimal | DecimalJsLike | number | string
     proses_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutBobot_nilai_prosesInput
@@ -36721,6 +37239,7 @@ export namespace Prisma {
     temu_pakar: Decimal | DecimalJsLike | number | string
     peta_konsep: Decimal | DecimalJsLike | number | string
     proses_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -36731,6 +37250,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutBobot_nilai_prosesNestedInput
@@ -36744,6 +37264,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36756,6 +37277,7 @@ export namespace Prisma {
     temu_pakar: Decimal | DecimalJsLike | number | string
     peta_konsep: Decimal | DecimalJsLike | number | string
     proses_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -36766,6 +37288,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36778,12 +37301,14 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PraktikumCreateInput = {
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumCreateNestedManyWithoutPraktikumInput
@@ -36795,6 +37320,7 @@ export namespace Prisma {
   export type PraktikumUncheckedCreateInput = {
     id?: number
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumUncheckedCreateNestedManyWithoutPraktikumInput
@@ -36805,6 +37331,7 @@ export namespace Prisma {
 
   export type PraktikumUpdateInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUpdateManyWithoutPraktikumNestedInput
@@ -36816,6 +37343,7 @@ export namespace Prisma {
   export type PraktikumUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUncheckedUpdateManyWithoutPraktikumNestedInput
@@ -36827,12 +37355,14 @@ export namespace Prisma {
   export type PraktikumCreateManyInput = {
     id?: number
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type PraktikumUpdateManyMutationInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36840,11 +37370,13 @@ export namespace Prisma {
   export type PraktikumUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ModulPraktikumCreateInput = {
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutModul_praktikumsInput
@@ -36855,11 +37387,13 @@ export namespace Prisma {
     id?: number
     modul_id: number
     praktikum_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type ModulPraktikumUpdateInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutModul_praktikumsNestedInput
@@ -36870,6 +37404,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     praktikum_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36878,11 +37413,13 @@ export namespace Prisma {
     id?: number
     modul_id: number
     praktikum_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type ModulPraktikumUpdateManyMutationInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36891,12 +37428,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     praktikum_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IlmuCreateInput = {
     nama_ilmu: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutIlmuInput
@@ -36905,6 +37444,7 @@ export namespace Prisma {
   export type IlmuUncheckedCreateInput = {
     id?: number
     nama_ilmu: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuUncheckedCreateNestedManyWithoutIlmuInput
@@ -36912,6 +37452,7 @@ export namespace Prisma {
 
   export type IlmuUpdateInput = {
     nama_ilmu?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutIlmuNestedInput
@@ -36920,6 +37461,7 @@ export namespace Prisma {
   export type IlmuUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_ilmu?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUncheckedUpdateManyWithoutIlmuNestedInput
@@ -36928,12 +37470,14 @@ export namespace Prisma {
   export type IlmuCreateManyInput = {
     id?: number
     nama_ilmu: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type IlmuUpdateManyMutationInput = {
     nama_ilmu?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36941,6 +37485,7 @@ export namespace Prisma {
   export type IlmuUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_ilmu?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36948,6 +37493,7 @@ export namespace Prisma {
   export type PemicuCreateInput = {
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPemicusInput
@@ -36961,6 +37507,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -36969,6 +37516,7 @@ export namespace Prisma {
   export type PemicuUpdateInput = {
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPemicusNestedInput
@@ -36982,6 +37530,7 @@ export namespace Prisma {
     ilmu_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36993,6 +37542,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -37001,6 +37551,7 @@ export namespace Prisma {
   export type PemicuUpdateManyMutationInput = {
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37011,6 +37562,7 @@ export namespace Prisma {
     ilmu_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -37021,6 +37573,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPenilaian_modulsInput
@@ -37034,6 +37587,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_proses_praktikums?: PenilaianProsesPraktikumUncheckedCreateNestedManyWithoutPenilaian_modulInput
@@ -37044,6 +37598,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPenilaian_modulsNestedInput
@@ -37057,6 +37612,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_proses_praktikums?: PenilaianProsesPraktikumUncheckedUpdateManyWithoutPenilaian_modulNestedInput
@@ -37069,6 +37625,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37078,6 +37635,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37089,6 +37647,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37097,6 +37656,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_modul: PenilaianModulCreateNestedOneWithoutPenilaian_proses_praktikumsInput
@@ -37110,6 +37670,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37118,6 +37679,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_modul?: PenilaianModulUpdateOneRequiredWithoutPenilaian_proses_praktikumsNestedInput
@@ -37131,6 +37693,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37142,6 +37705,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37150,6 +37714,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37161,12 +37726,14 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PesertaModulCreateInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -37187,6 +37754,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -37204,6 +37772,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -37224,6 +37793,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -37243,6 +37813,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -37250,6 +37821,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateManyMutationInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37258,6 +37830,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -37265,6 +37838,7 @@ export namespace Prisma {
 
   export type KelompokCreateInput = {
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutKelompoksInput
@@ -37275,6 +37849,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     anggotas?: KelompokAnggotaUncheckedCreateNestedManyWithoutKelompokInput
@@ -37282,6 +37857,7 @@ export namespace Prisma {
 
   export type KelompokUpdateInput = {
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutKelompoksNestedInput
@@ -37292,6 +37868,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     anggotas?: KelompokAnggotaUncheckedUpdateManyWithoutKelompokNestedInput
@@ -37301,12 +37878,14 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type KelompokUpdateManyMutationInput = {
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37315,11 +37894,13 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type KelompokAnggotaCreateInput = {
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     kelompok: KelompokCreateNestedOneWithoutAnggotasInput
@@ -37330,11 +37911,13 @@ export namespace Prisma {
     id?: number
     kelompok_id: number
     peserta_modul_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type KelompokAnggotaUpdateInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     kelompok?: KelompokUpdateOneRequiredWithoutAnggotasNestedInput
@@ -37345,6 +37928,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     kelompok_id?: IntFieldUpdateOperationsInput | number
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37353,11 +37937,13 @@ export namespace Prisma {
     id?: number
     kelompok_id: number
     peserta_modul_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type KelompokAnggotaUpdateManyMutationInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37366,6 +37952,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     kelompok_id?: IntFieldUpdateOperationsInput | number
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37373,6 +37960,7 @@ export namespace Prisma {
   export type PenilaianBukuCatatanCreateInput = {
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_buku_catatanInput
@@ -37383,6 +37971,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37390,6 +37979,7 @@ export namespace Prisma {
   export type PenilaianBukuCatatanUpdateInput = {
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_buku_catatanNestedInput
@@ -37400,6 +37990,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37409,6 +38000,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37416,6 +38008,7 @@ export namespace Prisma {
   export type PenilaianBukuCatatanUpdateManyMutationInput = {
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37425,6 +38018,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37433,6 +38027,7 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_diskusi_kelompokInput
@@ -37444,6 +38039,7 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37452,6 +38048,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_diskusi_kelompokNestedInput
@@ -37463,6 +38060,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37473,6 +38071,7 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37481,6 +38080,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37491,6 +38091,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37498,6 +38099,7 @@ export namespace Prisma {
   export type PenilaianTemuPakarCreateInput = {
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_temu_pakarInput
@@ -37508,6 +38110,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37515,6 +38118,7 @@ export namespace Prisma {
   export type PenilaianTemuPakarUpdateInput = {
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_temu_pakarNestedInput
@@ -37525,6 +38129,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37534,6 +38139,7 @@ export namespace Prisma {
     peserta_modul_id: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37541,6 +38147,7 @@ export namespace Prisma {
   export type PenilaianTemuPakarUpdateManyMutationInput = {
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37550,6 +38157,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37559,6 +38167,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_peta_konsepInput
@@ -37571,6 +38180,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37580,6 +38190,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_peta_konsepNestedInput
@@ -37592,6 +38203,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37603,6 +38215,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37612,6 +38225,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37623,6 +38237,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37630,6 +38245,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailCreateInput = {
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_proses_praktikum_detailInput
@@ -37642,6 +38258,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37649,6 +38266,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailUpdateInput = {
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_proses_praktikum_detailNestedInput
@@ -37661,6 +38279,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37671,6 +38290,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37678,6 +38298,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailUpdateManyMutationInput = {
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37688,6 +38309,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37698,6 +38320,7 @@ export namespace Prisma {
     total_benar_her_sum1?: number | null
     total_benar_her_sum2?: number | null
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_sumatifInput
@@ -37711,6 +38334,7 @@ export namespace Prisma {
     total_benar_her_sum1?: number | null
     total_benar_her_sum2?: number | null
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37721,6 +38345,7 @@ export namespace Prisma {
     total_benar_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
     total_benar_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_sumatifNestedInput
@@ -37734,6 +38359,7 @@ export namespace Prisma {
     total_benar_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
     total_benar_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37746,6 +38372,7 @@ export namespace Prisma {
     total_benar_her_sum1?: number | null
     total_benar_her_sum2?: number | null
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37756,6 +38383,7 @@ export namespace Prisma {
     total_benar_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
     total_benar_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37768,6 +38396,7 @@ export namespace Prisma {
     total_benar_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
     total_benar_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37776,6 +38405,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_praktikumInput
@@ -37789,6 +38419,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37797,6 +38428,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_praktikumNestedInput
@@ -37810,6 +38442,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37821,6 +38454,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37829,6 +38463,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37840,6 +38475,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37851,6 +38487,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_prosesInput
@@ -37865,6 +38502,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37876,6 +38514,7 @@ export namespace Prisma {
     peta_konsep?: FloatFieldUpdateOperationsInput | number
     proses_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_prosesNestedInput
@@ -37890,6 +38529,7 @@ export namespace Prisma {
     peta_konsep?: FloatFieldUpdateOperationsInput | number
     proses_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37903,6 +38543,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37914,6 +38555,7 @@ export namespace Prisma {
     peta_konsep?: FloatFieldUpdateOperationsInput | number
     proses_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37927,6 +38569,7 @@ export namespace Prisma {
     peta_konsep?: FloatFieldUpdateOperationsInput | number
     proses_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37936,6 +38579,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_akhirInput
@@ -37948,6 +38592,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37957,6 +38602,7 @@ export namespace Prisma {
     nilai_proses?: FloatFieldUpdateOperationsInput | number
     nilai_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_akhirNestedInput
@@ -37969,6 +38615,7 @@ export namespace Prisma {
     nilai_proses?: FloatFieldUpdateOperationsInput | number
     nilai_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37980,6 +38627,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -37989,6 +38637,7 @@ export namespace Prisma {
     nilai_proses?: FloatFieldUpdateOperationsInput | number
     nilai_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38000,6 +38649,7 @@ export namespace Prisma {
     nilai_proses?: FloatFieldUpdateOperationsInput | number
     nilai_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38266,6 +38916,13 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type EnumRoleDosenFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoleDosen | EnumRoleDosenFieldRefInput<$PrismaModel>
+    in?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleDosenFilter<$PrismaModel> | $Enums.RoleDosen
+  }
+
   export type PemicuListRelationFilter = {
     every?: PemicuWhereInput
     some?: PemicuWhereInput
@@ -38282,6 +38939,8 @@ export namespace Prisma {
     tanggal_lahir?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    role?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mda_dosen_id?: SortOrder
@@ -38298,6 +38957,8 @@ export namespace Prisma {
     tanggal_lahir?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    role?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mda_dosen_id?: SortOrder
@@ -38309,6 +38970,8 @@ export namespace Prisma {
     tanggal_lahir?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    role?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mda_dosen_id?: SortOrder
@@ -38351,6 +39014,16 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type EnumRoleDosenWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoleDosen | EnumRoleDosenFieldRefInput<$PrismaModel>
+    in?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleDosenWithAggregatesFilter<$PrismaModel> | $Enums.RoleDosen
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleDosenFilter<$PrismaModel>
+    _max?: NestedEnumRoleDosenFilter<$PrismaModel>
+  }
+
   export type EnumJenisKelaminNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.JenisKelamin | EnumJenisKelaminFieldRefInput<$PrismaModel> | null
     in?: $Enums.JenisKelamin[] | ListEnumJenisKelaminFieldRefInput<$PrismaModel> | null
@@ -38378,6 +39051,7 @@ export namespace Prisma {
     angkatan?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38397,6 +39071,7 @@ export namespace Prisma {
     angkatan?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38411,6 +39086,7 @@ export namespace Prisma {
     angkatan?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38507,6 +39183,7 @@ export namespace Prisma {
     tahun_mulai?: SortOrder
     tahun_selesai?: SortOrder
     total_siswa?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrder
@@ -38529,6 +39206,7 @@ export namespace Prisma {
     tahun_mulai?: SortOrder
     tahun_selesai?: SortOrder
     total_siswa?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrder
@@ -38542,6 +39220,7 @@ export namespace Prisma {
     tahun_mulai?: SortOrder
     tahun_selesai?: SortOrder
     total_siswa?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrder
@@ -38579,6 +39258,7 @@ export namespace Prisma {
     nilai_sumatif?: SortOrder
     nilai_proses?: SortOrder
     nilai_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38597,6 +39277,7 @@ export namespace Prisma {
     nilai_sumatif?: SortOrder
     nilai_proses?: SortOrder
     nilai_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38607,6 +39288,7 @@ export namespace Prisma {
     nilai_sumatif?: SortOrder
     nilai_proses?: SortOrder
     nilai_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38643,6 +39325,7 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38665,6 +39348,7 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38677,6 +39361,7 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38724,6 +39409,7 @@ export namespace Prisma {
   export type PraktikumCountOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38735,6 +39421,7 @@ export namespace Prisma {
   export type PraktikumMaxOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38742,6 +39429,7 @@ export namespace Prisma {
   export type PraktikumMinOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38764,6 +39452,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     praktikum_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38778,6 +39467,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     praktikum_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38786,6 +39476,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     praktikum_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38799,6 +39490,7 @@ export namespace Prisma {
   export type IlmuCountOrderByAggregateInput = {
     id?: SortOrder
     nama_ilmu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38810,6 +39502,7 @@ export namespace Prisma {
   export type IlmuMaxOrderByAggregateInput = {
     id?: SortOrder
     nama_ilmu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38817,6 +39510,7 @@ export namespace Prisma {
   export type IlmuMinOrderByAggregateInput = {
     id?: SortOrder
     nama_ilmu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38836,6 +39530,7 @@ export namespace Prisma {
     ilmu_id?: SortOrder
     dosen_id?: SortOrder
     nomor_pemicu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrder
@@ -38856,6 +39551,7 @@ export namespace Prisma {
     ilmu_id?: SortOrder
     dosen_id?: SortOrder
     nomor_pemicu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrder
@@ -38867,6 +39563,7 @@ export namespace Prisma {
     ilmu_id?: SortOrder
     dosen_id?: SortOrder
     nomor_pemicu?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     dosenId?: SortOrder
@@ -38888,6 +39585,7 @@ export namespace Prisma {
     total_soal_sum2?: SortOrder
     total_her_sum1?: SortOrder
     total_her_sum2?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38908,6 +39606,7 @@ export namespace Prisma {
     total_soal_sum2?: SortOrder
     total_her_sum1?: SortOrder
     total_her_sum2?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38919,6 +39618,7 @@ export namespace Prisma {
     total_soal_sum2?: SortOrder
     total_her_sum1?: SortOrder
     total_her_sum2?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38949,6 +39649,7 @@ export namespace Prisma {
     jenis_nilai?: SortOrder
     jenis_nilai_id?: SortOrder
     bobot?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38968,6 +39669,7 @@ export namespace Prisma {
     jenis_nilai?: SortOrder
     jenis_nilai_id?: SortOrder
     bobot?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -38979,6 +39681,7 @@ export namespace Prisma {
     jenis_nilai?: SortOrder
     jenis_nilai_id?: SortOrder
     bobot?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39070,6 +39773,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nim?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mahasiswaId?: SortOrder
@@ -39085,6 +39789,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nim?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mahasiswaId?: SortOrder
@@ -39094,6 +39799,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nim?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     mahasiswaId?: SortOrder
@@ -39109,6 +39815,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nama_kelompok?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39122,6 +39829,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nama_kelompok?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39130,6 +39838,7 @@ export namespace Prisma {
     id?: SortOrder
     modul_id?: SortOrder
     nama_kelompok?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39158,6 +39867,7 @@ export namespace Prisma {
     id?: SortOrder
     kelompok_id?: SortOrder
     peserta_modul_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39172,6 +39882,7 @@ export namespace Prisma {
     id?: SortOrder
     kelompok_id?: SortOrder
     peserta_modul_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39180,6 +39891,7 @@ export namespace Prisma {
     id?: SortOrder
     kelompok_id?: SortOrder
     peserta_modul_id?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39211,6 +39923,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39226,6 +39939,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39235,6 +39949,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39273,6 +39988,7 @@ export namespace Prisma {
     kelompok_id?: SortOrder
     pemicu_id?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39290,6 +40006,7 @@ export namespace Prisma {
     kelompok_id?: SortOrder
     pemicu_id?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39300,6 +40017,7 @@ export namespace Prisma {
     kelompok_id?: SortOrder
     pemicu_id?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39321,6 +40039,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39336,6 +40055,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39345,6 +40065,7 @@ export namespace Prisma {
     peserta_modul_id?: SortOrder
     label?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39368,6 +40089,7 @@ export namespace Prisma {
     ilmu?: SortOrder
     dokter?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39386,6 +40108,7 @@ export namespace Prisma {
     ilmu?: SortOrder
     dokter?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39397,6 +40120,7 @@ export namespace Prisma {
     ilmu?: SortOrder
     dokter?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39420,6 +40144,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39437,6 +40162,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39447,6 +40173,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrder
     nilai?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39466,6 +40193,7 @@ export namespace Prisma {
     total_benar_her_sum1?: SortOrder
     total_benar_her_sum2?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39488,6 +40216,7 @@ export namespace Prisma {
     total_benar_her_sum1?: SortOrder
     total_benar_her_sum2?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39500,6 +40229,7 @@ export namespace Prisma {
     total_benar_her_sum1?: SortOrder
     total_benar_her_sum2?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39526,6 +40256,7 @@ export namespace Prisma {
     nilai?: SortOrder
     nilai_her?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39546,6 +40277,7 @@ export namespace Prisma {
     nilai?: SortOrder
     nilai_her?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39557,6 +40289,7 @@ export namespace Prisma {
     nilai?: SortOrder
     nilai_her?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39579,6 +40312,7 @@ export namespace Prisma {
     peta_konsep?: SortOrder
     proses_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39603,6 +40337,7 @@ export namespace Prisma {
     peta_konsep?: SortOrder
     proses_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39616,6 +40351,7 @@ export namespace Prisma {
     peta_konsep?: SortOrder
     proses_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39638,6 +40374,7 @@ export namespace Prisma {
     nilai_proses?: SortOrder
     nilai_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39658,6 +40395,7 @@ export namespace Prisma {
     nilai_proses?: SortOrder
     nilai_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39669,6 +40407,7 @@ export namespace Prisma {
     nilai_proses?: SortOrder
     nilai_praktikum?: SortOrder
     nilai_akhir?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -39798,6 +40537,10 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type EnumRoleDosenFieldUpdateOperationsInput = {
+    set?: $Enums.RoleDosen
   }
 
   export type ModulUpdateManyWithoutDosenNestedInput = {
@@ -41497,6 +42240,13 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedEnumRoleDosenFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoleDosen | EnumRoleDosenFieldRefInput<$PrismaModel>
+    in?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleDosenFilter<$PrismaModel> | $Enums.RoleDosen
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -41526,6 +42276,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRoleDosenWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RoleDosen | EnumRoleDosenFieldRefInput<$PrismaModel>
+    in?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RoleDosen[] | ListEnumRoleDosenFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleDosenWithAggregatesFilter<$PrismaModel> | $Enums.RoleDosen
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleDosenFilter<$PrismaModel>
+    _max?: NestedEnumRoleDosenFilter<$PrismaModel>
   }
 
   export type NestedEnumJenisKelaminNullableFilter<$PrismaModel = never> = {
@@ -41594,6 +42354,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -41614,6 +42375,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -41649,6 +42411,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -41669,6 +42432,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -41688,6 +42452,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -41708,6 +42473,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -41757,6 +42523,7 @@ export namespace Prisma {
     tahun_mulai?: IntFilter<"Modul"> | number
     tahun_selesai?: IntFilter<"Modul"> | number
     total_siswa?: IntFilter<"Modul"> | number
+    status?: StringFilter<"Modul"> | string
     created_at?: DateTimeFilter<"Modul"> | Date | string
     updated_at?: DateTimeFilter<"Modul"> | Date | string
     dosenId?: IntNullableFilter<"Modul"> | number | null
@@ -41769,6 +42536,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -41789,6 +42557,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     tahunAjaranId?: number | null
@@ -41815,6 +42584,7 @@ export namespace Prisma {
   export type PemicuCreateWithoutDosenInput = {
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPemicusInput
@@ -41827,6 +42597,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -41882,6 +42653,7 @@ export namespace Prisma {
     ilmu_id?: IntFilter<"Pemicu"> | number
     dosen_id?: IntNullableFilter<"Pemicu"> | number | null
     nomor_pemicu?: IntFilter<"Pemicu"> | number
+    status?: StringFilter<"Pemicu"> | string
     created_at?: DateTimeFilter<"Pemicu"> | Date | string
     updated_at?: DateTimeFilter<"Pemicu"> | Date | string
     dosenId?: IntNullableFilter<"Pemicu"> | number | null
@@ -41889,6 +42661,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutMahasiswaInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -41908,6 +42681,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     kelompok_anggotas?: KelompokAnggotaUncheckedCreateNestedManyWithoutPeserta_modulInput
@@ -41955,6 +42729,7 @@ export namespace Prisma {
     id?: IntFilter<"PesertaModul"> | number
     modul_id?: IntFilter<"PesertaModul"> | number
     nim?: StringFilter<"PesertaModul"> | string
+    status?: StringFilter<"PesertaModul"> | string
     created_at?: DateTimeFilter<"PesertaModul"> | Date | string
     updated_at?: DateTimeFilter<"PesertaModul"> | Date | string
     mahasiswaId?: IntNullableFilter<"PesertaModul"> | number | null
@@ -41963,6 +42738,7 @@ export namespace Prisma {
   export type PemicuCreateWithoutModulInput = {
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     ilmu: IlmuCreateNestedOneWithoutPemicusInput
@@ -41974,6 +42750,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -41994,6 +42771,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_proses_praktikums?: PenilaianProsesPraktikumCreateNestedManyWithoutPenilaian_modulInput
@@ -42005,6 +42783,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_proses_praktikums?: PenilaianProsesPraktikumUncheckedCreateNestedManyWithoutPenilaian_modulInput
@@ -42022,6 +42801,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutModulInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     kelompok_anggotas?: KelompokAnggotaCreateNestedManyWithoutPeserta_modulInput
@@ -42040,6 +42820,7 @@ export namespace Prisma {
   export type PesertaModulUncheckedCreateWithoutModulInput = {
     id?: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -42067,6 +42848,7 @@ export namespace Prisma {
 
   export type KelompokCreateWithoutModulInput = {
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     anggotas?: KelompokAnggotaCreateNestedManyWithoutKelompokInput
@@ -42075,6 +42857,7 @@ export namespace Prisma {
   export type KelompokUncheckedCreateWithoutModulInput = {
     id?: number
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     anggotas?: KelompokAnggotaUncheckedCreateNestedManyWithoutKelompokInput
@@ -42094,6 +42877,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | DecimalJsLike | number | string
     nilai_proses: Decimal | DecimalJsLike | number | string
     nilai_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42103,6 +42887,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | DecimalJsLike | number | string
     nilai_proses: Decimal | DecimalJsLike | number | string
     nilai_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42123,6 +42908,7 @@ export namespace Prisma {
     temu_pakar: Decimal | DecimalJsLike | number | string
     peta_konsep: Decimal | DecimalJsLike | number | string
     proses_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42134,6 +42920,7 @@ export namespace Prisma {
     temu_pakar: Decimal | DecimalJsLike | number | string
     peta_konsep: Decimal | DecimalJsLike | number | string
     proses_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42149,6 +42936,7 @@ export namespace Prisma {
   }
 
   export type ModulPraktikumCreateWithoutModulInput = {
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     praktikum: PraktikumCreateNestedOneWithoutModul_praktikumsInput
@@ -42157,6 +42945,7 @@ export namespace Prisma {
   export type ModulPraktikumUncheckedCreateWithoutModulInput = {
     id?: number
     praktikum_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42203,6 +42992,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -42215,6 +43006,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -42286,6 +43079,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFilter<"PenilaianModul"> | number
     total_her_sum1?: IntFilter<"PenilaianModul"> | number
     total_her_sum2?: IntFilter<"PenilaianModul"> | number
+    status?: StringFilter<"PenilaianModul"> | string
     created_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianModul"> | Date | string
   }
@@ -42329,6 +43123,7 @@ export namespace Prisma {
     id?: IntFilter<"Kelompok"> | number
     modul_id?: IntFilter<"Kelompok"> | number
     nama_kelompok?: StringFilter<"Kelompok"> | string
+    status?: StringFilter<"Kelompok"> | string
     created_at?: DateTimeFilter<"Kelompok"> | Date | string
     updated_at?: DateTimeFilter<"Kelompok"> | Date | string
   }
@@ -42358,6 +43153,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
   }
@@ -42389,6 +43185,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
   }
@@ -42416,6 +43213,7 @@ export namespace Prisma {
     id?: IntFilter<"ModulPraktikum"> | number
     modul_id?: IntFilter<"ModulPraktikum"> | number
     praktikum_id?: IntFilter<"ModulPraktikum"> | number
+    status?: StringFilter<"ModulPraktikum"> | string
     created_at?: DateTimeFilter<"ModulPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"ModulPraktikum"> | Date | string
   }
@@ -42465,6 +43263,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42477,6 +43277,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42513,6 +43315,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -42533,6 +43336,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -42568,6 +43372,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -42588,6 +43393,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42607,6 +43413,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -42627,6 +43434,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -42662,6 +43470,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -42682,6 +43491,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42696,6 +43506,7 @@ export namespace Prisma {
   }
 
   export type ModulPraktikumCreateWithoutPraktikumInput = {
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutModul_praktikumsInput
@@ -42704,6 +43515,7 @@ export namespace Prisma {
   export type ModulPraktikumUncheckedCreateWithoutPraktikumInput = {
     id?: number
     modul_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42722,6 +43534,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_modul: PenilaianModulCreateNestedOneWithoutPenilaian_proses_praktikumsInput
@@ -42733,6 +43546,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42751,6 +43565,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_praktikumInput
@@ -42762,6 +43577,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42779,6 +43595,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailCreateWithoutPraktikumInput = {
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutPenilaian_proses_praktikum_detailInput
@@ -42789,6 +43606,7 @@ export namespace Prisma {
     peserta_modul_id: number
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -42845,6 +43663,7 @@ export namespace Prisma {
     jenis_nilai?: StringNullableFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableFilter<"PenilaianProsesPraktikum"> | number | null
     bobot?: DecimalFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
   }
@@ -42875,6 +43694,7 @@ export namespace Prisma {
     nilai?: FloatFilter<"PenilaianPraktikum"> | number
     nilai_her?: FloatFilter<"PenilaianPraktikum"> | number
     nilai_akhir?: FloatFilter<"PenilaianPraktikum"> | number
+    status?: StringFilter<"PenilaianPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianPraktikum"> | Date | string
   }
@@ -42904,6 +43724,7 @@ export namespace Prisma {
     praktikum_id?: IntFilter<"PenilaianProsesPraktikumDetail"> | number
     jenis_nilai?: StringFilter<"PenilaianProsesPraktikumDetail"> | string
     nilai?: FloatFilter<"PenilaianProsesPraktikumDetail"> | number
+    status?: StringFilter<"PenilaianProsesPraktikumDetail"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikumDetail"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikumDetail"> | Date | string
   }
@@ -42914,6 +43735,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -42934,6 +43756,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -42954,6 +43777,7 @@ export namespace Prisma {
 
   export type PraktikumCreateWithoutModul_praktikumsInput = {
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_proses_praktikum?: PenilaianProsesPraktikumCreateNestedManyWithoutPraktikumInput
@@ -42964,6 +43788,7 @@ export namespace Prisma {
   export type PraktikumUncheckedCreateWithoutModul_praktikumsInput = {
     id?: number
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_proses_praktikum?: PenilaianProsesPraktikumUncheckedCreateNestedManyWithoutPraktikumInput
@@ -42993,6 +43818,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -43013,6 +43839,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43039,6 +43866,7 @@ export namespace Prisma {
 
   export type PraktikumUpdateWithoutModul_praktikumsInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_proses_praktikum?: PenilaianProsesPraktikumUpdateManyWithoutPraktikumNestedInput
@@ -43049,6 +43877,7 @@ export namespace Prisma {
   export type PraktikumUncheckedUpdateWithoutModul_praktikumsInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_proses_praktikum?: PenilaianProsesPraktikumUncheckedUpdateManyWithoutPraktikumNestedInput
@@ -43059,6 +43888,7 @@ export namespace Prisma {
   export type PemicuCreateWithoutIlmuInput = {
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPemicusInput
@@ -43070,6 +43900,7 @@ export namespace Prisma {
     modul_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -43107,6 +43938,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     penilaian_moduls?: PenilaianModulCreateNestedManyWithoutModulInput
@@ -43127,6 +43959,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -43147,6 +43980,7 @@ export namespace Prisma {
 
   export type IlmuCreateWithoutPemicusInput = {
     nama_ilmu: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43154,6 +43988,7 @@ export namespace Prisma {
   export type IlmuUncheckedCreateWithoutPemicusInput = {
     id?: number
     nama_ilmu: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43168,6 +44003,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -43180,6 +44017,8 @@ export namespace Prisma {
     tanggal_lahir?: Date | string | null
     username?: string | null
     password?: string | null
+    role?: $Enums.RoleDosen
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mda_dosen_id?: number | null
@@ -43208,6 +44047,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_moduls?: PenilaianModulUpdateManyWithoutModulNestedInput
@@ -43228,6 +44068,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43254,6 +44095,7 @@ export namespace Prisma {
 
   export type IlmuUpdateWithoutPemicusInput = {
     nama_ilmu?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -43261,6 +44103,7 @@ export namespace Prisma {
   export type IlmuUncheckedUpdateWithoutPemicusInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_ilmu?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -43281,6 +44124,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43293,6 +44138,8 @@ export namespace Prisma {
     tanggal_lahir?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleDosenFieldUpdateOperationsInput | $Enums.RoleDosen
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mda_dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43305,6 +44152,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -43325,6 +44173,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -43347,6 +44196,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     praktikum?: PraktikumCreateNestedOneWithoutPenilaian_proses_praktikumInput
@@ -43358,6 +44208,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43389,6 +44240,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -43409,6 +44261,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43443,6 +44296,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPenilaian_modulsInput
@@ -43455,6 +44309,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43466,6 +44321,7 @@ export namespace Prisma {
 
   export type PraktikumCreateWithoutPenilaian_proses_praktikumInput = {
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumCreateNestedManyWithoutPraktikumInput
@@ -43476,6 +44332,7 @@ export namespace Prisma {
   export type PraktikumUncheckedCreateWithoutPenilaian_proses_praktikumInput = {
     id?: number
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumUncheckedCreateNestedManyWithoutPraktikumInput
@@ -43504,6 +44361,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPenilaian_modulsNestedInput
@@ -43516,6 +44374,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -43533,6 +44392,7 @@ export namespace Prisma {
 
   export type PraktikumUpdateWithoutPenilaian_proses_praktikumInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUpdateManyWithoutPraktikumNestedInput
@@ -43543,6 +44403,7 @@ export namespace Prisma {
   export type PraktikumUncheckedUpdateWithoutPenilaian_proses_praktikumInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUncheckedUpdateManyWithoutPraktikumNestedInput
@@ -43556,6 +44417,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -43576,6 +44438,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -43595,6 +44458,7 @@ export namespace Prisma {
   }
 
   export type KelompokAnggotaCreateWithoutPeserta_modulInput = {
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     kelompok: KelompokCreateNestedOneWithoutAnggotasInput
@@ -43603,6 +44467,7 @@ export namespace Prisma {
   export type KelompokAnggotaUncheckedCreateWithoutPeserta_modulInput = {
     id?: number
     kelompok_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43626,6 +44491,7 @@ export namespace Prisma {
     angkatan?: number | null
     username?: string | null
     password?: string | null
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43640,6 +44506,7 @@ export namespace Prisma {
     angkatan?: number | null
     username?: string | null
     password?: string | null
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43655,6 +44522,7 @@ export namespace Prisma {
     total_benar_her_sum1?: number | null
     total_benar_her_sum2?: number | null
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43666,6 +44534,7 @@ export namespace Prisma {
     total_benar_her_sum1?: number | null
     total_benar_her_sum2?: number | null
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43679,6 +44548,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     praktikum: PraktikumCreateNestedOneWithoutPenilaian_praktikumInput
@@ -43690,6 +44560,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43711,6 +44582,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43723,6 +44595,7 @@ export namespace Prisma {
     peta_konsep: number
     proses_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43737,6 +44610,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43747,6 +44621,7 @@ export namespace Prisma {
     nilai_proses: number
     nilai_praktikum: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43759,6 +44634,7 @@ export namespace Prisma {
   export type PenilaianBukuCatatanCreateWithoutPeserta_modulInput = {
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43767,6 +44643,7 @@ export namespace Prisma {
     id?: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43784,6 +44661,7 @@ export namespace Prisma {
   export type PenilaianTemuPakarCreateWithoutPeserta_modulInput = {
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43792,6 +44670,7 @@ export namespace Prisma {
     id?: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43811,6 +44690,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43821,6 +44701,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43838,6 +44719,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailCreateWithoutPeserta_modulInput = {
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     praktikum: PraktikumCreateNestedOneWithoutPenilaian_proses_praktikum_detailInput
@@ -43848,6 +44730,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43866,6 +44749,7 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43875,6 +44759,7 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -43906,6 +44791,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -43926,6 +44812,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43962,6 +44849,7 @@ export namespace Prisma {
     id?: IntFilter<"KelompokAnggota"> | number
     kelompok_id?: IntFilter<"KelompokAnggota"> | number
     peserta_modul_id?: IntFilter<"KelompokAnggota"> | number
+    status?: StringFilter<"KelompokAnggota"> | string
     created_at?: DateTimeFilter<"KelompokAnggota"> | Date | string
     updated_at?: DateTimeFilter<"KelompokAnggota"> | Date | string
   }
@@ -43986,6 +44874,7 @@ export namespace Prisma {
     angkatan?: NullableIntFieldUpdateOperationsInput | number | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44000,6 +44889,7 @@ export namespace Prisma {
     angkatan?: NullableIntFieldUpdateOperationsInput | number | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44021,6 +44911,7 @@ export namespace Prisma {
     total_benar_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
     total_benar_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44032,6 +44923,7 @@ export namespace Prisma {
     total_benar_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
     total_benar_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44070,6 +44962,7 @@ export namespace Prisma {
     peta_konsep?: FloatFieldUpdateOperationsInput | number
     proses_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44082,6 +44975,7 @@ export namespace Prisma {
     peta_konsep?: FloatFieldUpdateOperationsInput | number
     proses_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44102,6 +44996,7 @@ export namespace Prisma {
     nilai_proses?: FloatFieldUpdateOperationsInput | number
     nilai_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44112,6 +45007,7 @@ export namespace Prisma {
     nilai_proses?: FloatFieldUpdateOperationsInput | number
     nilai_praktikum?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44140,6 +45036,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFilter<"PenilaianBukuCatatan"> | number
     label?: StringFilter<"PenilaianBukuCatatan"> | string
     nilai?: FloatFilter<"PenilaianBukuCatatan"> | number
+    status?: StringFilter<"PenilaianBukuCatatan"> | string
     created_at?: DateTimeFilter<"PenilaianBukuCatatan"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianBukuCatatan"> | Date | string
   }
@@ -44168,6 +45065,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFilter<"PenilaianTemuPakar"> | number
     label?: StringFilter<"PenilaianTemuPakar"> | string
     nilai?: FloatFilter<"PenilaianTemuPakar"> | number
+    status?: StringFilter<"PenilaianTemuPakar"> | string
     created_at?: DateTimeFilter<"PenilaianTemuPakar"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianTemuPakar"> | Date | string
   }
@@ -44198,6 +45096,7 @@ export namespace Prisma {
     ilmu?: StringFilter<"PenilaianPetaKonsep"> | string
     dokter?: StringFilter<"PenilaianPetaKonsep"> | string
     nilai?: FloatFilter<"PenilaianPetaKonsep"> | number
+    status?: StringFilter<"PenilaianPetaKonsep"> | string
     created_at?: DateTimeFilter<"PenilaianPetaKonsep"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianPetaKonsep"> | Date | string
   }
@@ -44243,6 +45142,7 @@ export namespace Prisma {
     kelompok_id?: StringFilter<"PenilaianDiskusiKelompok"> | string
     pemicu_id?: IntFilter<"PenilaianDiskusiKelompok"> | number
     nilai?: FloatFilter<"PenilaianDiskusiKelompok"> | number
+    status?: StringFilter<"PenilaianDiskusiKelompok"> | string
     created_at?: DateTimeFilter<"PenilaianDiskusiKelompok"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianDiskusiKelompok"> | Date | string
   }
@@ -44253,6 +45153,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     pemicus?: PemicuCreateNestedManyWithoutModulInput
@@ -44273,6 +45174,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -44292,6 +45194,7 @@ export namespace Prisma {
   }
 
   export type KelompokAnggotaCreateWithoutKelompokInput = {
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     peserta_modul: PesertaModulCreateNestedOneWithoutKelompok_anggotasInput
@@ -44300,6 +45203,7 @@ export namespace Prisma {
   export type KelompokAnggotaUncheckedCreateWithoutKelompokInput = {
     id?: number
     peserta_modul_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -44331,6 +45235,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -44351,6 +45256,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44382,6 +45288,7 @@ export namespace Prisma {
 
   export type KelompokCreateWithoutAnggotasInput = {
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutKelompoksInput
@@ -44391,6 +45298,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -44402,6 +45310,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutKelompok_anggotasInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -44421,6 +45330,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -44453,6 +45363,7 @@ export namespace Prisma {
 
   export type KelompokUpdateWithoutAnggotasInput = {
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutKelompoksNestedInput
@@ -44462,6 +45373,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44479,6 +45391,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutKelompok_anggotasInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -44498,6 +45411,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44514,6 +45428,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_buku_catatanInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -44533,6 +45448,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -44565,6 +45481,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_buku_catatanInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -44584,6 +45501,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44600,6 +45518,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_diskusi_kelompokInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -44619,6 +45538,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -44651,6 +45571,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_diskusi_kelompokInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -44670,6 +45591,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44686,6 +45608,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_temu_pakarInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -44705,6 +45628,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -44737,6 +45661,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_temu_pakarInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -44756,6 +45681,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44772,6 +45698,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_peta_konsepInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -44791,6 +45718,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -44823,6 +45751,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_peta_konsepInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -44842,6 +45771,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44858,6 +45788,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_proses_praktikum_detailInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -44877,6 +45808,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -44898,6 +45830,7 @@ export namespace Prisma {
 
   export type PraktikumCreateWithoutPenilaian_proses_praktikum_detailInput = {
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumCreateNestedManyWithoutPraktikumInput
@@ -44908,6 +45841,7 @@ export namespace Prisma {
   export type PraktikumUncheckedCreateWithoutPenilaian_proses_praktikum_detailInput = {
     id?: number
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumUncheckedCreateNestedManyWithoutPraktikumInput
@@ -44933,6 +45867,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_proses_praktikum_detailInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -44952,6 +45887,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44979,6 +45915,7 @@ export namespace Prisma {
 
   export type PraktikumUpdateWithoutPenilaian_proses_praktikum_detailInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUpdateManyWithoutPraktikumNestedInput
@@ -44989,6 +45926,7 @@ export namespace Prisma {
   export type PraktikumUncheckedUpdateWithoutPenilaian_proses_praktikum_detailInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUncheckedUpdateManyWithoutPraktikumNestedInput
@@ -44998,6 +45936,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_sumatifInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -45017,6 +45956,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -45049,6 +45989,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_sumatifInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -45068,6 +46009,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45084,6 +46026,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_praktikumInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -45103,6 +46046,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -45124,6 +46068,7 @@ export namespace Prisma {
 
   export type PraktikumCreateWithoutPenilaian_praktikumInput = {
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumCreateNestedManyWithoutPraktikumInput
@@ -45134,6 +46079,7 @@ export namespace Prisma {
   export type PraktikumUncheckedCreateWithoutPenilaian_praktikumInput = {
     id?: number
     nama: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul_praktikums?: ModulPraktikumUncheckedCreateNestedManyWithoutPraktikumInput
@@ -45159,6 +46105,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_praktikumInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -45178,6 +46125,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45205,6 +46153,7 @@ export namespace Prisma {
 
   export type PraktikumUpdateWithoutPenilaian_praktikumInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUpdateManyWithoutPraktikumNestedInput
@@ -45215,6 +46164,7 @@ export namespace Prisma {
   export type PraktikumUncheckedUpdateWithoutPenilaian_praktikumInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul_praktikums?: ModulPraktikumUncheckedUpdateManyWithoutPraktikumNestedInput
@@ -45224,6 +46174,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_prosesInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -45243,6 +46194,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -45275,6 +46227,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_prosesInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -45294,6 +46247,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45310,6 +46264,7 @@ export namespace Prisma {
 
   export type PesertaModulCreateWithoutPenilaian_akhirInput = {
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     modul: ModulCreateNestedOneWithoutPeserta_modulsInput
@@ -45329,6 +46284,7 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -45361,6 +46317,7 @@ export namespace Prisma {
 
   export type PesertaModulUpdateWithoutPenilaian_akhirInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -45380,6 +46337,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45401,6 +46359,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -45412,6 +46371,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -45432,6 +46392,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45452,6 +46413,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45464,6 +46426,7 @@ export namespace Prisma {
     tahun_mulai: number
     tahun_selesai: number
     total_siswa?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     tahunAjaranId?: number | null
@@ -45475,6 +46438,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45485,6 +46449,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     pemicus?: PemicuUpdateManyWithoutModulNestedInput
@@ -45505,6 +46470,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     tahunAjaranId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45525,6 +46491,7 @@ export namespace Prisma {
     tahun_mulai?: IntFieldUpdateOperationsInput | number
     tahun_selesai?: IntFieldUpdateOperationsInput | number
     total_siswa?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     tahunAjaranId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45533,6 +46500,7 @@ export namespace Prisma {
   export type PemicuUpdateWithoutDosenInput = {
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPemicusNestedInput
@@ -45545,6 +46513,7 @@ export namespace Prisma {
     ilmu_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45555,6 +46524,7 @@ export namespace Prisma {
     ilmu_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45563,12 +46533,14 @@ export namespace Prisma {
     id?: number
     modul_id: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type PesertaModulUpdateWithoutMahasiswaInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPeserta_modulsNestedInput
@@ -45588,6 +46560,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     kelompok_anggotas?: KelompokAnggotaUncheckedUpdateManyWithoutPeserta_modulNestedInput
@@ -45606,6 +46579,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45615,6 +46589,7 @@ export namespace Prisma {
     ilmu_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -45626,6 +46601,7 @@ export namespace Prisma {
     total_soal_sum2?: number
     total_her_sum1?: number
     total_her_sum2?: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45633,6 +46609,7 @@ export namespace Prisma {
   export type PesertaModulCreateManyModulInput = {
     id?: number
     nim: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     mahasiswaId?: number | null
@@ -45641,6 +46618,7 @@ export namespace Prisma {
   export type KelompokCreateManyModulInput = {
     id?: number
     nama_kelompok: string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45650,6 +46628,7 @@ export namespace Prisma {
     nilai_sumatif: Decimal | DecimalJsLike | number | string
     nilai_proses: Decimal | DecimalJsLike | number | string
     nilai_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45661,6 +46640,7 @@ export namespace Prisma {
     temu_pakar: Decimal | DecimalJsLike | number | string
     peta_konsep: Decimal | DecimalJsLike | number | string
     proses_praktik: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45668,6 +46648,7 @@ export namespace Prisma {
   export type ModulPraktikumCreateManyModulInput = {
     id?: number
     praktikum_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45684,6 +46665,7 @@ export namespace Prisma {
   export type PemicuUpdateWithoutModulInput = {
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     ilmu?: IlmuUpdateOneRequiredWithoutPemicusNestedInput
@@ -45695,6 +46677,7 @@ export namespace Prisma {
     ilmu_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45705,6 +46688,7 @@ export namespace Prisma {
     ilmu_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45715,6 +46699,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_proses_praktikums?: PenilaianProsesPraktikumUpdateManyWithoutPenilaian_modulNestedInput
@@ -45726,6 +46711,7 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_proses_praktikums?: PenilaianProsesPraktikumUncheckedUpdateManyWithoutPenilaian_modulNestedInput
@@ -45737,12 +46723,14 @@ export namespace Prisma {
     total_soal_sum2?: IntFieldUpdateOperationsInput | number
     total_her_sum1?: IntFieldUpdateOperationsInput | number
     total_her_sum2?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PesertaModulUpdateWithoutModulInput = {
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     kelompok_anggotas?: KelompokAnggotaUpdateManyWithoutPeserta_modulNestedInput
@@ -45761,6 +46749,7 @@ export namespace Prisma {
   export type PesertaModulUncheckedUpdateWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45779,6 +46768,7 @@ export namespace Prisma {
   export type PesertaModulUncheckedUpdateManyWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
     nim?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mahasiswaId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -45786,6 +46776,7 @@ export namespace Prisma {
 
   export type KelompokUpdateWithoutModulInput = {
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     anggotas?: KelompokAnggotaUpdateManyWithoutKelompokNestedInput
@@ -45794,6 +46785,7 @@ export namespace Prisma {
   export type KelompokUncheckedUpdateWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     anggotas?: KelompokAnggotaUncheckedUpdateManyWithoutKelompokNestedInput
@@ -45802,6 +46794,7 @@ export namespace Prisma {
   export type KelompokUncheckedUpdateManyWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_kelompok?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45810,6 +46803,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45819,6 +46813,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45828,6 +46823,7 @@ export namespace Prisma {
     nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45838,6 +46834,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45849,6 +46846,7 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45860,11 +46858,13 @@ export namespace Prisma {
     temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ModulPraktikumUpdateWithoutModulInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     praktikum?: PraktikumUpdateOneRequiredWithoutModul_praktikumsNestedInput
@@ -45873,6 +46873,7 @@ export namespace Prisma {
   export type ModulPraktikumUncheckedUpdateWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
     praktikum_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45880,6 +46881,7 @@ export namespace Prisma {
   export type ModulPraktikumUncheckedUpdateManyWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
     praktikum_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45913,6 +46915,7 @@ export namespace Prisma {
   export type ModulPraktikumCreateManyPraktikumInput = {
     id?: number
     modul_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45923,6 +46926,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45933,6 +46937,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -45942,11 +46947,13 @@ export namespace Prisma {
     peserta_modul_id: number
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type ModulPraktikumUpdateWithoutPraktikumInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutModul_praktikumsNestedInput
@@ -45955,6 +46962,7 @@ export namespace Prisma {
   export type ModulPraktikumUncheckedUpdateWithoutPraktikumInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45962,6 +46970,7 @@ export namespace Prisma {
   export type ModulPraktikumUncheckedUpdateManyWithoutPraktikumInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45970,6 +46979,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     penilaian_modul?: PenilaianModulUpdateOneRequiredWithoutPenilaian_proses_praktikumsNestedInput
@@ -45981,6 +46991,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45991,6 +47002,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45999,6 +47011,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_praktikumNestedInput
@@ -46010,6 +47023,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46020,6 +47034,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46027,6 +47042,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailUpdateWithoutPraktikumInput = {
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutPenilaian_proses_praktikum_detailNestedInput
@@ -46037,6 +47053,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46046,6 +47063,7 @@ export namespace Prisma {
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46055,6 +47073,7 @@ export namespace Prisma {
     modul_id: number
     dosen_id?: number | null
     nomor_pemicu: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
     dosenId?: number | null
@@ -46063,6 +47082,7 @@ export namespace Prisma {
   export type PemicuUpdateWithoutIlmuInput = {
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     modul?: ModulUpdateOneRequiredWithoutPemicusNestedInput
@@ -46074,6 +47094,7 @@ export namespace Prisma {
     modul_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -46084,6 +47105,7 @@ export namespace Prisma {
     modul_id?: IntFieldUpdateOperationsInput | number
     dosen_id?: NullableIntFieldUpdateOperationsInput | number | null
     nomor_pemicu?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     dosenId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -46095,6 +47117,7 @@ export namespace Prisma {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
     bobot: Decimal | DecimalJsLike | number | string
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46103,6 +47126,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     praktikum?: PraktikumUpdateOneWithoutPenilaian_proses_praktikumNestedInput
@@ -46114,6 +47138,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46124,6 +47149,7 @@ export namespace Prisma {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
     bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46131,6 +47157,7 @@ export namespace Prisma {
   export type KelompokAnggotaCreateManyPeserta_modulInput = {
     id?: number
     kelompok_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46141,6 +47168,7 @@ export namespace Prisma {
     nilai: number
     nilai_her: number
     nilai_akhir: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46149,6 +47177,7 @@ export namespace Prisma {
     id?: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46157,6 +47186,7 @@ export namespace Prisma {
     id?: number
     label: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46167,6 +47197,7 @@ export namespace Prisma {
     ilmu: string
     dokter: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46176,6 +47207,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: string
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -46185,11 +47217,13 @@ export namespace Prisma {
     kelompok_id: string
     pemicu_id: number
     nilai: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type KelompokAnggotaUpdateWithoutPeserta_modulInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     kelompok?: KelompokUpdateOneRequiredWithoutAnggotasNestedInput
@@ -46198,6 +47232,7 @@ export namespace Prisma {
   export type KelompokAnggotaUncheckedUpdateWithoutPeserta_modulInput = {
     id?: IntFieldUpdateOperationsInput | number
     kelompok_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46205,6 +47240,7 @@ export namespace Prisma {
   export type KelompokAnggotaUncheckedUpdateManyWithoutPeserta_modulInput = {
     id?: IntFieldUpdateOperationsInput | number
     kelompok_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46213,6 +47249,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     praktikum?: PraktikumUpdateOneRequiredWithoutPenilaian_praktikumNestedInput
@@ -46224,6 +47261,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46234,6 +47272,7 @@ export namespace Prisma {
     nilai?: FloatFieldUpdateOperationsInput | number
     nilai_her?: FloatFieldUpdateOperationsInput | number
     nilai_akhir?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46241,6 +47280,7 @@ export namespace Prisma {
   export type PenilaianBukuCatatanUpdateWithoutPeserta_modulInput = {
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46249,6 +47289,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46257,6 +47298,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46264,6 +47306,7 @@ export namespace Prisma {
   export type PenilaianTemuPakarUpdateWithoutPeserta_modulInput = {
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46272,6 +47315,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46280,6 +47324,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     label?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46289,6 +47334,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46299,6 +47345,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46309,6 +47356,7 @@ export namespace Prisma {
     ilmu?: StringFieldUpdateOperationsInput | string
     dokter?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46316,6 +47364,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumDetailUpdateWithoutPeserta_modulInput = {
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     praktikum?: PraktikumUpdateOneRequiredWithoutPenilaian_proses_praktikum_detailNestedInput
@@ -46326,6 +47375,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46335,6 +47385,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: StringFieldUpdateOperationsInput | string
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46343,6 +47394,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46352,6 +47404,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46361,6 +47414,7 @@ export namespace Prisma {
     kelompok_id?: StringFieldUpdateOperationsInput | string
     pemicu_id?: IntFieldUpdateOperationsInput | number
     nilai?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46368,11 +47422,13 @@ export namespace Prisma {
   export type KelompokAnggotaCreateManyKelompokInput = {
     id?: number
     peserta_modul_id: number
+    status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type KelompokAnggotaUpdateWithoutKelompokInput = {
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     peserta_modul?: PesertaModulUpdateOneRequiredWithoutKelompok_anggotasNestedInput
@@ -46381,6 +47437,7 @@ export namespace Prisma {
   export type KelompokAnggotaUncheckedUpdateWithoutKelompokInput = {
     id?: IntFieldUpdateOperationsInput | number
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -46388,6 +47445,7 @@ export namespace Prisma {
   export type KelompokAnggotaUncheckedUpdateManyWithoutKelompokInput = {
     id?: IntFieldUpdateOperationsInput | number
     peserta_modul_id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }

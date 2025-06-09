@@ -22,16 +22,16 @@ class AuthServices {
             try {
                 const [admin, mahasiswaSchema1, dosenSchema1, userSchema2] = yield Promise.all([
                     db1_1.default.admin.findUnique({
-                        where: { username },
+                        where: { username, status: "Aktif" },
                     }),
                     db1_1.default.mahasiswa.findUnique({
-                        where: { username },
+                        where: { username, status: "Aktif" },
                     }),
                     db1_1.default.dosen.findUnique({
-                        where: { username },
+                        where: { username, status: "Aktif" },
                     }),
                     db2_1.default.set_user.findFirst({
-                        where: { username },
+                        where: { username, status_user: "Aktif" },
                     }),
                 ]);
                 let user = null;
@@ -46,7 +46,7 @@ class AuthServices {
                 }
                 else if (dosenSchema1) {
                     user = dosenSchema1;
-                    role = "dosen";
+                    role = dosenSchema1.role === 'Koordinator' ? 'koordinator' : 'dosen';
                 }
                 else if (userSchema2) {
                     user = userSchema2;
@@ -111,7 +111,7 @@ class AuthServices {
                         },
                     });
                 }
-                else if (role === "dosen") {
+                else if (role === "dosen" || role === 'koordinator') {
                     data = yield db1_1.default.dosen.findUnique({
                         where: { id: userId },
                         select: {
@@ -119,6 +119,7 @@ class AuthServices {
                             username: true,
                             created_at: true,
                             updated_at: true,
+                            role: true
                         },
                     });
                 }

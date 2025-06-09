@@ -146,6 +146,22 @@ class ModulControllers {
       res.status(500).json({ message: err.message, status: false });
     }
   }
+  static async deleteKelompok(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { modul_id, kelompokId } = req.body;
+
+      await ModulServices.deleteKelompok(userId, role, modul_id, kelompokId);
+
+      res.status(200).json({
+        success: true,
+        message: `Kelompok berhasil dihapus`,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
   static async addPesertaToKelompok(req: Request, res: Response) {
     try {
       const { userId, role } = res.locals.user;
@@ -162,6 +178,23 @@ class ModulControllers {
       res.status(200).json({
         success: true,
         message: `Peserta Id ${nims} berhasil ditambah ke kelompok ${kelompokId}`,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+
+  static async deletePesertaFromKelompok(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { kelompokAnggotaId } = req.body;
+
+      await ModulServices.deletePesertaFromKelompok(userId, role, kelompokAnggotaId);
+
+      res.status(200).json({
+        success: true,
+        message: `Peserta Kelompok berhasil dihapus`,
       });
     } catch (error) {
       const err = error as unknown as Error;

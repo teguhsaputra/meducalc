@@ -33,12 +33,16 @@ import {
 import { Calendar } from "./ui/calendar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { addMinutes, format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
+import {
+  useGetSesiPenilaian,
+  useSesiPenilaian,
+} from "@/services/api/sesi-penilaian";
 
 const STEPS = [
   {
@@ -63,27 +67,45 @@ const STEPS = [
   },
 ];
 
-const FormSchema = z.object({
-  datetime: z
-    .date({
-      required_error: "Tanggal & waktu wajib diisi!",
-      invalid_type_error: "Format tanggal tidak valid.",
-    })
-    .refine((date) => !isNaN(date.getTime()), {
-      message: "Tanggal tidak valid.",
-    }),
-});
+const FormSchema = z
+  .object({
+    datetimeStart: z
+      .date({
+        required_error: "Tanggal & waktu mulai wajib diisi!",
+        invalid_type_error: "Format tanggal tidak valid.",
+      })
+      .refine((date) => !isNaN(date.getTime()), {
+        message: "Tanggal tidak valid.",
+      }),
+    datetimeEnd: z
+      .date({
+        required_error: "Tanggal & waktu selesai wajib diisi!",
+        invalid_type_error: "Format tanggal tidak valid.",
+      })
+      .refine((date) => !isNaN(date.getTime()), {
+        message: "Tanggal tidak valid.",
+      }),
+  })
+  .refine((data) => data.datetimeEnd > data.datetimeStart, {
+    message: "Waktu selesai harus setelah waktu mulai.",
+    path: ["datetimeEnd"],
+  });
 
 export default function StepsSesiPenilaian() {
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
-  const [time, setTime] = useState<string>("04:00");
-  const [date, setDate] = useState<Date | null>(null);
+  const [timeStart, setTimeStart] = useState<string>("00:00");
+  const [timeEnd, setTimeEnd] = useState<string>("00:00");
+  const [dateStart, setDateStart] = useState<Date | null>(null);
+  const [dateEnd, setDateEnd] = useState<Date | null>(null);
+  const { data } = useGetSesiPenilaian();
+  const { mutate, isPending } = useSesiPenilaian();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      datetime: new Date(),
+      datetimeStart: new Date(),
+      datetimeEnd: addMinutes(new Date(), 30),
     },
   });
 
@@ -97,8 +119,10 @@ export default function StepsSesiPenilaian() {
 
   const isLastStep = step === STEPS.length - 1;
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success(`Meeting at: ${format(data.datetime, "PPP, p")}`);
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    const sesiMulai = data.datetimeStart.toISOString();
+    const sesiSelesai = data.datetimeEnd.toISOString();
+    mutate({ action: "activate", sesiMulai, sesiSelesai });
   }
 
   return (
@@ -117,7 +141,9 @@ export default function StepsSesiPenilaian() {
           </AlertDialogDescription>
           {step === 1 && (
             <div className="flex flex-col">
-              <span className="py-3 text-base font-semibold">Pilih Waktu Mulai</span>
+              <span className="py-3 text-base font-semibold">
+                Pilih Waktu Mulai
+              </span>
 
               <Form {...form}>
                 <form
@@ -127,7 +153,7 @@ export default function StepsSesiPenilaian() {
                   <div className="flex w-full gap-4">
                     <FormField
                       control={form.control}
-                      name="datetime"
+                      name="datetimeStart"
                       render={({ field }) => (
                         <FormItem className="flex flex-col w-full">
                           <FormLabel>Tanggal Mulai</FormLabel>
@@ -142,7 +168,10 @@ export default function StepsSesiPenilaian() {
                                   )}
                                 >
                                   {field.value ? (
-                                    `${format(field.value, "PPP")}, ${time}`
+                                    `${format(
+                                      field.value,
+                                      "PPP"
+                                    )}, ${timeStart}`
                                   ) : (
                                     <span>Pick a date</span>
                                   )}
@@ -156,26 +185,32 @@ export default function StepsSesiPenilaian() {
                             >
                               <Calendar
                                 mode="single"
-                                selected={date || field.value}
+                                selected={dateStart || field.value}
                                 onSelect={(selectedDate) => {
-                                  console.log("pilih tanggal", selectedDate);
-
-                                  const [hours, minutes] = time.split(":")!;
-                                  selectedDate?.setHours(
+                                  const [hours, minutes] = timeStart.split(":");
+                                  const newDate = selectedDate
+                                    ? new Date(selectedDate)
+                                    : new Date();
+                                  newDate.setHours(
                                     parseInt(hours),
-                                    parseInt(minutes)
+                                    parseInt(minutes),
+                                    0,
+                                    0
                                   );
-                                  setDate(selectedDate!);
-                                  field.onChange(selectedDate);
+                                  setDateStart(newDate);
+                                  field.onChange(newDate);
                                 }}
                                 onDayClick={() => setIsOpen(false)}
                                 fromYear={2000}
-                                toYear={new Date().getFullYear()}
-                                // disabled={(date) =>
-                                //   Number(date) < Date.now() - 1000 * 60 * 60 * 24 ||
-                                //   Number(date) > Date.now() + 1000 * 60 * 60 * 24 * 30
-                                // }
+                                toYear={new Date().getFullYear() + 1}
                                 defaultMonth={field.value}
+                                disabled={
+                                  (date) =>
+                                    date <
+                                    new Date(
+                                      new Date().getTime() - 24 * 60 * 60 * 1000
+                                    ) // Disable tanggal sebelum 24 jam lalu
+                                }
                               />
                             </PopoverContent>
                           </Popover>
@@ -185,27 +220,27 @@ export default function StepsSesiPenilaian() {
                     />
                     <FormField
                       control={form.control}
-                      name="datetime"
+                      name="datetimeStart"
                       render={({ field }) => (
                         <FormItem className="flex flex-col w-full">
                           <FormLabel>Waktu Mulai</FormLabel>
                           <FormControl>
                             <Select
-                              defaultValue={time!}
+                              defaultValue={timeStart}
                               onValueChange={(e) => {
-                                console.log("pilih waktu", e);
-
-                                setTime(e);
-                                if (date) {
-                                  const [hours, minutes] = e.split(":");
-                                  const newDate = new Date(date.getTime());
-                                  newDate.setHours(
-                                    parseInt(hours),
-                                    parseInt(minutes)
-                                  );
-                                  setDate(newDate);
-                                  field.onChange(newDate);
-                                }
+                                setTimeStart(e);
+                                const [hours, minutes] = e.split(":");
+                                const newDate = dateStart
+                                  ? new Date(dateStart)
+                                  : new Date(field.value);
+                                newDate.setHours(
+                                  parseInt(hours),
+                                  parseInt(minutes),
+                                  0,
+                                  0
+                                );
+                                setDateStart(newDate);
+                                field.onChange(newDate);
                               }}
                             >
                               <SelectTrigger className="font-normal focus:ring-0 w-full focus:ring-offset-0">
@@ -240,11 +275,13 @@ export default function StepsSesiPenilaian() {
                   </div>
 
                   <div>
-                    <span className="text-base font-semibold py-3">Pilih Waktu Selesai</span>
+                    <span className="text-base font-semibold py-3">
+                      Pilih Waktu Selesai
+                    </span>
                     <div className="flex w-full gap-4 pt-3">
                       <FormField
                         control={form.control}
-                        name="datetime"
+                        name="datetimeEnd"
                         render={({ field }) => (
                           <FormItem className="flex flex-col w-full">
                             <FormLabel>Tanggal Selesai</FormLabel>
@@ -259,7 +296,10 @@ export default function StepsSesiPenilaian() {
                                     )}
                                   >
                                     {field.value ? (
-                                      `${format(field.value, "PPP")}, ${time}`
+                                      `${format(
+                                        field.value,
+                                        "PPP"
+                                      )}, ${timeEnd}`
                                     ) : (
                                       <span>Pick a date</span>
                                     )}
@@ -273,26 +313,31 @@ export default function StepsSesiPenilaian() {
                               >
                                 <Calendar
                                   mode="single"
-                                  selected={date || field.value}
+                                  selected={dateEnd || field.value}
                                   onSelect={(selectedDate) => {
-                                    console.log("pilih tanggal", selectedDate);
-
-                                    const [hours, minutes] = time.split(":")!;
-                                    selectedDate?.setHours(
+                                    const [hours, minutes] = timeEnd.split(":");
+                                    const newDate = selectedDate
+                                      ? new Date(selectedDate)
+                                      : new Date();
+                                    newDate.setHours(
                                       parseInt(hours),
-                                      parseInt(minutes)
+                                      parseInt(minutes),
+                                      0,
+                                      0
                                     );
-                                    setDate(selectedDate!);
-                                    field.onChange(selectedDate);
+                                    setDateEnd(newDate);
+                                    field.onChange(newDate);
                                   }}
                                   onDayClick={() => setIsOpen(false)}
                                   fromYear={2000}
-                                  toYear={new Date().getFullYear()}
-                                  // disabled={(date) =>
-                                  //   Number(date) < Date.now() - 1000 * 60 * 60 * 24 ||
-                                  //   Number(date) > Date.now() + 1000 * 60 * 60 * 24 * 30
-                                  // }
+                                  toYear={new Date().getFullYear() + 1}
                                   defaultMonth={field.value}
+                                  disabled={(date) =>
+                                    date <
+                                    new Date(
+                                      new Date().getTime() - 24 * 60 * 60 * 1000
+                                    )
+                                  }
                                 />
                               </PopoverContent>
                             </Popover>
@@ -302,27 +347,27 @@ export default function StepsSesiPenilaian() {
                       />
                       <FormField
                         control={form.control}
-                        name="datetime"
+                        name="datetimeEnd"
                         render={({ field }) => (
                           <FormItem className="flex flex-col w-full">
                             <FormLabel>Waktu Selesai</FormLabel>
                             <FormControl>
                               <Select
-                                defaultValue={time!}
+                                defaultValue={timeEnd}
                                 onValueChange={(e) => {
-                                  console.log("pilih waktu", e);
-
-                                  setTime(e);
-                                  if (date) {
-                                    const [hours, minutes] = e.split(":");
-                                    const newDate = new Date(date.getTime());
-                                    newDate.setHours(
-                                      parseInt(hours),
-                                      parseInt(minutes)
-                                    );
-                                    setDate(newDate);
-                                    field.onChange(newDate);
-                                  }
+                                  setTimeEnd(e);
+                                  const [hours, minutes] = e.split(":");
+                                  const newDate = dateEnd
+                                    ? new Date(dateEnd)
+                                    : new Date(field.value);
+                                  newDate.setHours(
+                                    parseInt(hours),
+                                    parseInt(minutes),
+                                    0,
+                                    0
+                                  );
+                                  setDateEnd(newDate);
+                                  field.onChange(newDate);
                                 }}
                               >
                                 <SelectTrigger className="font-normal focus:ring-0 w-full focus:ring-offset-0">
@@ -356,7 +401,6 @@ export default function StepsSesiPenilaian() {
                       />
                     </div>
                   </div>
-                  <Button type="submit">Submit</Button>
                 </form>
               </Form>
             </div>
@@ -370,11 +414,15 @@ export default function StepsSesiPenilaian() {
                 </span>
                 <span className="flex gap-2 mt-1">
                   <span className="font-bold text-gray-900 text-base">
-                    10 Juni 2024
+                    {form.watch("datetimeStart")
+                      ? format(form.watch("datetimeStart"), "d MMMM yyyy")
+                      : "Belum dipilih"}
                   </span>
                   <span>Pukul</span>
                   <span className="font-bold text-gray-900 text-base">
-                    07:00 WIB
+                    {form.watch("datetimeStart")
+                      ? format(form.watch("datetimeStart"), "HH:mm") + " WIB"
+                      : "Belum dipilih"}
                   </span>
                 </span>
               </div>
@@ -384,18 +432,22 @@ export default function StepsSesiPenilaian() {
                 </span>
                 <span className="flex gap-2 mt-1">
                   <span className="font-bold text-gray-900 text-base">
-                    20 Juni 2024
+                    {form.watch("datetimeEnd")
+                      ? format(form.watch("datetimeEnd"), "d MMMM yyyy")
+                      : "Belum dipilih"}
                   </span>
                   <span>Pukul</span>
                   <span className="font-bold text-gray-900 text-base">
-                    07:00 WIB
+                    {form.watch("datetimeEnd")
+                      ? format(form.watch("datetimeEnd"), "HH:mm") + " WIB"
+                      : "Belum dipilih"}
                   </span>
                 </span>
               </div>
 
               <div className="mt-3">
                 <p className="text-sm">
-                  Pastikan waktu yang dimasukkan benar benar valid. Karena
+                  Pastikan waktu yang dimasukkan benar-benar valid. Karena
                   setelah aktif waktu tidak dapat diubah atau dihentikan.
                 </p>
               </div>
@@ -417,8 +469,8 @@ export default function StepsSesiPenilaian() {
           )}
 
           {step === 2 ? (
-            <Button onClick={handleNext} variant="blue">
-              Saya Telah Yakin dan Lanjutkan
+            <Button onClick={handleNext} variant="blue" disabled={isPending}>
+              {isPending ? "Memproses..." : "Saya Telah Yakin dan Lanjutkan"}
             </Button>
           ) : !isLastStep ? (
             <Button onClick={handleNext} variant="blue">
@@ -428,11 +480,11 @@ export default function StepsSesiPenilaian() {
             <AlertDialogAction
               className="bg-[#2262C6] hover:bg-blue-600"
               onClick={() => {
-                console.log("Sesi Penilaian Diaktifkan!");
-                handleClose();
+                form.handleSubmit(onSubmit)();
               }}
+              disabled={isPending}
             >
-              Aktifkan Sesi Penilaian
+              {isPending ? "Memproses..." : "Aktifkan Sesi Penilaian"}
             </AlertDialogAction>
           )}
         </AlertDialogFooter>

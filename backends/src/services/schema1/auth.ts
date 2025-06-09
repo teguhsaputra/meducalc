@@ -9,16 +9,16 @@ class AuthServices {
       const [admin, mahasiswaSchema1, dosenSchema1, userSchema2] =
         await Promise.all([
           prisma.admin.findUnique({
-            where: { username },
+            where: { username, status: "Aktif" },
           }),
           prisma.mahasiswa.findUnique({
-            where: { username },
+            where: { username, status: "Aktif" },
           }),
           prisma.dosen.findUnique({
-            where: { username },
+            where: { username, status: "Aktif" },
           }),
           prismaMysql.set_user.findFirst({
-            where: { username },
+            where: { username, status_user: "Aktif" },
           }),
         ]);
 
@@ -33,7 +33,7 @@ class AuthServices {
         role = "mahasiswa";
       } else if (dosenSchema1) {
         user = dosenSchema1;
-        role = "dosen";
+        role = dosenSchema1.role === 'Koordinator' ? 'koordinator' : 'dosen';
       } else if (userSchema2) {
         user = userSchema2;
         if (userSchema2.tingkat_user === "mahasiswa") {
@@ -98,7 +98,7 @@ class AuthServices {
             updated_at: true,
           },
         });
-      } else if (role === "dosen") {
+      } else if (role === "dosen" || role === 'koordinator') {
         data = await prisma.dosen.findUnique({
           where: { id: userId },
           select: {
@@ -106,6 +106,7 @@ class AuthServices {
             username: true,
             created_at: true,
             updated_at: true,
+            role: true
           },
         });
       } else if (role === "set_user_mahasiswa" || role === "set_user_dosen") {

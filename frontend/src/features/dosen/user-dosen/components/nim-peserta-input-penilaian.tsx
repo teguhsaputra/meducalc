@@ -282,7 +282,6 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               </div>
             </div>
 
-            {/* Penilaian Akhir Her Sumatif */}
             <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Akhir Her Sumatif
@@ -361,9 +360,9 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                 Form Penilaian Akhir Praktikum
               </span>
               <span className="text-xs">Masukkan Data Dengan Benar</span>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 w-full mt-4 gap-4">
                 {modulData?.praktikums.map((praktikum: any) => (
-                  <div key={praktikum.id} className="flex items-center gap-4">
+                  <div key={praktikum.id} className="flex flex-col md:flex-row items-center gap-4">
                     <FormField
                       control={form.control}
                       name={`nilaiPraktikum.${praktikum.id}`}
@@ -400,15 +399,14 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               </div>
             </div>
 
-            {/* Penilaian Akhir Her Praktikum */}
             <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Akhir Her Praktikum
               </span>
               <span className="text-xs">Masukkan Data Dengan Benar</span>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 w-full mt-4 gap-4">
                 {modulData?.praktikums.map((praktikum: any) => (
-                  <div key={praktikum.id} className="flex items-center gap-4">
+                  <div key={praktikum.id} className="flex flex-col md:flex-row items-center gap-4">
                     <FormField
                       control={form.control}
                       name={`nilaiHerPraktikum.${praktikum.id}`}
@@ -509,7 +507,6 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               </div>
             </div>
 
-            {/* Penilaian Catatan (Logbook) */}
             <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Catatan (Logbook)
@@ -575,7 +572,6 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               </div>
             </div>
 
-            {/* Penilaian Peta Konsep */}
             <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Peta Konsep
@@ -586,14 +582,14 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                   <span className="font-bold text-xl">
                     Pemicu {nomorPemicu}
                   </span>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
+                  <div className="grid grid-cols-1 w-full mt-4 gap-4">
                     {Object.entries(
                       concepts as Record<
                         string,
                         { ilmu: string; dokter: string; nilai: number }
                       >
                     ).map(([ilmu, data]) => (
-                      <div key={ilmu} className="flex items-center gap-4">
+                      <div key={ilmu} className="flex flex-col md:flex-row items-center gap-4">
                         <div className="flex flex-col w-full">
                           <Label className="mb-4">Nama Ilmu</Label>
                           <Input
@@ -637,14 +633,13 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               ))}
             </div>
 
-            {/* Penilaian Proses Praktikum */}
             <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Proses Praktikum
               </span>
               <span className="text-xs">Masukkan Data Dengan Benar</span>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-4 gap-4">
+              <div className="grid grid-cols-1 w-full mt-4 gap-4">
                 {Object.entries(
                   prosesPraktikumData as Record<
                     string,
@@ -661,7 +656,7 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                       return (
                         <div
                           key={`${praktikumKey}-${jenisNilaiKey}`}
-                          className="flex items-center gap-4"
+                          className="flex flex-col md:flex-row items-center gap-4"
                         >
                           <div className="flex flex-col w-full gap-3">
                             <Label>Nama Praktikum</Label>

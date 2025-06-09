@@ -52,5 +52,7 @@ useModulRoute.post("/modul/admin/add-penilaian", admin_middleware_1.authenticate
 useModulRoute.post("/modul/admin/add-peserta", admin_middleware_1.authenticateUser, modul_1.default.addPeserta);
 // kelompok
 useModulRoute.post("/modul/admin/kelompok/add", admin_middleware_1.authenticateUser, modul_1.default.createKelompok);
+useModulRoute.post("/modul/admin/kelompok/delete", admin_middleware_1.authenticateUser, modul_1.default.deleteKelompok);
 useModulRoute.post("/modul/admin/kelompok/add-peserta", admin_middleware_1.authenticateUser, modul_1.default.addPesertaToKelompok);
+useModulRoute.post("/modul/admin/kelompok/delete-peserta", admin_middleware_1.authenticateUser, modul_1.default.deletePesertaFromKelompok);
 exports.default = useModulRoute;

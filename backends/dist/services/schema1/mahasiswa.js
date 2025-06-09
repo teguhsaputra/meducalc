@@ -634,7 +634,7 @@ class MahasiswaServices {
             }
         });
     }
-    static getHasilPenilaianByNimMahasiswa(userId, role, nim) {
+    static getHasilPenilaianByNimMahasiswa(userId, role, namaModul, nim) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c, _d, _e, _f;
             try {
@@ -665,6 +665,7 @@ class MahasiswaServices {
                 else {
                     throw new Error("Access denied: Role must be 'mahasiswa' or 'set_user_mahasiswa'");
                 }
+                const trimmedNamaModul = namaModul.trim();
                 const pesertaSchema2 = yield db2_1.default.mda_master_mahasiswa.findFirst({
                     where: { nim },
                 });
@@ -679,7 +680,12 @@ class MahasiswaServices {
                     throw new Error("Peserta not found");
                 }
                 const pesertaModul = yield db1_1.default.pesertaModul.findFirst({
-                    where: { nim },
+                    where: {
+                        nim,
+                        modul: {
+                            nama_modul: trimmedNamaModul,
+                        },
+                    },
                 });
                 if (!pesertaModul) {
                     throw new Error("Peserta not registered in any modul");

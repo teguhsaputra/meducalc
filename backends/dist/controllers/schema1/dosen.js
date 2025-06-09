@@ -66,9 +66,9 @@ class DosenControllers {
     static addDosen(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { userId, role } = res.locals.user;
-                const { namaDepan, tanggalLahir, username, password } = req.body;
-                const data = yield dosen_1.default.addDosen(userId, role, namaDepan, tanggalLahir, username, password);
+                const { userId, userRole } = res.locals.user;
+                const { namaDepan, tanggalLahir, username, password, role } = req.body;
+                const data = yield dosen_1.default.addDosen(userId, userRole, namaDepan, tanggalLahir, username, password, role);
                 res.status(201).json({
                     status: true,
                     data,
@@ -102,11 +102,81 @@ class DosenControllers {
             try {
                 const { userId, role } = res.locals.user;
                 const { namaModul } = req.params;
-                const { page = 1, limit = 10, searchSiswa, searchNim, sortOrder = "asc", tingkatFilter = "", } = req.query;
-                const data = yield dosen_1.default.getModulDosenDetailHasilPenilaian(userId, role, namaModul, Number(page), Number(limit), searchSiswa, searchNim, sortOrder, tingkatFilter);
+                const { page = 1, limit = 10, searchSiswa, searchNim, sortOrder = "asc", } = req.query;
+                const data = yield dosen_1.default.getModulDosenDetailHasilPenilaian(userId, role, namaModul, Number(page), Number(limit), searchSiswa, searchNim, sortOrder);
                 res.status(200).json({
                     status: true,
                     data,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static getModulDosenHasilInputPenilaian(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { namaModul, nim } = req.params;
+                const data = yield dosen_1.default.getModulDosenHasilInputPenilaian(userId, role, namaModul, nim);
+                res.status(200).json({
+                    status: true,
+                    data,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static getModulDosenDetailForInputPenilaian(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { namaModul } = req.params;
+                const { page = 1, limit = 10, searchSiswa, searchNim, searchAngkatan, } = req.query;
+                const data = yield dosen_1.default.getModulDosenDetailForInputPenilaian(userId, role, namaModul, Number(page), Number(limit), searchSiswa, searchNim, searchAngkatan);
+                res.status(200).json({
+                    status: true,
+                    data,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static getModulDosenByNimPeserta(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { namaModul, nim } = req.params;
+                const data = yield dosen_1.default.getModulDosenByNimPeserta(userId, role, namaModul, nim);
+                res.status(200).json({
+                    status: true,
+                    data,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static modulDosenInputPenilaian(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { nim, namaModul } = req.params;
+                const { input } = req.body;
+                yield dosen_1.default.modulDosenInputPenilaian(userId, role, nim, namaModul, input);
+                res.status(200).json({
+                    status: true,
+                    message: "Berhasil di simpan",
                 });
             }
             catch (error) {

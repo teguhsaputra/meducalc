@@ -4,6 +4,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstace from "../axios";
 import { useState } from "react";
 import { TProfile } from "@/types/types";
+import { useToast } from "@/hooks/use-toast";
+import { AxiosError } from "axios";
 
 export function useLogin() {
   const [loginForm, setLoginForm] = useState<{
@@ -13,6 +15,7 @@ export function useLogin() {
 
   const login = useAuthStore((state) => state.login);
   const router = useRouter();
+  const { toast } = useToast();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["login"],
@@ -42,11 +45,24 @@ export function useLogin() {
         router.push("/admin");
       } else if (data.role === "dosen" || data.role === "set_user_dosen") {
         router.push("/dosen");
-      } else if (data.role === "mahasiswa" || data.role === "set_user_mahasiswa") {
+      } else if (data.role === "koordinator") {
+        router.push("/admin/dosen");
+      } else if (
+        data.role === "mahasiswa" ||
+        data.role === "set_user_mahasiswa"
+      ) {
         router.push("/mahasiswa");
       } else {
         router.push("/");
       }
+    },
+    onError: (error: AxiosError<{message: string, status: boolean}>) => {
+      const errorMessage = error.response?.data.message
+      toast({
+        title: "Ups..",
+        description: errorMessage,
+        variant: 'destructive' 
+      })
     },
   });
 

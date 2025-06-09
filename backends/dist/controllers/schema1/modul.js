@@ -116,6 +116,23 @@ class ModulControllers {
             }
         });
     }
+    static deleteKelompok(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { modul_id, kelompokId } = req.body;
+                yield modul_1.default.deleteKelompok(userId, role, modul_id, kelompokId);
+                res.status(200).json({
+                    success: true,
+                    message: `Kelompok berhasil dihapus`,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
     static addPesertaToKelompok(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -125,6 +142,23 @@ class ModulControllers {
                 res.status(200).json({
                     success: true,
                     message: `Peserta Id ${nims} berhasil ditambah ke kelompok ${kelompokId}`,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static deletePesertaFromKelompok(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { kelompokAnggotaId } = req.body;
+                yield modul_1.default.deletePesertaFromKelompok(userId, role, kelompokAnggotaId);
+                res.status(200).json({
+                    success: true,
+                    message: `Peserta Kelompok berhasil dihapus`,
                 });
             }
             catch (error) {

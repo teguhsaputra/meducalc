@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.9.0
+ * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.9.0",
+  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -152,6 +152,8 @@ exports.Prisma.DosenScalarFieldEnum = {
   tanggal_lahir: 'tanggal_lahir',
   username: 'username',
   password: 'password',
+  role: 'role',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at',
   mda_dosen_id: 'mda_dosen_id'
@@ -167,6 +169,7 @@ exports.Prisma.MahasiswaScalarFieldEnum = {
   angkatan: 'angkatan',
   username: 'username',
   password: 'password',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -178,6 +181,7 @@ exports.Prisma.ModulScalarFieldEnum = {
   tahun_mulai: 'tahun_mulai',
   tahun_selesai: 'tahun_selesai',
   total_siswa: 'total_siswa',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at',
   dosenId: 'dosenId',
@@ -190,6 +194,7 @@ exports.Prisma.BobotNilaiAkhirScalarFieldEnum = {
   nilai_sumatif: 'nilai_sumatif',
   nilai_proses: 'nilai_proses',
   nilai_praktik: 'nilai_praktik',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -202,6 +207,7 @@ exports.Prisma.BobotNilaiProsesScalarFieldEnum = {
   temu_pakar: 'temu_pakar',
   peta_konsep: 'peta_konsep',
   proses_praktik: 'proses_praktik',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -209,6 +215,7 @@ exports.Prisma.BobotNilaiProsesScalarFieldEnum = {
 exports.Prisma.PraktikumScalarFieldEnum = {
   id: 'id',
   nama: 'nama',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -217,6 +224,7 @@ exports.Prisma.ModulPraktikumScalarFieldEnum = {
   id: 'id',
   modul_id: 'modul_id',
   praktikum_id: 'praktikum_id',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -224,6 +232,7 @@ exports.Prisma.ModulPraktikumScalarFieldEnum = {
 exports.Prisma.IlmuScalarFieldEnum = {
   id: 'id',
   nama_ilmu: 'nama_ilmu',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -234,6 +243,7 @@ exports.Prisma.PemicuScalarFieldEnum = {
   ilmu_id: 'ilmu_id',
   dosen_id: 'dosen_id',
   nomor_pemicu: 'nomor_pemicu',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at',
   dosenId: 'dosenId'
@@ -246,6 +256,7 @@ exports.Prisma.PenilaianModulScalarFieldEnum = {
   total_soal_sum2: 'total_soal_sum2',
   total_her_sum1: 'total_her_sum1',
   total_her_sum2: 'total_her_sum2',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -257,6 +268,7 @@ exports.Prisma.PenilaianProsesPraktikumScalarFieldEnum = {
   jenis_nilai: 'jenis_nilai',
   jenis_nilai_id: 'jenis_nilai_id',
   bobot: 'bobot',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -265,6 +277,7 @@ exports.Prisma.PesertaModulScalarFieldEnum = {
   id: 'id',
   modul_id: 'modul_id',
   nim: 'nim',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at',
   mahasiswaId: 'mahasiswaId'
@@ -274,6 +287,7 @@ exports.Prisma.KelompokScalarFieldEnum = {
   id: 'id',
   modul_id: 'modul_id',
   nama_kelompok: 'nama_kelompok',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -282,6 +296,7 @@ exports.Prisma.KelompokAnggotaScalarFieldEnum = {
   id: 'id',
   kelompok_id: 'kelompok_id',
   peserta_modul_id: 'peserta_modul_id',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -291,6 +306,7 @@ exports.Prisma.PenilaianBukuCatatanScalarFieldEnum = {
   peserta_modul_id: 'peserta_modul_id',
   label: 'label',
   nilai: 'nilai',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -301,6 +317,7 @@ exports.Prisma.PenilaianDiskusiKelompokScalarFieldEnum = {
   kelompok_id: 'kelompok_id',
   pemicu_id: 'pemicu_id',
   nilai: 'nilai',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -310,6 +327,7 @@ exports.Prisma.PenilaianTemuPakarScalarFieldEnum = {
   peserta_modul_id: 'peserta_modul_id',
   label: 'label',
   nilai: 'nilai',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -321,6 +339,7 @@ exports.Prisma.PenilaianPetaKonsepScalarFieldEnum = {
   ilmu: 'ilmu',
   dokter: 'dokter',
   nilai: 'nilai',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -331,6 +350,7 @@ exports.Prisma.PenilaianProsesPraktikumDetailScalarFieldEnum = {
   praktikum_id: 'praktikum_id',
   jenis_nilai: 'jenis_nilai',
   nilai: 'nilai',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -343,6 +363,7 @@ exports.Prisma.PenilaianSumatifScalarFieldEnum = {
   total_benar_her_sum1: 'total_benar_her_sum1',
   total_benar_her_sum2: 'total_benar_her_sum2',
   nilai_akhir: 'nilai_akhir',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -354,6 +375,7 @@ exports.Prisma.PenilaianPraktikumScalarFieldEnum = {
   nilai: 'nilai',
   nilai_her: 'nilai_her',
   nilai_akhir: 'nilai_akhir',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -367,6 +389,7 @@ exports.Prisma.PenilaianProsesScalarFieldEnum = {
   peta_konsep: 'peta_konsep',
   proses_praktikum: 'proses_praktikum',
   nilai_akhir: 'nilai_akhir',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -378,6 +401,7 @@ exports.Prisma.PenilaianAkhirScalarFieldEnum = {
   nilai_proses: 'nilai_proses',
   nilai_praktikum: 'nilai_praktikum',
   nilai_akhir: 'nilai_akhir',
+  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -396,6 +420,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.RoleDosen = exports.$Enums.RoleDosen = {
+  Koordinator: 'Koordinator',
+  Dosen: 'Dosen'
+};
+
 exports.JenisKelamin = exports.$Enums.JenisKelamin = {
   Pria: 'Pria',
   Perempuan: 'Perempuan'

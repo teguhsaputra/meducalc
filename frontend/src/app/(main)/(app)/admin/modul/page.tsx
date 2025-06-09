@@ -7,13 +7,40 @@ import AlertModalNilaiPraktikum from "@/features/modul/components/alert-modal-ni
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
 import ModulListing from "@/features/modul/modul-listing";
+import { useToast } from "@/hooks/use-toast";
+import { formatDate } from "@/lib/utils";
+import { useGetModul } from "@/services/api/modul";
+import { useGetSesiPenilaian } from "@/services/api/sesi-penilaian";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export const dynamic = "force-static";
 
 const Page = () => {
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [search, setSearch] = useState("");
+  const {
+    data: dataModul,
+    pagination,
+    isPending,
+  } = useGetModul(pageIndex, pageSize, search);
+  const { data } = useGetSesiPenilaian();
+  const { toast } = useToast();
+  const hasShownToast = useRef(false);
+
+  useEffect(() => {
+    if (data?.message && !hasShownToast.current) {
+      toast({
+        description: data.message,
+        variant: data.isActive ? "success" : "destructive",
+        duration: 10000,
+      });
+      hasShownToast.current = true;
+    }
+  }, [data, toast]); // Hanya trigger ketika sesiData atau toast berubah
+
   return (
     <div className="flex flex-col w-full h-full ">
       <div className="flex items-center justify-between md:hidden pb-8">
@@ -29,17 +56,21 @@ const Page = () => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <span className="text-sm">Sesi Penilaian Terakhir Diaktifkan</span>
-            <span className="text-sm font-bold">10 Juni 2024</span>
+            <span className="text-sm font-bold">
+              {formatDate(data?.data?.sesi_mulai)}
+            </span>
           </div>
           <div className="flex flex-col">
             <span className="text-sm">
               Sesi Penilaian Terakhir Dinonaktifkan
             </span>
-            <span className="text-sm font-bold">20 Juni 2024</span>
+            <span className="text-sm font-bold">
+              {formatDate(data?.data?.sesi_selesai)}
+            </span>
           </div>
           <div className="flex flex-col">
             <span className="text-sm">Total Modul</span>
-            <span className="text-sm font-bold">2</span>
+            <span className="text-sm font-bold">{pagination.totalItems}</span>
           </div>
         </div>
       </div>
@@ -50,19 +81,23 @@ const Page = () => {
 
           <div className="flex flex-col">
             <span className="text-sm">Sesi Penilaian Terakhir Diaktifkan</span>
-            <span className="text-sm font-bold">10 Juni 2024</span>
+            <span className="text-sm font-bold">
+              {formatDate(data?.data?.sesi_mulai)}
+            </span>
           </div>
 
           <div className="flex flex-col">
             <span className="text-sm">
               Sesi Penilaian Terakhir Dinonaktifkan
             </span>
-            <span className="text-sm font-bold">20 Juni 2024</span>
+            <span className="text-sm font-bold">
+              {formatDate(data?.data?.sesi_selesai)}
+            </span>
           </div>
 
           <div className="flex flex-col">
             <span className="text-sm">Total Modul</span>
-            <span className="text-sm font-bold">2</span>
+            <span className="text-sm font-bold">{pagination.totalItems}</span>
           </div>
         </div>
 

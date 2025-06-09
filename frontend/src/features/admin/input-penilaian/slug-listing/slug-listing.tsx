@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   ColumnDef,
   SortingState,
@@ -26,6 +26,9 @@ import {
 import { Eye, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useGetMe } from "@/services/api/auth";
+import { toast } from "sonner";
+import { CellAction } from "./column";
 
 export type TPesertaDetailModul = {
   id: string;
@@ -72,20 +75,9 @@ export const columns: ColumnDef<TPesertaDetailModul>[] = [
     header: "Aksi",
     cell: ({ row, table }) => {
       const slug = (table.options.meta as { slug?: string })?.slug || "";
-      return (
-        <div className="flex justify-center gap-4">
-          <Link
-            href={`/admin/input-penilaian/${encodeURIComponent(
-              slug
-            )}/${row.getValue("nim")}`}
-          >
-            <Pen className="w-5 h-5" style={{ stroke: "#999999" }} />
-          </Link>
-          <Link href={`#`}>
-            <Trash className="w-5 h-5 " style={{ stroke: "#FF6969" }} />
-          </Link>
-        </div>
-      );
+      const nim = row.getValue("nim") as string;
+
+      return <CellAction slug={slug} nim={nim} />;
     },
   },
 ];

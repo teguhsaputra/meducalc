@@ -114,11 +114,13 @@ export function useAddDosen() {
       tanggalLahir,
       username,
       password,
+      role,
     }: {
       namaDepan: string;
       tanggalLahir: string;
       username: string;
       password: string;
+      role: string;
     }) => {
       const res = await axiosInstace.post(
         "/admin/add-dosen",
@@ -127,6 +129,7 @@ export function useAddDosen() {
           tanggalLahir,
           username,
           password,
+          role,
         },
         {
           headers: {

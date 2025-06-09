@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { useAddDosen } from "@/services/api/dosen";
+import { useGetMe } from "@/services/api/auth";
 
 const formSchema = z.object({
   namaDepan: z.string().nonempty({ message: "Harap ini tidak dikosongkan" }),
@@ -38,6 +39,12 @@ const formSchema = z.object({
   password: z
     .string()
     .nonempty({ message: "Harap password ini tidak dikosongkan" }),
+  role: z
+    .string()
+    .nonempty({ message: "Harap ini tidak dapat dikosongkan" })
+    .refine((val) => ["Koordinator", "Dosen"].includes(val), {
+      message: "Role tidak valid",
+    }),
 });
 
 const getDaysInMonth = (month: number, year: number): number => {
@@ -67,6 +74,7 @@ const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) =>
 const Page = () => {
   const router = useRouter();
   const { mutate, isPending } = useAddDosen();
+  const { data } = useGetMe();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -80,6 +88,7 @@ const Page = () => {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const days = Array.from(
     {
@@ -90,6 +99,13 @@ const Page = () => {
     },
     (_, i) => (i + 1).toString()
   );
+
+  const roleOptions =
+    data?.role === "admin"
+      ? [{ value: "Koordinator", label: "Koordinator Dosen" }]
+      : data?.role === "koordinator"
+      ? [{ value: "Dosen", label: "Dosen" }]
+      : [];
 
   useEffect(() => {
     if (
@@ -122,6 +138,7 @@ const Page = () => {
       tanggalLahir: values.tanggalLahir,
       username: values.username,
       password: values.password,
+      role: values.role,
     });
   }
 
@@ -262,6 +279,35 @@ const Page = () => {
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <FormField
                   control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Role</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {roleOptions.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="username"
                   render={({ field }) => (
                     <FormItem className="w-full">
@@ -302,7 +348,12 @@ const Page = () => {
               >
                 Batalkan
               </Button>
-              <Button type="submit" variant="blue" className="my-5" disabled={isPending}>
+              <Button
+                type="submit"
+                variant="blue"
+                className="my-5"
+                disabled={isPending}
+              >
                 Tambahkan Dosen
               </Button>
             </div>

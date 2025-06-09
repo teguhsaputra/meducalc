@@ -71,16 +71,17 @@ class DosenControllers {
 
   static async addDosen(req: Request, res: Response) {
     try {
-      const { userId, role } = res.locals.user;
-      const { namaDepan, tanggalLahir, username, password } = req.body;
+      const { userId, userRole } = res.locals.user;
+      const { namaDepan, tanggalLahir, username, password, role } = req.body;
 
       const data = await DosenServices.addDosen(
         userId,
-        role,
+        userRole,
         namaDepan,
         tanggalLahir,
         username,
-        password
+        password,
+        role
       );
 
       res.status(201).json({

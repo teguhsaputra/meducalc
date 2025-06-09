@@ -277,6 +277,35 @@ export function useCreateKelompok() {
 
   return { mutate, isPending };
 }
+export function useDeleteKelompok() {
+  const token = useAuthStore((state) => state.token);
+  const modul_id = useModulContext((state) => state.modul_id);
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["delete-kelompok"],
+    mutationFn: async ({kelompokId}: {kelompokId: number}) => {
+      await axiosInstace.post(
+        "/modul/admin/kelompok/delete",
+        {
+          modul_id,
+          kelompokId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-all-modul"] });
+      queryClient.invalidateQueries({ queryKey: ["get-kelompok-by-modul"] });
+    },
+  });
+
+  return { mutate, isPending };
+}
 
 export function useAddPesertaToKelompok() {
   const token = useAuthStore((state) => state.token);
@@ -298,6 +327,41 @@ export function useAddPesertaToKelompok() {
           modul_id,
           kelompokId,
           nims,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-all-modul"] });
+      queryClient.invalidateQueries({ queryKey: ["get-kelompok-by-modul"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get-peserta-kelompok-anggota"],
+      });
+    },
+  });
+
+  return { mutate, isPending };
+}
+export function useDeletePesertaFromKelompok() {
+  const token = useAuthStore((state) => state.token);
+  const modul_id = useModulContext((state) => state.modul_id);
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["add-peserta-to-kelompok"],
+    mutationFn: async ({
+      kelompokAnggotaId,
+    }: {
+      kelompokAnggotaId: number;
+    }) => {
+      await axiosInstace.post(
+        "/modul/admin/kelompok/delete-peserta",
+        {
+          kelompokAnggotaId,
         },
         {
           headers: {

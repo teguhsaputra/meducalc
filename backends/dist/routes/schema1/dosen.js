@@ -48,4 +48,8 @@ useDosenRoute.post("/admin/add-dosen", admin_middleware_1.authenticateUser, dose
 // dosen
 useDosenRoute.get("/dosen/modul", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosen);
 useDosenRoute.get("/dosen/hasil/modul/:namaModul", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosenDetailHasilPenilaian);
+useDosenRoute.get("/dosen/hasil/modul/peserta/:namaModul/:nim", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosenHasilInputPenilaian);
+useDosenRoute.get("/dosen/penilaian/modul/:namaModul", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosenDetailForInputPenilaian);
+useDosenRoute.get("/dosen/penilaian/modul/peserta/:namaModul/:nim", admin_middleware_1.authenticateUser, dosen_1.default.getModulDosenByNimPeserta);
+useDosenRoute.post("/dosen/penilaian/modul/peserta/:namaModul/:nim", admin_middleware_1.authenticateUser, dosen_1.default.modulDosenInputPenilaian);
 exports.default = useDosenRoute;

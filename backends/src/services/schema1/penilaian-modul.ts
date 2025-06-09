@@ -1,6 +1,7 @@
 import prisma from "../../lib/db1";
 import prismaMysql from "../../lib/db2";
 import { PenilaianInput } from "../../types/types";
+import SesiPenilaianServices from "./sesi-penilaian";
 
 interface CountResult {
   count: number;
@@ -156,6 +157,14 @@ class PenilaianModulServices {
 
         if (!existingAdmin) {
           throw new Error("Admin not found");
+        }
+      } else if (role === "koordinator") {
+        const existingKoordinator = await prisma.dosen.findUnique({
+          where: { id: userId, role: "Koordinator" },
+        });
+
+        if (!existingKoordinator) {
+          throw new Error("Koordinator not found");
         }
       }
 
@@ -540,6 +549,18 @@ class PenilaianModulServices {
         if (!existingAdmin) {
           throw new Error("Admin not found");
         }
+      }
+
+      const sesiCheck = await SesiPenilaianServices.sesiPenilaian(
+        userId,
+        role,
+        "check"
+      );
+
+      if (!sesiCheck.isActive) {
+        throw new Error(
+          `Penginputan nilai tidak diperbolehkan: ${sesiCheck.message}`
+        );
       }
 
       const trimmedNamaModul = namaModul.trim();

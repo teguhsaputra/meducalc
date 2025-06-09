@@ -6,10 +6,12 @@ import { InputPenilaianListing } from "@/features/admin/input-penilaian/input-pe
 import { DosenModulInputPenilaianListing } from "@/features/dosen/user-dosen/input-penilaian/modul-input-penilaian-listing";
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
+import { useToast } from "@/hooks/use-toast";
 import { useGetModulDosen } from "@/services/api/dosen";
 import { useGetModulForPenilaianModul } from "@/services/api/penilaian-modul";
+import { useGetSesiPenilaian } from "@/services/api/sesi-penilaian";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 export const dynamic = "force-static";
 
@@ -20,6 +22,20 @@ const Page = () => {
   const [searchSchoolYear, setSearchSchoolYear] = useState("");
   const { data, currentPage, totalPages, totalItems, itemsPerPage, isPending } =
     useGetModulDosen(pageIndex, pageSize, searchModul, searchSchoolYear);
+  const { data: sesiData } = useGetSesiPenilaian();
+  const { toast } = useToast();
+  const hasShownToast = useRef(false);
+
+  useEffect(() => {
+    if (sesiData?.message && !hasShownToast.current) {
+      toast({
+        description: sesiData.message,
+        variant: sesiData.isActive ? "success" : "destructive",
+        duration: 10000,
+      });
+      hasShownToast.current = true;
+    }
+  }, [sesiData, toast]); // Hanya trigger ketika sesiData atau toast berubah
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {

@@ -138,8 +138,8 @@ class MahasiswaControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { nim } = req.params;
-                const data = yield mahasiswa_1.default.getHasilPenilaianByNimMahasiswa(userId, role, nim);
+                const { namaModul, nim } = req.params;
+                const data = yield mahasiswa_1.default.getHasilPenilaianByNimMahasiswa(userId, role, namaModul, nim);
                 res.status(200).json({
                     status: true,
                     data,

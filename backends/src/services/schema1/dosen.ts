@@ -2,6 +2,8 @@ import prisma from "../../lib/db1";
 import prismaMysql from "../../lib/db2";
 import bcrypt from "bcrypt";
 import { PenilaianInput } from "../../types/types";
+import SesiPenilaianServices from "./sesi-penilaian";
+import { RoleDosen } from "@prisma/schema1";
 
 interface CountResult {
   count: number;
@@ -250,20 +252,36 @@ class DosenServices {
 
   static async addDosen(
     userId: number,
-    role: string,
+    userRole: string,
     namaDepan: string,
     tanggalLahir: Date,
     username: string,
-    password: string
+    password: string,
+    role: RoleDosen
   ) {
     try {
-      if (role === "admin") {
+      if (userRole === "koordinator" && role === "Koordinator") {
+        throw new Error("Koordinator tidak dapat membuat Koordinator lain");
+      }
+
+      if (userRole === "admin") {
         const existingAdmin = await prisma.admin.findUnique({
-          where: { id: userId },
+          where: { id: userId, status: "Aktif" },
         });
 
         if (!existingAdmin) {
           throw new Error("Admin not found");
+        }
+      } else if (userRole === "koordinator") {
+        const existingKoordinator = await prisma.dosen.findUnique({
+          where: {
+            id: userId,
+            role: "Koordinator",
+            status: "Aktif",
+          },
+        });
+        if (!existingKoordinator) {
+          throw new Error("Koordinator tidak ditemukan atau tidak aktif");
         }
       }
 
@@ -289,6 +307,8 @@ class DosenServices {
           tanggal_lahir: parsedDate,
           username,
           password: hashedPassword,
+          role,
+          status: "Aktif",
         },
       });
 
@@ -1586,6 +1606,18 @@ class DosenServices {
 
       if (!dosenName) {
         throw new Error("Dosen name not found");
+      }
+
+      const sesiCheck = await SesiPenilaianServices.sesiPenilaian(
+        userId,
+        role,
+        "check"
+      );
+
+      if (!sesiCheck.isActive) {
+        throw new Error(
+          `Penginputan nilai tidak diperbolehkan: ${sesiCheck.message}`
+        );
       }
 
       const trimmedNamaModul = namaModul.trim();

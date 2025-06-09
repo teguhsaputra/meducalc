@@ -47,16 +47,19 @@ const Page = ({ params }: PageProps) => {
 
   return (
     <div>
-      <h3 className="text-2xl md:text-3xl font-bold">Penilaian Modul {cleanedSlug}</h3>
+      <h3 className="text-2xl md:text-3xl font-bold">
+        Penilaian Modul {cleanedSlug}
+      </h3>
 
       <Separator className="h-0.5 rounded-full my-6" />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
         <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">Nama Siswa</span>
           <Input
             value={searchSiswa}
             onChange={(e) => setSearchSiswa(e.target.value)}
+            className="w-full"
           />
         </div>
         <div className="flex flex-col w-full ">
@@ -64,6 +67,7 @@ const Page = ({ params }: PageProps) => {
           <Input
             value={searchNim}
             onChange={(e) => setSearchNim(e.target.value)}
+            className="w-full"
           />
         </div>
         <div className="flex flex-col w-full ">
@@ -71,9 +75,10 @@ const Page = ({ params }: PageProps) => {
           <Input
             value={searchAngkatan}
             onChange={(e) => setSearchAngkatan(e.target.value)}
+            className="w-full"
           />
         </div>
-        <div>
+        <div className="w-full">
           <Button
             className="mt-7 bg-[#0F172A] hover:bg-[#0F172A] "
             onClick={handleSearch}

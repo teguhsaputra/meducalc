@@ -42,7 +42,7 @@ const AlertLogout: React.FC<AlertLogoutProps> = ({onClick}) => {
           <AlertDialogCancel>
             Kembali
           </AlertDialogCancel>
-          <AlertDialogAction className="bg-blue-600" onClick={onClick}>Keluar</AlertDialogAction>
+          <AlertDialogAction className="bg-blue-600 hover:bg-blue-700" onClick={onClick}>Keluar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

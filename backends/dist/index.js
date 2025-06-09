@@ -27,6 +27,7 @@ app.use((0, cors_1.default)(corsConfig));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use("/api/", schema1_1.default);
-app.listen(port, "0.0.0.0", () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, () => {
+    console.log(`⚡️ Server is running at http://localhost:${port}`);
 });
+exports.default = app;

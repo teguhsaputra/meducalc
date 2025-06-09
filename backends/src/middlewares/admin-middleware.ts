@@ -50,6 +50,7 @@ export function authenticateUser(
       "admin",
       "mahasiswa",
       "dosen",
+      "koordinator",
       "set_user_mahasiswa",
       "set_user_dosen",
     ];

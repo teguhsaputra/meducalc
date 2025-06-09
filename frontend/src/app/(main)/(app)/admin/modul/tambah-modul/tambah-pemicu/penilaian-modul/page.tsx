@@ -332,13 +332,7 @@ const Page = () => {
                 </span>
                 <div className="mt-3 md:mt-4 space-y-4 md:space-y-6">
                   {praktikumOptions?.map((praktikum: any) => (
-                    <div
-                      key={praktikum.id}
-                      className="p-3 md:p-4 border rounded-lg"
-                    >
-                      <h4 className="text-sm md:text-base font-semibold text-gray-800 mb-3 md:mb-4">
-                        {praktikum.nama}
-                      </h4>
+                    <div key={praktikum.id}>
                       <div className="space-y-3 md:space-y-4">
                         {penilaianProsesFields
                           .filter(
@@ -476,7 +470,7 @@ const FormPenilaianProses = ({
                 value={field.value}
                 disabled={isDisabled || !jenisNilaiOptions.length}
               >
-                <SelectTrigger className="border-gray-300 text-xs md:text-sm h-10">
+                <SelectTrigger className="text-xs md:text-sm">
                   <SelectValue placeholder="Pilih Jenis Nilai" />
                 </SelectTrigger>
                 <SelectContent>
@@ -521,7 +515,6 @@ const FormPenilaianProses = ({
                   }
                 }}
                 value={field.value ?? ""}
-                className="border-gray-300 text-xs md:text-sm h-10"
               />
             </FormControl>
             <FormMessage />
