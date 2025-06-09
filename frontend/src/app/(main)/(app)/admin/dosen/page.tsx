@@ -38,7 +38,7 @@ const Page = () => {
     if (currentPage < totalPages) {
       setPageIndex(pageIndex + 1);
     }
-  }, [currentPage, totalItems, pageIndex, setPageIndex]);
+  }, [currentPage, totalPages, pageIndex, setPageIndex]);
 
   const handlePrevPage = useCallback(() => {
     if (pageIndex > 0) {

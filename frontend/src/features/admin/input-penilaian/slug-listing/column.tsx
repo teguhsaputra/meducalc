@@ -29,7 +29,7 @@ export const CellAction = ({ slug, nim }: Props) => {
       });
       toastShownRef.current = true;
     }
-  }, [isAdmin]);
+  }, [isAdmin, toast]);
 
   return (
     <div className="flex justify-center gap-4">
