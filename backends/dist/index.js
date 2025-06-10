@@ -17,6 +17,7 @@ const corsConfig = {
         "https://meducalc.rftdigitalsolution.com",
         "https://meducalc-api.rftdigitalsolution.com",
         "http://localhost:3000",
+        "https://meducalc-frontend.vercel.app",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: ["Content-Type", "Authorization"],
