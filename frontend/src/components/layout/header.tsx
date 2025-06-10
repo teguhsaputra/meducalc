@@ -23,7 +23,7 @@ export default function Header() {
   const handleLogout = useCallback(() => {
     logout();
     router.push("/");
-  }, []);
+  }, [logout, router]);
 
   return (
     <header className="fixed top-0 left-0 w-full h-16 md:h-24 shrink-0 flex items-center justify-between gap-2 px-3 md:px-10 bg-white z-40">

@@ -65,6 +65,7 @@ export function DataTable<TData, TValue>({
   });
 
   const prevSelectionRef = useRef<string[]>([]);
+  const rowSelection = table.getState().rowSelection
 
   useEffect(() => {
     const selectedRows = table
@@ -79,7 +80,7 @@ export function DataTable<TData, TValue>({
       onSelectionChange?.(selectedRows);
       prevSelectionRef.current = selectedIds;
     }
-  }, [table.getState().rowSelection, onSelectionChange]);
+  }, [rowSelection, onSelectionChange, table]);
 
   return (
     <div className="flex flex-col flex-1">
