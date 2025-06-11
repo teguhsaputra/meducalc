@@ -9,6 +9,7 @@ const useModulRoute = express.Router();
 useModulRoute.get("/modul/admin", authenticateUser, ModulControllers.getModul);
 useModulRoute.get("/modul/admin/:modul_id", authenticateUser, ModulControllers.getModulById);
 useModulRoute.post("/modul/admin/add", authenticateUser, ModulControllers.addModul);
+useModulRoute.delete("/modul/admin/delete/:modulId", authenticateUser, ModulControllers.deleteModul);
 
 // pemicu
 

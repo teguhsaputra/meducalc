@@ -69,6 +69,7 @@ class DosenServices {
             contains: search,
             mode: "insensitive",
           },
+          status: "Aktif"
         },
         include: {
           Dosen: {

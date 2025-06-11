@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { HasilPenilaianModulListing } from "@/features/admin/hasil-penilaian/hasil-penilaian-modul-listing";
 import { SlugListingHasilPenilaian } from "@/features/admin/hasil-penilaian/slug-listing-hasil/slug-listing-hasil-penilaian";
 import { SlugListing } from "@/features/admin/input-penilaian/slug-listing/slug-listing";
@@ -113,26 +114,32 @@ const Page = ({ params }: PageProps) => {
 
       <Separator className="h-0.5 rounded-full my-6" />
 
-      <div className="mt-7">
-        <SlugListingHasilPenilaian
-          data={data}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          isLoading={isPending}
-          onNextPage={handleNextPage}
-          onPrevPage={handlePrevPage}
-          onSortOrderChange={handleSortOrderChange}
-          onTingkatFilterChange={handleTingkatFilterChange}
-          onSearch={handleSearch}
-          searchSiswa={searchSiswa}
-          searchNim={searchNim}
-          sortOrder={sortOrder}
-          tingkatFilter={tingkatFilter}
-          slug={cleanedSlug}
-        />
-      </div>
+      {isPending ? (
+        <div className="mt-7">
+          <DataTableSkeleton columnCount={8} rowCount={10} filterCount={2} />
+        </div>
+      ) : (
+        <div className="mt-7">
+          <SlugListingHasilPenilaian
+            data={data}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            isLoading={isPending}
+            onNextPage={handleNextPage}
+            onPrevPage={handlePrevPage}
+            onSortOrderChange={handleSortOrderChange}
+            onTingkatFilterChange={handleTingkatFilterChange}
+            onSearch={handleSearch}
+            searchSiswa={searchSiswa}
+            searchNim={searchNim}
+            sortOrder={sortOrder}
+            tingkatFilter={tingkatFilter}
+            slug={cleanedSlug}
+          />
+        </div>
+      )}
 
       <div className="flex justify-end mt-10">
         <Button variant="blue" onClick={() => router.back()}>

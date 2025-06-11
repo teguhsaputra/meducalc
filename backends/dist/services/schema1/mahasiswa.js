@@ -115,6 +115,7 @@ class MahasiswaServices {
     }
     static getAllMahasiswa(userId_1, role_1) {
         return __awaiter(this, arguments, void 0, function* (userId, role, page = 1, limit = 10, searchSiswa = "", searchNim = "", searchAngkatan = "") {
+            var _a;
             try {
                 if (role === "admin") {
                     const existingAdmin = yield db1_1.default.admin.findUnique({
@@ -125,42 +126,36 @@ class MahasiswaServices {
                     }
                 }
                 const isSearching = searchSiswa || searchNim || searchAngkatan;
-                const skip = isSearching ? 0 : (page - 1) * limit;
-                const appliedLimit = isSearching ? undefined : limit;
+                const skip = (page - 1) * limit;
+                const appliedLimit = limit;
                 const angkatanValue = searchAngkatan
                     ? parseInt(searchAngkatan)
                     : undefined;
+                const searchSiswaLower = searchSiswa.toLowerCase();
+                const searchNimLower = searchNim.toLowerCase();
+                const searchAngkatanLower = searchAngkatan.toLowerCase();
+                const whereClauseSchema1 = {
+                    AND: [
+                        searchSiswaLower
+                            ? {
+                                OR: [
+                                    {
+                                        nama_depan: { contains: searchSiswaLower },
+                                    },
+                                    {
+                                        nama_belakang: {
+                                            contains: searchSiswaLower,
+                                        },
+                                    },
+                                ],
+                            }
+                            : undefined,
+                        searchNimLower ? { nim: { contains: searchNimLower } } : undefined,
+                        angkatanValue !== undefined ? { angkatan: angkatanValue } : undefined,
+                    ].filter((clause) => clause !== undefined),
+                };
                 const mahasiswaSchema1 = yield db1_1.default.mahasiswa.findMany({
-                    where: {
-                        peserta_moduls: {
-                            some: {
-                                mahasiswa: {
-                                    AND: [
-                                        searchSiswa
-                                            ? {
-                                                OR: [
-                                                    {
-                                                        nama_depan: {
-                                                            contains: searchSiswa,
-                                                        },
-                                                    },
-                                                    {
-                                                        nama_belakang: {
-                                                            contains: searchSiswa,
-                                                        },
-                                                    },
-                                                ],
-                                            }
-                                            : undefined,
-                                        searchNim ? { nim: { contains: searchNim } } : undefined,
-                                        angkatanValue !== undefined
-                                            ? { angkatan: angkatanValue }
-                                            : undefined,
-                                    ].filter((clause) => clause !== undefined),
-                                },
-                            },
-                        },
-                    },
+                    where: whereClauseSchema1,
                     select: {
                         id: true,
                         nama_depan: true,
@@ -182,24 +177,30 @@ class MahasiswaServices {
                         created_at: m.created_at, // Untuk pengurutan
                     });
                 });
-                const totalSiswaSchema1 = dataSchema1.length;
-                const mahasiswaSchema2 = yield db2_1.default.mda_master_mahasiswa.findMany({
-                    select: {
-                        id: true,
-                        nama_mahasiswa: true,
-                        nim: true,
-                        angkatan: true,
-                        waktu_dibuat: true,
-                    },
+                const totalSiswaSchema1 = yield db1_1.default.mahasiswa.count({
+                    where: whereClauseSchema1,
                 });
+                const whereConditions = [];
+                if (searchSiswaLower)
+                    whereConditions.push(`nama_mahasiswa LIKE '%${searchSiswaLower}%'`);
+                if (searchNimLower)
+                    whereConditions.push(`nim LIKE '%${searchNimLower}%'`);
+                if (searchAngkatanLower)
+                    whereConditions.push(`angkatan LIKE '%${searchAngkatanLower}%'`);
+                // Filter untuk menghindari tanggal invalid
+                whereConditions.push(`(tgl_lahir IS NULL OR (tgl_lahir != '0000-00-00' AND tgl_lahir != '1970-01-01'))`);
+                const whereClause = whereConditions.length > 0
+                    ? `WHERE ${whereConditions.join(" AND ")}`
+                    : "";
+                // Gunakan transaksi untuk query yang konsisten
+                const [mahasiswaSchema2, totalSiswaSchema2Result] = yield db2_1.default.$transaction([
+                    db2_1.default.$queryRawUnsafe(`SELECT * FROM mda_master_mahasiswa ${whereClause} LIMIT ${limit} OFFSET ${skip}`),
+                    db2_1.default.$queryRawUnsafe(`SELECT COUNT(*) as total FROM mda_master_mahasiswa ${whereClause}`),
+                ]);
+                const totalSiswaSchema2 = Number((_a = totalSiswaSchema2Result[0]) === null || _a === void 0 ? void 0 : _a.total) || 0;
                 const mahasiswaSetUser = yield db2_1.default.set_user.findMany({
                     where: {
                         tingkat_user: "mahasiswa",
-                    },
-                    select: {
-                        id_mahasiswa: true,
-                        username: true,
-                        nama: true,
                     },
                 });
                 const dataSchema2 = mahasiswaSchema2.map((m) => {
@@ -221,40 +222,30 @@ class MahasiswaServices {
                         created_at: m.waktu_dibuat, // Untuk pengurutan
                     };
                 });
-                const filteredDataSchema2 = dataSchema2.filter((m) => {
-                    var _a, _b, _c;
-                    return (!searchSiswa ||
-                        ((_a = m.nama) === null || _a === void 0 ? void 0 : _a.toLowerCase().includes(searchSiswa.toLowerCase()))) &&
-                        (!searchNim ||
-                            ((_b = m.nim) === null || _b === void 0 ? void 0 : _b.toLowerCase().includes(searchNim.toLowerCase()))) &&
-                        (!searchAngkatan || ((_c = m.angkatan) === null || _c === void 0 ? void 0 : _c.includes(searchAngkatan)));
-                });
-                const totalSiswaSchema2 = filteredDataSchema2.length;
-                const combinedData = [...dataSchema1, ...filteredDataSchema2];
+                const combinedData = [...dataSchema1, ...dataSchema2];
+                console.log("Combined Data Before Slice:", combinedData);
                 combinedData.sort((a, b) => {
                     const dateA = new Date(a.created_at || "1970-01-01");
                     const dateB = new Date(b.created_at || "1970-01-01");
                     return dateB.getTime() - dateA.getTime();
                 });
-                const finalData = appliedLimit
-                    ? combinedData.slice(skip, skip + appliedLimit)
-                    : combinedData;
+                // Terapkan pagination setelah filter
+                const finalData = combinedData.slice(skip, skip + appliedLimit);
                 const data = finalData.map((m) => ({
+                    id: m.id,
                     nama_siswa: m.nama,
                     nim: m.nim,
                     angkatan: m.angkatan,
                     username: m.username,
                 }));
                 const totalSiswa = totalSiswaSchema1 + totalSiswaSchema2;
-                const totalPages = appliedLimit
-                    ? Math.ceil(totalSiswa / appliedLimit)
-                    : 1;
+                const totalPages = Math.ceil(totalSiswa / limit);
                 return {
                     data,
+                    currentPage: page,
                     totalItems: totalSiswa,
-                    totalPages: isSearching ? 1 : totalPages,
-                    currentPage: isSearching ? 1 : page,
-                    pageSize: isSearching ? totalSiswa : limit,
+                    totalPages: totalPages,
+                    itemsPerPage: limit,
                 };
             }
             catch (error) {

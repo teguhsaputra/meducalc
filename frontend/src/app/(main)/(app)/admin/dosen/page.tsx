@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { DosenListing } from "@/features/dosen/dosen-listing";
 import { useGetDosenModul } from "@/services/api/dosen";
 import { Plus } from "lucide-react";
@@ -70,18 +71,24 @@ const Page = () => {
           </Button>
         </div>
 
-        <div className="mt-7">
-          <DosenListing
-            data={mappedData}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            onNextPage={() => handleNextPage()}
-            onPrevPage={() => handlePrevPage()}
-            isLoading={isPending}
-          />
-        </div>
+        {isPending ? (
+          <div className="mt-7">
+            <DataTableSkeleton columnCount={4} rowCount={5} filterCount={2} />
+          </div>
+        ) : (
+          <div className="mt-7">
+            <DosenListing
+              data={mappedData}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              onNextPage={() => handleNextPage()}
+              onPrevPage={() => handlePrevPage()}
+              isLoading={isPending}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

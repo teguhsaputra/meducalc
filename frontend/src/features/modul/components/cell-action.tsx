@@ -1,23 +1,30 @@
 import { Eye, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import React, { useCallback } from "react";
+import AlertDeleteModul from "./alert-delete-modul";
+import { useDeleteModul } from "@/services/api/modul";
 
 interface CellActionProps {
   //   data: IArticlesPagination;
+  id: number;
 }
 
-const CellAction: React.FC<CellActionProps> = ({}) => {
+const CellAction: React.FC<CellActionProps> = ({ id }) => {
+  const { mutate, isPending } = useDeleteModul(id);
   return (
     <div className="flex justify-center gap-2 ">
-      <Link href={`#`} >
+      <Link href={`#`}>
         <Eye className="w-5 h-5 " style={{ stroke: "#72A1E7" }} />
       </Link>
-      <Link href={`#`} >
+      <Link href={`#`}>
         <Pen className="w-5 h-5" style={{ stroke: "#999999" }} />
       </Link>
-      <Link href={`#`}>
+      {/* <Link href={`#`}>
         <Trash className="w-5 h-5 " style={{ stroke: "#FF6969" }} />
-      </Link>
+      </Link> */}
+      <div>
+        <AlertDeleteModul onClick={mutate} isPending={isPending} />
+      </div>
     </div>
   );
 };

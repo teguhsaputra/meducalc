@@ -3,6 +3,7 @@
 import StepsSesiPenilaian from "@/components/steps-sesi-penilaian";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import AlertModalNilaiPraktikum from "@/features/modul/components/alert-modal-nilai-praktikum";
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
@@ -21,14 +22,25 @@ const Page = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [tahunAjaran, setTahunAjaran] = useState("");
   const {
     data: dataModul,
     pagination,
     isPending,
-  } = useGetModul(pageIndex, pageSize, search);
+  } = useGetModul(pageIndex, pageSize, searchQuery);
   const { data } = useGetSesiPenilaian();
   const { toast } = useToast();
   const hasShownToast = useRef(false);
+
+  const handleSearch = () => {
+    const query = tahunAjaran
+      ? `${searchInput} ${tahunAjaran}`.trim()
+      : searchInput;
+    setSearchQuery(query);
+    setPageIndex(0);
+  };
 
   useEffect(() => {
     if (data?.message && !hasShownToast.current) {
@@ -111,10 +123,9 @@ const Page = () => {
           <div className="w-full md:w-1/2">
             <span className="text-base font-medium mb-1 block">Nama modul</span>
             <SearchModul
-              value={""}
-              onChange={function (value: string): void {
-                throw new Error("Function not implemented.");
-              }}
+              value={searchInput}
+              onChange={setSearchInput}
+              search={searchInput}
             />
           </div>
           <div className="w-full md:w-1/2">
@@ -122,16 +133,19 @@ const Page = () => {
               Tahun Ajaran
             </span>
             <SearchSchoolYear
-              value={""}
-              onChange={function (value: string): void {
-                throw new Error("Function not implemented.");
-              }}
+              value={tahunAjaran}
+              onChange={setTahunAjaran}
+              search={searchInput}
             />
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-2 mt-4 md:mt-7 w-full md:w-auto">
-          <Button className="bg-[#0F172A] hover:bg-[#0F172A] whitespace-nowrap">
+          <Button
+            className="bg-[#0F172A] hover:bg-[#0F172A] whitespace-nowrap"
+            onClick={handleSearch}
+            disabled={!searchInput && !tahunAjaran}
+          >
             Cari Data
           </Button>
 
@@ -139,9 +153,21 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="pt-6">
-        <ModulListing />
-      </div>
+      {isPending ? (
+        <div className="pt-6">
+          <DataTableSkeleton columnCount={8} rowCount={10} filterCount={2} />
+        </div>
+      ) : (
+        <div className="pt-6">
+          <ModulListing
+            search={searchQuery}
+            setSearch={setSearchQuery}
+            data={dataModul}
+            pagination={pagination}
+            isPending={isPending}
+          />
+        </div>
+      )}
     </div>
   );
 };

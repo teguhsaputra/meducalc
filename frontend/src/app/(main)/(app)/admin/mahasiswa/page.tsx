@@ -8,27 +8,38 @@ import { useGetModulDetailForPesertaPenilaianModul } from "@/services/api/penila
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { useGetAllMahasiswa } from "@/services/api/mahasiswa";
+import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 
 export const dynamic = "force-static";
 
 const Page = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [inputSiswa, setInputSiswa] = useState("");
+  const [inputNim, setInputNim] = useState("");
+  const [inputAngkatan, setInputAngkatan] = useState("");
   const [searchSiswa, setSearchSiswa] = useState("");
   const [searchNim, setSearchNim] = useState("");
   const [searchAngkatan, setSearchAngkatan] = useState("");
-  const [triggerSearch, setTriggerSearch] = useState(false);
 
-  const { data, currentPage, totalPages, totalItems, itemsPerPage, isPending } =
-    useGetAllMahasiswa(
-      pageIndex,
-      pageSize,
-      searchSiswa,
-      searchNim,
-      searchAngkatan,
-      triggerSearch
-    );
+  const {
+    data,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    isPending,
+    refetch,
+  } = useGetAllMahasiswa(
+    pageIndex,
+    pageSize,
+    searchSiswa,
+    searchNim,
+    searchAngkatan
+  );
   const router = useRouter();
+
+  console.log("Data from useGetAllMahasiswa:", data);
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
@@ -44,12 +55,15 @@ const Page = () => {
 
   const handleSearch = () => {
     setPageIndex(0);
-    setTriggerSearch((prev) => !prev);
+    setSearchSiswa(inputSiswa);
+    setSearchNim(inputNim);
+    setSearchAngkatan(inputAngkatan);
+    console.log("Search Params:", {
+      searchSiswa: inputSiswa,
+      searchNim: inputNim,
+      searchAngkatan: inputAngkatan,
+    });
   };
-
-  useEffect(() => {
-    setTriggerSearch(false);
-  }, [searchSiswa, searchNim, searchAngkatan]);
 
   return (
     <div className="flex flex-col">
@@ -70,22 +84,22 @@ const Page = () => {
         <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">Nama Siswa</span>
           <Input
-            value={searchSiswa}
-            onChange={(e) => setSearchSiswa(e.target.value)}
+            value={inputSiswa}
+            onChange={(e) => setInputSiswa(e.target.value)}
           />
         </div>
         <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">NIM</span>
           <Input
-            value={searchNim}
-            onChange={(e) => setSearchNim(e.target.value)}
+            value={inputNim}
+            onChange={(e) => setInputNim(e.target.value)}
           />
         </div>
         <div className="flex flex-col w-full">
           <span className="text-base font-medium mb-1">Angkatan</span>
           <Input
-            value={searchAngkatan}
-            onChange={(e) => setSearchAngkatan(e.target.value)}
+            value={inputAngkatan}
+            onChange={(e) => setInputAngkatan(e.target.value)}
           />
         </div>
         <Button
@@ -96,18 +110,24 @@ const Page = () => {
         </Button>
       </div>
 
-      <div className="mt-7">
-        <AdminMahasiswaListing
-          data={data}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          isLoading={isPending}
-          onNextPage={handleNextPage}
-          onPrevPage={handlePrevPage}
-        />
-      </div>
+      {isPending ? (
+        <div className="mt-7">
+          <DataTableSkeleton columnCount={6} rowCount={10} filterCount={2} />
+        </div>
+      ) : (
+        <div className="mt-7">
+          <AdminMahasiswaListing
+            data={data}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            isLoading={isPending}
+            onNextPage={handleNextPage}
+            onPrevPage={handlePrevPage}
+          />
+        </div>
+      )}
     </div>
   );
 };

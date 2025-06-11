@@ -5,14 +5,15 @@ class ModulControllers {
   static async getModul(req: Request, res: Response) {
     try {
       const { userId, role } = res.locals.user;
-      const { page = 1, limit = 10, search = "" } = req.query;
+      const { page = 1, limit = 10, search = "", fetchAll = "false" } = req.query;
 
       const data = await ModulServices.getModul(
         Number(page),
         Number(limit),
         search as string,
         userId,
-        role
+        role,
+        fetchAll === "true"
       );
 
       res.status(200).json({
@@ -190,7 +191,11 @@ class ModulControllers {
       const { userId, role } = res.locals.user;
       const { kelompokAnggotaId } = req.body;
 
-      await ModulServices.deletePesertaFromKelompok(userId, role, kelompokAnggotaId);
+      await ModulServices.deletePesertaFromKelompok(
+        userId,
+        role,
+        kelompokAnggotaId
+      );
 
       res.status(200).json({
         success: true,
@@ -216,6 +221,22 @@ class ModulControllers {
       res.status(200).json({
         success: true,
         data: result,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, status: false });
+    }
+  }
+  static async deleteModul(req: Request, res: Response) {
+    try {
+      const { userId, role } = res.locals.user;
+      const { modulId } = req.params;
+
+      await ModulServices.deleteModul(userId, role, Number(modulId));
+
+      res.status(200).json({
+        success: true,
+        message: "Modul Berhasil dihapus",
       });
     } catch (error) {
       const err = error as unknown as Error;

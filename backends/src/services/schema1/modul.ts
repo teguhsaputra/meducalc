@@ -23,7 +23,8 @@ class ModulServices {
     limit: number = 10,
     search: string = "",
     userId: number,
-    role: string
+    role: string,
+    fetchAll: boolean = false
   ) {
     try {
       if (role === "admin") {
@@ -44,39 +45,89 @@ class ModulServices {
 
       const whereSchema1 = {
         nama_modul: sanitizedSearch ? { contains: sanitizedSearch } : {},
+        status: "Aktif",
         // tahun_ajaran: sanitizedSearch ? {contains: sanitizedSearch} : {}
       };
 
-      const modulsSchema1 = await prisma.modul.findMany({
-        skip: Number(skip),
-        take: Number(limit),
-        where: whereSchema1,
-        include: {
-          bobot_nilai_akhirs: true,
-          bobot_nilai_proses: true,
-          modul_praktikums: { include: { praktikum: true } },
-          sesi_penilaian: { orderBy: { updated_at: "desc" }, take: 1 },
-        },
-        orderBy: { created_at: "desc" },
-      });
-      // console.log("modulsSchema1:", modulsSchema1); // Debugging
+      let modulsSchema1;
+      if (fetchAll) {
+        modulsSchema1 = await prisma.modul.findMany({
+          where: whereSchema1,
+          include: {
+            bobot_nilai_akhirs: true,
+            bobot_nilai_proses: true,
+            modul_praktikums: { include: { praktikum: true } },
+            sesi_penilaian: { orderBy: { updated_at: "desc" }, take: 1 },
+          },
+          orderBy: { created_at: "desc" },
+        });
+      } else {
+        const skip = (page - 1) * limit;
+        modulsSchema1 = await prisma.modul.findMany({
+          skip: Number(skip),
+          take: Number(limit),
+          where: whereSchema1,
+          include: {
+            bobot_nilai_akhirs: true,
+            bobot_nilai_proses: true,
+            modul_praktikums: { include: { praktikum: true } },
+            sesi_penilaian: { orderBy: { updated_at: "desc" }, take: 1 },
+          },
+          orderBy: { created_at: "desc" },
+        });
+      }
 
       let modulsSchema2: IstDaftarModul[];
-      if (sanitizedSearch) {
-        modulsSchema2 = await prismaMysql.$queryRaw`
-        SELECT * FROM ist_daftar_modul
-        WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
-        ORDER BY waktu_dibuat DESC
-        LIMIT ${limit} OFFSET ${skip}
-      `;
+      if (fetchAll) {
+        if (sanitizedSearch) {
+          modulsSchema2 = await prismaMysql.$queryRaw`
+          SELECT * FROM ist_daftar_modul
+          WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
+          AND status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+        `;
+        } else {
+          modulsSchema2 = await prismaMysql.$queryRaw`
+          SELECT * FROM ist_daftar_modul
+          WHERE status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+        `;
+        }
       } else {
-        modulsSchema2 = await prismaMysql.$queryRaw`
-        SELECT * FROM ist_daftar_modul
-        ORDER BY waktu_dibuat DESC
-        LIMIT ${limit} OFFSET ${skip}
-      `;
+        const skip = (page - 1) * limit;
+        if (sanitizedSearch) {
+          modulsSchema2 = await prismaMysql.$queryRaw`
+          SELECT * FROM ist_daftar_modul
+          WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
+          AND status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+          LIMIT ${limit} OFFSET ${skip}
+        `;
+        } else {
+          modulsSchema2 = await prismaMysql.$queryRaw`
+          SELECT * FROM ist_daftar_modul
+          WHERE status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+          LIMIT ${limit} OFFSET ${skip}
+        `;
+        }
       }
-      // console.log("modulsSchema2:", modulsSchema2); // Debugging
+
+      const allYearsSchema1 = modulsSchema1.map((item) => {
+        const tahunAjaranMulai = item.tahun_mulai;
+        const tahunAjaranSelesai = item.tahun_selesai;
+        return tahunAjaranMulai && tahunAjaranSelesai
+          ? `${tahunAjaranMulai}-${tahunAjaranSelesai}`
+          : "N/A";
+      });
+
+      const allYearsSchema2 = modulsSchema2.map(
+        (item: any) => item.tahun_akademik || "N/A"
+      );
+
+      const allYears = [
+        ...new Set([...allYearsSchema1, ...allYearsSchema2]),
+      ].filter((year) => year !== "N/A");
 
       const modulIdsSchema1 = modulsSchema1.map((item) => item.id);
       const pesertaCounts = await prisma.pesertaModul.groupBy({
@@ -96,11 +147,14 @@ class ModulServices {
           tahunAjaranMulai && tahunAjaranSelesai
             ? `${tahunAjaranMulai}-${tahunAjaranSelesai}`
             : "N/A";
+        const tahun_ajaran_final = allYears.includes(tahun_ajaran_str)
+          ? tahun_ajaran_str
+          : "N/A";
         return {
-          no: skip + index + 1,
+          no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
           id: item.id,
           nama_modul: item.nama_modul || "N/A",
-          tahun_ajaran: tahun_ajaran_str,
+          tahun_ajaran: tahun_ajaran_final,
           penanggung_jawab: item.penanggung_jawab || "N/A",
           total_siswa: pesertaMap.get(item.id) || 0,
           tanggal_buat:
@@ -119,19 +173,24 @@ class ModulServices {
         };
       });
 
-      const dataSchema2 = modulsSchema2.map((item: any, index: number) => ({
-        no: skip + index + 1,
-        id: item.id,
-        nama_modul: item.nama_modul || "N/A",
-        tahun_ajaran: item.tahun_akademik || "N/A",
-        penanggung_jawab: item.tim_modul || "N/A",
-        total_siswa: 0,
-        tanggal_buat: item.waktu_dibuat?.toISOString().split("T")[0],
-        tanggal_update: item.waktu_dirubah?.toString().split("T")[0],
-        sesi_diaktifkan: item.tanggal_mulai || "N/A",
-        sesi_dinonaktifkan: item.tanggal_selesai || "N/A",
-        praktikums: "N/A",
-      }));
+      const dataSchema2 = modulsSchema2.map((item: any, index: number) => {
+        const tahun_ajaran_final = allYears.includes(item.tahun_akademik)
+          ? item.tahun_akademik
+          : "N/A"; 
+        return {
+          no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
+          id: item.id,
+          nama_modul: item.nama_modul || "N/A",
+          tahun_ajaran: tahun_ajaran_final,
+          penanggung_jawab: item.tim_modul || "N/A",
+          total_siswa: 0,
+          tanggal_buat: item.waktu_dibuat?.toISOString().split("T")[0],
+          tanggal_update: item.waktu_dirubah?.toString().split("T")[0],
+          sesi_diaktifkan: item.tanggal_mulai || "N/A",
+          sesi_dinonaktifkan: item.tanggal_selesai || "N/A",
+          praktikums: "N/A",
+        };
+      });
 
       const data = [...dataSchema1, ...dataSchema2].sort((a, b) => {
         const dateA = a.tanggal_buat ? new Date(a.tanggal_buat).getTime() : 0;
@@ -139,23 +198,30 @@ class ModulServices {
         return dateB - dateA;
       });
 
-      const totalSchema1 = await prisma.modul.count({ where: whereSchema1 });
-      const totalSchema2: CountResult[] = await prismaMysql.$queryRaw`
-      SELECT COUNT(*) as count FROM ist_daftar_modul
-      WHERE nama_modul LIKE ${sanitizedSearch ? `%${sanitizedSearch}%` : "%%"}
-    `;
-      const totalSchema2Count = totalSchema2[0]?.count
-        ? Number(totalSchema2[0].count)
-        : 0;
-      const total = totalSchema1 + totalSchema2Count;
-      const totalPages = Math.ceil(total / limit);
+      let total = 0;
+      let totalPages = 1;
+      if (!fetchAll) {
+        const totalSchema1 = await prisma.modul.count({ where: whereSchema1 });
+        const totalSchema2: CountResult[] = await prismaMysql.$queryRaw`
+        SELECT COUNT(*) as count FROM ist_daftar_modul
+        WHERE nama_modul LIKE ${sanitizedSearch ? `%${sanitizedSearch}%` : "%%"}
+        AND status = 'Aktif'
+      `;
+        const totalSchema2Count = totalSchema2[0]?.count
+          ? Number(totalSchema2[0].count)
+          : 0;
+        total = totalSchema1 + totalSchema2Count;
+        totalPages = Math.ceil(total / limit);
+      } else {
+        total = data.length;
+      }
 
       return {
         data,
-        currentPage: Number(page),
-        totalPages,
+        currentPage: fetchAll ? 1 : Number(page),
+        totalPages: fetchAll ? 1 : totalPages,
         totalItems: total,
-        itemsPerPage: Number(limit),
+        itemsPerPage: fetchAll ? total : Number(limit),
       };
     } catch (error) {
       throw new Error((error as Error).message);
@@ -1155,7 +1221,40 @@ class ModulServices {
       await prisma.kelompokAnggota.delete({
         where: { id: kelompokAnggotaId },
       });
-      
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  static async deleteModul(userId: number, role: string, modulId: number) {
+    try {
+      if (role === "admin") {
+        const existingAdmin = await prisma.admin.findUnique({
+          where: { id: userId },
+        });
+
+        if (!existingAdmin) {
+          throw new Error("Admin not found");
+        }
+      }
+
+      const existingModul = await prisma.modul.findUnique({
+        where: {
+          id: modulId,
+        },
+      });
+
+      if (!existingModul) {
+        throw new Error("Modul not found");
+      }
+
+      await prisma.modul.update({
+        where: { id: modulId },
+        data: {
+          status: "Nonaktif",
+          updated_at: new Date(),
+        },
+      });
     } catch (error) {
       throw new Error((error as Error).message);
     }

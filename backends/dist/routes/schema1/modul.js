@@ -44,6 +44,7 @@ const useModulRoute = express.Router();
 useModulRoute.get("/modul/admin", admin_middleware_1.authenticateUser, modul_1.default.getModul);
 useModulRoute.get("/modul/admin/:modul_id", admin_middleware_1.authenticateUser, modul_1.default.getModulById);
 useModulRoute.post("/modul/admin/add", admin_middleware_1.authenticateUser, modul_1.default.addModul);
+useModulRoute.delete("/modul/admin/delete/:modulId", admin_middleware_1.authenticateUser, modul_1.default.deleteModul);
 // pemicu
 useModulRoute.post("/modul/admin/add-pemicu", admin_middleware_1.authenticateUser, modul_1.default.addPemicu);
 // penilaian modul

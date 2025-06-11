@@ -53,14 +53,13 @@ export function useGetAllMahasiswa(
   pageSize: number = 10,
   searchSiswa = "",
   searchNim = "",
-  searchAngkatan = "",
-  triggerSearch = false
+  searchAngkatan = ""
 ) {
   const token = useAuthStore((state) => state.token);
   const validatedPageIndex = Math.max(0, pageIndex);
   const page = validatedPageIndex + 1;
 
-  const { data, isPending } = useQuery({
+  const { data, isPending, refetch } = useQuery({
     queryKey: [
       "get-all-mahasiswa",
       page,
@@ -68,10 +67,9 @@ export function useGetAllMahasiswa(
       searchSiswa,
       searchNim,
       searchAngkatan,
-      triggerSearch,
     ],
     queryFn: async () => {
-      const res = await axiosInstace.get("/mahasiswa", {
+      const res = await axiosInstace.get("/all-mahasiswa", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,8 +93,9 @@ export function useGetAllMahasiswa(
     currentPage: data?.data?.currentPage || 1,
     totalPages: data?.data?.totalPages || 1,
     totalItems: data?.data?.totalItems || 0,
-    itemsPerPage: data?.data?.pageSize || pageSize,
+    itemsPerPage: data?.data?.itemsPerPage || pageSize,
     isPending,
+    refetch,
   };
 }
 
@@ -299,17 +298,23 @@ export function useGetModulMahasiswa(
   };
 }
 
-export function useGetHasilPenilaianByNimMahasiswa(namaModul: string, nim: string) {
+export function useGetHasilPenilaianByNimMahasiswa(
+  namaModul: string,
+  nim: string
+) {
   const token = useAuthStore((state) => state.token);
 
   const { data, isPending } = useQuery({
     queryKey: ["get-hasil-penilaian-by-nim"],
     queryFn: async () => {
-      const res = await axiosInstace.get(`/user/mahasiswa/${namaModul}/${nim}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstace.get(
+        `/user/mahasiswa/${namaModul}/${nim}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return res.data.data;
     },
   });

@@ -143,44 +143,40 @@ class MahasiswaServices {
       }
 
       const isSearching = searchSiswa || searchNim || searchAngkatan;
-      const skip = isSearching ? 0 : (page - 1) * limit;
-      const appliedLimit = isSearching ? undefined : limit;
+      const skip = (page - 1) * limit;
+      const appliedLimit = limit;
 
       const angkatanValue = searchAngkatan
         ? parseInt(searchAngkatan)
         : undefined;
 
+      const searchSiswaLower = searchSiswa.toLowerCase();
+      const searchNimLower = searchNim.toLowerCase();
+      const searchAngkatanLower = searchAngkatan.toLowerCase();
+
+      const whereClauseSchema1 = {
+        AND: [
+          searchSiswaLower
+            ? {
+                OR: [
+                  {
+                    nama_depan: { contains: searchSiswaLower },
+                  },
+                  {
+                    nama_belakang: {
+                      contains: searchSiswaLower,
+                    },
+                  },
+                ],
+              }
+            : undefined,
+          searchNimLower ? { nim: { contains: searchNimLower } } : undefined,
+          angkatanValue !== undefined ? { angkatan: angkatanValue } : undefined,
+        ].filter((clause) => clause !== undefined),
+      };
+
       const mahasiswaSchema1 = await prisma.mahasiswa.findMany({
-        where: {
-          peserta_moduls: {
-            some: {
-              mahasiswa: {
-                AND: [
-                  searchSiswa
-                    ? {
-                        OR: [
-                          {
-                            nama_depan: {
-                              contains: searchSiswa,
-                            },
-                          },
-                          {
-                            nama_belakang: {
-                              contains: searchSiswa,
-                            },
-                          },
-                        ],
-                      }
-                    : undefined,
-                  searchNim ? { nim: { contains: searchNim } } : undefined,
-                  angkatanValue !== undefined
-                    ? { angkatan: angkatanValue }
-                    : undefined,
-                ].filter((clause) => clause !== undefined),
-              },
-            },
-          },
-        },
+        where: whereClauseSchema1,
         select: {
           id: true,
           nama_depan: true,
@@ -201,26 +197,54 @@ class MahasiswaServices {
         created_at: m.created_at, // Untuk pengurutan
       }));
 
-      const totalSiswaSchema1 = dataSchema1.length;
-
-      const mahasiswaSchema2 = await prismaMysql.mda_master_mahasiswa.findMany({
-        select: {
-          id: true,
-          nama_mahasiswa: true,
-          nim: true,
-          angkatan: true,
-          waktu_dibuat: true,
-        },
+      const totalSiswaSchema1 = await prisma.mahasiswa.count({
+        where: whereClauseSchema1,
       });
+
+      const whereConditions = [];
+      if (searchSiswaLower)
+        whereConditions.push(`nama_mahasiswa LIKE '%${searchSiswaLower}%'`);
+      if (searchNimLower)
+        whereConditions.push(`nim LIKE '%${searchNimLower}%'`);
+      if (searchAngkatanLower)
+        whereConditions.push(`angkatan LIKE '%${searchAngkatanLower}%'`);
+
+      // Filter untuk menghindari tanggal invalid
+      whereConditions.push(
+        `(tgl_lahir IS NULL OR (tgl_lahir != '0000-00-00' AND tgl_lahir != '1970-01-01'))`
+      );
+
+      const whereClause =
+        whereConditions.length > 0
+          ? `WHERE ${whereConditions.join(" AND ")}`
+          : "";
+
+      // Gunakan transaksi untuk query yang konsisten
+      const [mahasiswaSchema2, totalSiswaSchema2Result] =
+        await prismaMysql.$transaction([
+          prismaMysql.$queryRawUnsafe<
+            Array<{
+              id: number;
+              nama_mahasiswa: string;
+              nim: string;
+              angkatan: number;
+              tgl_lahir: string | null;
+              waktu_dibuat: string;
+              // tambahkan field lain sesuai kebutuhan
+            }>
+          >(
+            `SELECT * FROM mda_master_mahasiswa ${whereClause} LIMIT ${limit} OFFSET ${skip}`
+          ),
+          prismaMysql.$queryRawUnsafe<Array<{ total: number }>>(
+            `SELECT COUNT(*) as total FROM mda_master_mahasiswa ${whereClause}`
+          ),
+        ]);
+
+      const totalSiswaSchema2 = Number(totalSiswaSchema2Result[0]?.total) || 0;
 
       const mahasiswaSetUser = await prismaMysql.set_user.findMany({
         where: {
           tingkat_user: "mahasiswa",
-        },
-        select: {
-          id_mahasiswa: true,
-          username: true,
-          nama: true,
         },
       });
 
@@ -245,17 +269,9 @@ class MahasiswaServices {
         };
       });
 
-      const filteredDataSchema2 = dataSchema2.filter(
-        (m) =>
-          (!searchSiswa ||
-            m.nama?.toLowerCase().includes(searchSiswa.toLowerCase())) &&
-          (!searchNim ||
-            m.nim?.toLowerCase().includes(searchNim.toLowerCase())) &&
-          (!searchAngkatan || m.angkatan?.includes(searchAngkatan))
-      );
+      const combinedData = [...dataSchema1, ...dataSchema2];
 
-      const totalSiswaSchema2 = filteredDataSchema2.length;
-      const combinedData = [...dataSchema1, ...filteredDataSchema2];
+      console.log("Combined Data Before Slice:", combinedData);
 
       combinedData.sort((a, b) => {
         const dateA = new Date(a.created_at || "1970-01-01");
@@ -263,11 +279,11 @@ class MahasiswaServices {
         return dateB.getTime() - dateA.getTime();
       });
 
-      const finalData = appliedLimit
-        ? combinedData.slice(skip, skip + appliedLimit)
-        : combinedData;
+      // Terapkan pagination setelah filter
+      const finalData = combinedData.slice(skip, skip + appliedLimit);
 
       const data = finalData.map((m) => ({
+        id: m.id,
         nama_siswa: m.nama,
         nim: m.nim,
         angkatan: m.angkatan,
@@ -275,16 +291,14 @@ class MahasiswaServices {
       }));
 
       const totalSiswa = totalSiswaSchema1 + totalSiswaSchema2;
-      const totalPages = appliedLimit
-        ? Math.ceil(totalSiswa / appliedLimit)
-        : 1;
+      const totalPages = Math.ceil(totalSiswa / limit);
 
       return {
         data,
+        currentPage: page,
         totalItems: totalSiswa,
-        totalPages: isSearching ? 1 : totalPages,
-        currentPage: isSearching ? 1 : page,
-        pageSize: isSearching ? totalSiswa : limit,
+        totalPages: totalPages,
+        itemsPerPage: limit,
       };
     } catch (error) {
       throw new Error((error as Error).message);

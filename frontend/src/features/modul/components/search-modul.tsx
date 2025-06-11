@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,11 +23,14 @@ import { useGetModul } from "@/services/api/modul";
 interface SaerchModulProps {
   value: string;
   onChange: (value: string) => void;
+  search: string;
 }
 
-export function SearchModul({ value, onChange }: SaerchModulProps) {
+export function SearchModul({ value, onChange, search }: SaerchModulProps) {
   const [open, setOpen] = React.useState(false);
-  const { data } = useGetModul();
+  const [filter, setFilter] = React.useState("");
+  const [isSelected, setIsSelected] = React.useState(false);
+  const { data } = useGetModul(1, 10, search, true);
 
   const namaModulOptions = Array.from(
     new Set(
@@ -42,6 +45,16 @@ export function SearchModul({ value, onChange }: SaerchModulProps) {
       label: nama,
     }));
 
+  const filteredOptions = namaModulOptions.filter((modul) =>
+    modul.label.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const handleReset = () => {
+    onChange(""); // Kosongkan searchInput
+    setIsSelected(false); // Reset state pilihan
+    setFilter(""); // Reset filter
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -51,37 +64,56 @@ export function SearchModul({ value, onChange }: SaerchModulProps) {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value
-            ? namaModulOptions.find((modul) => modul.value === value)?.label
-            : "Cari modul..."}
-          <ChevronsUpDown className="opacity-50" />
+          <span className="truncate">Cari modul...</span>
+
+          <ChevronsUpDown className="h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Cari..." className="h-9" />
+          <CommandInput
+            placeholder="Cari..."
+            className="h-9"
+            value={filter}
+            onValueChange={setFilter}
+          />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Tidak ada modul.</CommandEmpty>
             <CommandGroup>
-              {namaModulOptions.map((modul) => (
+              {(filteredOptions.length > 0
+                ? filteredOptions
+                : namaModulOptions
+              ).map((modul) => (
                 <CommandItem
                   key={modul.value}
                   value={modul.value}
                   onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue);
+                    const selectedModul = namaModulOptions.find(
+                      (m) => m.value === currentValue
+                    );
+                    onChange(selectedModul ? selectedModul.label : ""); // Perbarui searchInput
+                    setIsSelected(true); // Tandai bahwa ada pilihan
                     setOpen(false);
+                    setFilter(""); // Reset filter agar semua muncul lagi
                   }}
+                  className="cursor-pointer" // Hindari sorotan bawaan
                 >
                   {modul.label}
-                  <Check
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      value === modul.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
                 </CommandItem>
               ))}
             </CommandGroup>
+            {isSelected && (
+              <div className="p-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

@@ -9,6 +9,7 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import { useModulContext } from "@/hooks/use-modul-context";
 import { useRouter } from "next/navigation";
 import { TAddPenilaianData, TCreatePemicus, TPemicus } from "@/types/types";
+import { useToast } from "@/hooks/use-toast";
 
 interface BobotNilaiAkhir {
   sumatif: number;
@@ -37,7 +38,8 @@ interface CreateModulData {
 export function useGetModul(
   pageIndex: number = 1,
   pageSize: number = 10,
-  search = ""
+  search = "",
+  fetchAll: boolean = false
 ) {
   const token = useAuthStore((state) => state.token);
 
@@ -45,16 +47,17 @@ export function useGetModul(
   const page = validatedPageIndex + 1;
 
   const { data, isPending } = useQuery({
-    queryKey: ["get-all-modul", page, pageSize, search],
+    queryKey: ["get-all-modul", page, pageSize, search, fetchAll],
     queryFn: async () => {
       const res = await axiosInstace.get("/modul/admin", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          page,
-          limit: pageSize,
+          page: fetchAll ? undefined : page,
+          limit: fetchAll ? undefined : pageSize,
           search,
+          fetchAll
         },
       });
 
@@ -284,12 +287,12 @@ export function useDeleteKelompok() {
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["delete-kelompok"],
-    mutationFn: async ({kelompokId}: {kelompokId: number}) => {
+    mutationFn: async ({ kelompokId }: { kelompokId: number }) => {
       await axiosInstace.post(
         "/modul/admin/kelompok/delete",
         {
           modul_id,
-          kelompokId
+          kelompokId,
         },
         {
           headers: {
@@ -420,4 +423,32 @@ export function useGetModulById(id: number) {
   });
 
   return { data };
+}
+
+export function useDeleteModul(id: number) {
+  const token = useAuthStore((state) => state.token);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["delete-modul"],
+    mutationFn: async () => {
+      const res = await axiosInstace.delete(`/modul/admin/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-all-modul"] });
+      toast({
+        title: "Berhasil",
+        description: "Berhasil menghapus modul",
+        variant: "success",
+      });
+    },
+  });
+
+  return { mutate, isPending };
 }

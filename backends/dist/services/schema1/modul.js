@@ -16,7 +16,7 @@ const db2_1 = __importDefault(require("../../lib/db2"));
 const db1_1 = __importDefault(require("../../lib/db1"));
 class ModulServices {
     static getModul() {
-        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10, search = "", userId, role) {
+        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10, search = "", userId, role, fetchAll = false) {
             var _a;
             try {
                 if (role === "admin") {
@@ -33,38 +33,86 @@ class ModulServices {
                 // console.log("sanitizedSearch:", sanitizedSearch); // Debugging
                 const whereSchema1 = {
                     nama_modul: sanitizedSearch ? { contains: sanitizedSearch } : {},
+                    status: "Aktif",
                     // tahun_ajaran: sanitizedSearch ? {contains: sanitizedSearch} : {}
                 };
-                const modulsSchema1 = yield db1_1.default.modul.findMany({
-                    skip: Number(skip),
-                    take: Number(limit),
-                    where: whereSchema1,
-                    include: {
-                        bobot_nilai_akhirs: true,
-                        bobot_nilai_proses: true,
-                        modul_praktikums: { include: { praktikum: true } },
-                        sesi_penilaian: { orderBy: { updated_at: "desc" }, take: 1 },
-                    },
-                    orderBy: { created_at: "desc" },
-                });
-                // console.log("modulsSchema1:", modulsSchema1); // Debugging
-                let modulsSchema2;
-                if (sanitizedSearch) {
-                    modulsSchema2 = yield db2_1.default.$queryRaw `
-        SELECT * FROM ist_daftar_modul
-        WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
-        ORDER BY waktu_dibuat DESC
-        LIMIT ${limit} OFFSET ${skip}
-      `;
+                let modulsSchema1;
+                if (fetchAll) {
+                    modulsSchema1 = yield db1_1.default.modul.findMany({
+                        where: whereSchema1,
+                        include: {
+                            bobot_nilai_akhirs: true,
+                            bobot_nilai_proses: true,
+                            modul_praktikums: { include: { praktikum: true } },
+                            sesi_penilaian: { orderBy: { updated_at: "desc" }, take: 1 },
+                        },
+                        orderBy: { created_at: "desc" },
+                    });
                 }
                 else {
-                    modulsSchema2 = yield db2_1.default.$queryRaw `
-        SELECT * FROM ist_daftar_modul
-        ORDER BY waktu_dibuat DESC
-        LIMIT ${limit} OFFSET ${skip}
-      `;
+                    const skip = (page - 1) * limit;
+                    modulsSchema1 = yield db1_1.default.modul.findMany({
+                        skip: Number(skip),
+                        take: Number(limit),
+                        where: whereSchema1,
+                        include: {
+                            bobot_nilai_akhirs: true,
+                            bobot_nilai_proses: true,
+                            modul_praktikums: { include: { praktikum: true } },
+                            sesi_penilaian: { orderBy: { updated_at: "desc" }, take: 1 },
+                        },
+                        orderBy: { created_at: "desc" },
+                    });
                 }
-                // console.log("modulsSchema2:", modulsSchema2); // Debugging
+                let modulsSchema2;
+                if (fetchAll) {
+                    if (sanitizedSearch) {
+                        modulsSchema2 = yield db2_1.default.$queryRaw `
+          SELECT * FROM ist_daftar_modul
+          WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
+          AND status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+        `;
+                    }
+                    else {
+                        modulsSchema2 = yield db2_1.default.$queryRaw `
+          SELECT * FROM ist_daftar_modul
+          WHERE status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+        `;
+                    }
+                }
+                else {
+                    const skip = (page - 1) * limit;
+                    if (sanitizedSearch) {
+                        modulsSchema2 = yield db2_1.default.$queryRaw `
+          SELECT * FROM ist_daftar_modul
+          WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
+          AND status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+          LIMIT ${limit} OFFSET ${skip}
+        `;
+                    }
+                    else {
+                        modulsSchema2 = yield db2_1.default.$queryRaw `
+          SELECT * FROM ist_daftar_modul
+          WHERE status = 'Aktif'
+          ORDER BY waktu_dibuat DESC
+          LIMIT ${limit} OFFSET ${skip}
+        `;
+                    }
+                }
+                const allYearsSchema1 = modulsSchema1.map((item) => {
+                    const tahunAjaranMulai = item.tahun_mulai;
+                    const tahunAjaranSelesai = item.tahun_selesai;
+                    return tahunAjaranMulai && tahunAjaranSelesai
+                        ? `${tahunAjaranMulai}-${tahunAjaranSelesai}`
+                        : "N/A";
+                });
+                const allYearsSchema2 = modulsSchema2.map((item) => item.tahun_akademik || "N/A");
+                const allYears = [
+                    ...new Set([...allYearsSchema1, ...allYearsSchema2]),
+                ].filter((year) => year !== "N/A");
                 const modulIdsSchema1 = modulsSchema1.map((item) => item.id);
                 const pesertaCounts = yield db1_1.default.pesertaModul.groupBy({
                     by: ["modul_id"],
@@ -80,11 +128,14 @@ class ModulServices {
                     const tahun_ajaran_str = tahunAjaranMulai && tahunAjaranSelesai
                         ? `${tahunAjaranMulai}-${tahunAjaranSelesai}`
                         : "N/A";
+                    const tahun_ajaran_final = allYears.includes(tahun_ajaran_str)
+                        ? tahun_ajaran_str
+                        : "N/A";
                     return {
-                        no: skip + index + 1,
+                        no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
                         id: item.id,
                         nama_modul: item.nama_modul || "N/A",
-                        tahun_ajaran: tahun_ajaran_str,
+                        tahun_ajaran: tahun_ajaran_final,
                         penanggung_jawab: item.penanggung_jawab || "N/A",
                         total_siswa: pesertaMap.get(item.id) || 0,
                         tanggal_buat: (_b = (_a = item.created_at) === null || _a === void 0 ? void 0 : _a.toISOString().split("T")[0]) !== null && _b !== void 0 ? _b : item.created_at.toISOString().split("T")[0],
@@ -97,11 +148,14 @@ class ModulServices {
                 });
                 const dataSchema2 = modulsSchema2.map((item, index) => {
                     var _a, _b;
-                    return ({
-                        no: skip + index + 1,
+                    const tahun_ajaran_final = allYears.includes(item.tahun_akademik)
+                        ? item.tahun_akademik
+                        : "N/A";
+                    return {
+                        no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
                         id: item.id,
                         nama_modul: item.nama_modul || "N/A",
-                        tahun_ajaran: item.tahun_akademik || "N/A",
+                        tahun_ajaran: tahun_ajaran_final,
                         penanggung_jawab: item.tim_modul || "N/A",
                         total_siswa: 0,
                         tanggal_buat: (_a = item.waktu_dibuat) === null || _a === void 0 ? void 0 : _a.toISOString().split("T")[0],
@@ -109,29 +163,37 @@ class ModulServices {
                         sesi_diaktifkan: item.tanggal_mulai || "N/A",
                         sesi_dinonaktifkan: item.tanggal_selesai || "N/A",
                         praktikums: "N/A",
-                    });
+                    };
                 });
                 const data = [...dataSchema1, ...dataSchema2].sort((a, b) => {
                     const dateA = a.tanggal_buat ? new Date(a.tanggal_buat).getTime() : 0;
                     const dateB = b.tanggal_buat ? new Date(b.tanggal_buat).getTime() : 0;
                     return dateB - dateA;
                 });
-                const totalSchema1 = yield db1_1.default.modul.count({ where: whereSchema1 });
-                const totalSchema2 = yield db2_1.default.$queryRaw `
-      SELECT COUNT(*) as count FROM ist_daftar_modul
-      WHERE nama_modul LIKE ${sanitizedSearch ? `%${sanitizedSearch}%` : "%%"}
-    `;
-                const totalSchema2Count = ((_a = totalSchema2[0]) === null || _a === void 0 ? void 0 : _a.count)
-                    ? Number(totalSchema2[0].count)
-                    : 0;
-                const total = totalSchema1 + totalSchema2Count;
-                const totalPages = Math.ceil(total / limit);
+                let total = 0;
+                let totalPages = 1;
+                if (!fetchAll) {
+                    const totalSchema1 = yield db1_1.default.modul.count({ where: whereSchema1 });
+                    const totalSchema2 = yield db2_1.default.$queryRaw `
+        SELECT COUNT(*) as count FROM ist_daftar_modul
+        WHERE nama_modul LIKE ${sanitizedSearch ? `%${sanitizedSearch}%` : "%%"}
+        AND status = 'Aktif'
+      `;
+                    const totalSchema2Count = ((_a = totalSchema2[0]) === null || _a === void 0 ? void 0 : _a.count)
+                        ? Number(totalSchema2[0].count)
+                        : 0;
+                    total = totalSchema1 + totalSchema2Count;
+                    totalPages = Math.ceil(total / limit);
+                }
+                else {
+                    total = data.length;
+                }
                 return {
                     data,
-                    currentPage: Number(page),
-                    totalPages,
+                    currentPage: fetchAll ? 1 : Number(page),
+                    totalPages: fetchAll ? 1 : totalPages,
                     totalItems: total,
-                    itemsPerPage: Number(limit),
+                    itemsPerPage: fetchAll ? total : Number(limit),
                 };
             }
             catch (error) {
@@ -960,6 +1022,38 @@ class ModulServices {
                 }
                 yield db1_1.default.kelompokAnggota.delete({
                     where: { id: kelompokAnggotaId },
+                });
+            }
+            catch (error) {
+                throw new Error(error.message);
+            }
+        });
+    }
+    static deleteModul(userId, role, modulId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (role === "admin") {
+                    const existingAdmin = yield db1_1.default.admin.findUnique({
+                        where: { id: userId },
+                    });
+                    if (!existingAdmin) {
+                        throw new Error("Admin not found");
+                    }
+                }
+                const existingModul = yield db1_1.default.modul.findUnique({
+                    where: {
+                        id: modulId,
+                    },
+                });
+                if (!existingModul) {
+                    throw new Error("Modul not found");
+                }
+                yield db1_1.default.modul.update({
+                    where: { id: modulId },
+                    data: {
+                        status: "Nonaktif",
+                        updated_at: new Date(),
+                    },
                 });
             }
             catch (error) {

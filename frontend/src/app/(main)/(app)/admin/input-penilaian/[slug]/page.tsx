@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { SlugListing } from "@/features/admin/input-penilaian/slug-listing/slug-listing";
 import { useGetModulDetailForPesertaPenilaianModul } from "@/services/api/penilaian-modul";
 import { useRouter } from "next/navigation";
@@ -88,19 +89,25 @@ const Page = ({ params }: PageProps) => {
         </div>
       </div>
 
-      <div className="mt-7">
-        <SlugListing
-          data={data}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          isLoading={isPending}
-          onNextPage={() => handleNextPage()}
-          onPrevPage={() => handlePrevPage()}
-          slug={cleanedSlug}
-        />
-      </div>
+      {isPending ? (
+        <div className="mt-7">
+          <DataTableSkeleton columnCount={6} rowCount={10} filterCount={2} />
+        </div>
+      ) : (
+        <div className="mt-7">
+          <SlugListing
+            data={data}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            isLoading={isPending}
+            onNextPage={() => handleNextPage()}
+            onPrevPage={() => handlePrevPage()}
+            slug={cleanedSlug}
+          />
+        </div>
+      )}
 
       <div className="flex justify-end mt-10">
         <Button variant="blue" onClick={() => router.back()}>

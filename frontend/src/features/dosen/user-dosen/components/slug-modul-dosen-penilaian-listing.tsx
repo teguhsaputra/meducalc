@@ -81,9 +81,6 @@ export const columns: ColumnDef<TPesertaDetailModulDosen>[] = [
           >
             <Pen className="w-5 h-5" style={{ stroke: "#999999" }} />
           </Link>
-          <Link href={`#`}>
-            <Trash className="w-5 h-5 " style={{ stroke: "#FF6969" }} />
-          </Link>
         </div>
       );
     },

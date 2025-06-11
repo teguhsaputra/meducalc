@@ -23,24 +23,43 @@ import { useGetModul } from "@/services/api/modul";
 interface SearchSchoolYearProps {
   value: string;
   onChange: (value: string) => void;
+  search: string;
 }
 
-export function SearchSchoolYear({ value, onChange }: SearchSchoolYearProps) {
+export function SearchSchoolYear({
+  value,
+  onChange,
+  search,
+}: SearchSchoolYearProps) {
   const [open, setOpen] = React.useState(false);
-  const { data } = useGetModul();
+  const [filter, setFilter] = React.useState("");
+  const [isSelected, setIsSelected] = React.useState(false);
+
+  const { data } = useGetModul(1, 10, search, true);
 
   const tahunAjaranOptions = Array.from(
     new Set(
       data
         ?.map((item: any) => item.tahun_ajaran)
-        .filter((tahun: any): tahun is string => typeof tahun === "string") || []
+        .filter((tahun: any): tahun is string => typeof tahun === "string") ||
+        []
     )
   )
     .filter((tahun): tahun is string => !!tahun && tahun !== "N/A")
     .map((tahun) => ({
-      value: tahun.toLowerCase().replace("/", "-"),
+      value: tahun.toLowerCase().replace("-", "/"),
       label: tahun,
     }));
+
+  const filteredOptions = tahunAjaranOptions.filter((year) =>
+    year.label.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const handleReset = () => {
+    onChange(""); // Kosongkan searchInput
+    setIsSelected(false); // Reset state pilihan
+    setFilter(""); // Reset filter
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,35 +72,55 @@ export function SearchSchoolYear({ value, onChange }: SearchSchoolYearProps) {
         >
           {value
             ? tahunAjaranOptions.find((year) => year.value === value)?.label
-            : "2023-2024"}
+            : "Pilih Tahun Ajaran..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Cari..." className="h-9" />
+          <CommandInput
+            placeholder="Cari..."
+            className="h-9"
+            value={filter}
+            onValueChange={setFilter}
+          />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Tidak ada tahun ajaran.</CommandEmpty>
             <CommandGroup>
-              {tahunAjaranOptions.map((year) => (
+              {(filteredOptions.length > 0
+                ? filteredOptions
+                : tahunAjaranOptions
+              ).map((year) => (
                 <CommandItem
                   key={year.value}
                   value={year.value}
                   onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue);
+                    const selectedYear = tahunAjaranOptions.find(
+                      (m) => m.value === currentValue
+                    );
+                    onChange(selectedYear ? selectedYear.label : "");
+                    setIsSelected(true);
                     setOpen(false);
+                    setFilter("");
                   }}
+                  className="cursor-pointer"
                 >
                   {year.label}
-                  <Check
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      value === year.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
                 </CommandItem>
               ))}
             </CommandGroup>
+            {isSelected && (
+              <div className="p-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

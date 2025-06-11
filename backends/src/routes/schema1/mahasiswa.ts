@@ -15,7 +15,7 @@ useMahasiswaRoute.get(
   MahasiswaControllers.getMahasiswa
 );
 useMahasiswaRoute.get(
-  "/mahasiswa",
+  "/all-mahasiswa",
   authenticateUser,
   MahasiswaControllers.getAllMahasiswa
 );

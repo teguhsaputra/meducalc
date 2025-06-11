@@ -42,7 +42,7 @@ const admin_middleware_1 = require("../../middlewares/admin-middleware");
 const useMahasiswaRoute = express.Router();
 useMahasiswaRoute.get("/mahasiswa/detail/:mahasiswaId", admin_middleware_1.authenticateUser, mahasiswa_1.default.getMahasiswaById);
 useMahasiswaRoute.get("/mahasiswa", admin_middleware_1.authenticateUser, mahasiswa_1.default.getMahasiswa);
-useMahasiswaRoute.get("/mahasiswa", admin_middleware_1.authenticateUser, mahasiswa_1.default.getAllMahasiswa);
+useMahasiswaRoute.get("/all-mahasiswa", admin_middleware_1.authenticateUser, mahasiswa_1.default.getAllMahasiswa);
 useMahasiswaRoute.get("/mahasiswa/:nim", admin_middleware_1.authenticateUser, mahasiswa_1.default.getMahasiswaDetailByNim);
 useMahasiswaRoute.post("/mahasiswa/add", admin_middleware_1.authenticateUser, mahasiswa_1.default.addMahasiswa);
 useMahasiswaRoute.put("/mahasiswa/edit/:mahasiswaId", admin_middleware_1.authenticateUser, mahasiswa_1.default.editMahasiswaById);

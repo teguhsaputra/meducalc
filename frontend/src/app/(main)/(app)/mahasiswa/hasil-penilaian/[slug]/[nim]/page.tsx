@@ -5,40 +5,43 @@ import NimDetailHasilPenilaianMahasiswa from "@/features/mahasiswa/mahasiswa/has
 import { useGetHasilPenilaianByNimMahasiswa } from "@/services/api/mahasiswa";
 import React from "react";
 
-type PageProps = { params: { slug: string, nim: string } };
+type PageProps = { params: { slug: string; nim: string } };
 const Page = ({ params }: PageProps) => {
   const namaModul = decodeURIComponent(params.slug);
 
   const { data } = useGetHasilPenilaianByNimMahasiswa(namaModul, params.nim);
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
         <div>
-          <span className="text-3xl font-semibold">Rangkuman Nilai {data?.data.modul}</span>
+          <span className="text-2xl md:text-3xl font-semibold block">
+            Rangkuman Nilai {data?.data.modul}
+          </span>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            <span className="text-sm">Nama</span>
+
+        <div className="flex flex-col md:flex-row  gap-4 ">
+          <div className="flex flex-col min-w-[120px]">
+            <span className="text-sm text-gray-500">Nama</span>
             <span className="text-sm font-bold">{data?.data.nama_siswa}</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm">NIM</span>
+          <div className="flex flex-col min-w-[100px]">
+            <span className="text-sm text-gray-500">NIM</span>
             <span className="text-sm font-bold">{params.nim}</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm">Kelompok</span>
+          <div className="flex flex-col min-w-[100px]">
+            <span className="text-sm text-gray-500">Kelompok</span>
             <span className="text-sm font-bold">
               {data?.data.kelompok_nomor}
             </span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm">Nilai Akhir Modul</span>
+          <div className="flex flex-col min-w-[130px]">
+            <span className="text-sm text-gray-500">Nilai Akhir Modul</span>
             <span className="text-sm font-bold">
               {data?.data.nilaiAkhir?.nilai}
             </span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm">Tingkat</span>
+          <div className="flex flex-col min-w-[100px]">
+            <span className="text-sm text-gray-500">Tingkat</span>
             <span className="text-sm font-bold">
               {data?.data.nilaiAkhir?.tingkat}
             </span>

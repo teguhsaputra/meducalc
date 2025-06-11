@@ -18,8 +18,8 @@ class ModulControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { page = 1, limit = 10, search = "" } = req.query;
-                const data = yield modul_1.default.getModul(Number(page), Number(limit), search, userId, role);
+                const { page = 1, limit = 10, search = "", fetchAll = "false" } = req.query;
+                const data = yield modul_1.default.getModul(Number(page), Number(limit), search, userId, role, fetchAll === "true");
                 res.status(200).json({
                     success: true,
                     data,
@@ -176,6 +176,23 @@ class ModulControllers {
                 res.status(200).json({
                     success: true,
                     data: result,
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static deleteModul(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { modulId } = req.params;
+                yield modul_1.default.deleteModul(userId, role, Number(modulId));
+                res.status(200).json({
+                    success: true,
+                    message: "Modul Berhasil dihapus",
                 });
             }
             catch (error) {

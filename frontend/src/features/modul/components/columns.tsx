@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import CellAction from "./cell-action";
 import { formatDate } from "@/lib/utils";
 import { fork } from "child_process";
+import { id } from "zod/v4/locales";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -52,6 +53,6 @@ export const columns: ColumnDef<Modul>[] = [
   {
     accessorKey: "id",
     header: "Aksi",
-    cell: ({ row }) => <CellAction />,
+    cell: ({ row }) => <CellAction id={row.original.id} />,
   },
 ];
