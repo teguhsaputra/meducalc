@@ -176,7 +176,7 @@ class ModulServices {
       const dataSchema2 = modulsSchema2.map((item: any, index: number) => {
         const tahun_ajaran_final = allYears.includes(item.tahun_akademik)
           ? item.tahun_akademik
-          : "N/A"; 
+          : "N/A";
         return {
           no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
           id: item.id,
@@ -1255,6 +1255,184 @@ class ModulServices {
           updated_at: new Date(),
         },
       });
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  static async updateModul(
+    userId: number,
+    role: string,
+    modulId: number,
+    nama_modul?: string,
+    penanggung_jawab?: string,
+    bobot_nilai_proses?: {
+      diskusi?: number;
+      buku_catatan?: number;
+      temu_pakar?: number;
+      peta_konsep?: number;
+      proses_praktik?: number;
+    },
+    total_soal_sum1?: number,
+    total_soal_sum2?: number,
+    total_soal_her_sum1?: number,
+    total_soal_her_sum2?: number
+  ) {
+    try {
+      if (role === "admin") {
+        const existingAdmin = await prisma.admin.findUnique({
+          where: { id: userId },
+        });
+
+        if (!existingAdmin) {
+          throw new Error("Admin not found");
+        }
+      }
+
+      const existingModul = await prisma.modul.findUnique({
+        where: {
+          id: modulId,
+        },
+        select: {
+          id: true,
+          nama_modul: true,
+          penanggung_jawab: true,
+          bobot_nilai_proses: true,
+          penilaian_moduls: true,
+        },
+      });
+
+      if (!existingModul) {
+        throw new Error("Modul not found");
+      }
+
+      const updateModul = await prisma.$transaction(async (tx) => {
+        const modul = await tx.modul.update({
+          where: {
+            id: modulId,
+          },
+          data: {
+            nama_modul,
+            penanggung_jawab,
+          },
+        });
+
+        await tx.bobotNilaiProses.update({
+          where: {
+            modul_id: modulId,
+          },
+          data: {
+            diskusi: bobot_nilai_proses?.diskusi,
+            buku_catatan: bobot_nilai_proses?.buku_catatan,
+            temu_pakar: bobot_nilai_proses?.temu_pakar,
+            peta_konsep: bobot_nilai_proses?.peta_konsep,
+            proses_praktik: bobot_nilai_proses?.proses_praktik,
+          },
+        });
+
+        const penilaian = await tx.penilaianModul.findFirst({
+          where: { modul_id: modulId },
+        });
+
+        if (penilaian) {
+          await tx.penilaianModul.update({
+            where: { id: penilaian.id },
+            data: {
+              total_soal_sum1,
+              total_soal_sum2,
+              total_her_sum1: total_soal_her_sum1,
+              total_her_sum2: total_soal_her_sum2,
+            },
+          });
+        }
+
+        return modul;
+      });
+
+      return updateModul;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  static async getDosenPenanggungJawab(
+    userId: number,
+    role: string,
+    search?: string
+  ) {
+    try {
+      if (role === "admin") {
+        const existingAdmin = await prisma.admin.findUnique({
+          where: { id: userId },
+        });
+
+        if (!existingAdmin) {
+          throw new Error("Admin not found");
+        }
+      }
+
+      const searchTrem = search && search.trim() ? search.trim() : undefined;
+
+      const dosenList = await prisma.dosen.findMany({
+        where: {
+          status: "Aktif",
+          role: "Dosen",
+          ...(role === "Dosen" && { id: userId }),
+          ...(searchTrem && {
+            nama_depan: {
+              contains: searchTrem,
+              mode: "insensitive",
+            },
+          }),
+        },
+        select: {
+          id: true,
+          nama_depan: true,
+          created_at: true,
+        },
+      });
+
+      const mdaDosenList = await prismaMysql.mda_master_dosen.findMany({
+        where: {
+          ...(searchTrem && {
+            nama_dosen: {
+              contains: searchTrem,
+            },
+          }),
+        },
+        select: {
+          id: true,
+          nama_dosen: true,
+          waktu_dibuat: true,
+        },
+      });
+
+      const combinedDosen = dosenList.map((dosen) => ({
+        id: dosen.id,
+        nama: dosen.nama_depan || "Nama tidak tersedia",
+        created_at: dosen.created_at,
+      }));
+
+      const existingNames = new Set(
+        dosenList.map((d) => d.nama_depan?.toLowerCase())
+      );
+      const additionalDosen = mdaDosenList
+        .filter((mda) => !existingNames.has(mda.nama_dosen?.toLowerCase()))
+        .map((mda) => ({
+          id: mda.id,
+          nama: mda.nama_dosen || "Nama tidak tersedia",
+          created_at: mda.waktu_dibuat || new Date(0),
+        }));
+
+      const result = [...combinedDosen, ...additionalDosen];
+
+      return result
+        .map(({ id, nama, created_at }) => ({ id, nama, created_at })) // Hanya kembalikan id dan nama
+        .sort((a, b) => {
+          const dateA = new Date(a.created_at).getTime();
+          const dateB = new Date(b.created_at).getTime();
+          return dateB - dateA; // Descending: waktu terbaru di atas
+        });
     } catch (error) {
       throw new Error((error as Error).message);
     }

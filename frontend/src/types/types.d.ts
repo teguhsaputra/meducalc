@@ -58,3 +58,21 @@ export type TPenilaianInput = {
     Record<string, { praktikum?: string; jenisNilai?: string; nilai: string }>
   >;
 };
+
+export type BobotNilaiProses = {
+  diskusi: number;
+  buku_catatan: number;
+  temu_pakar: number;
+  peta_konsep: number;
+  proses_praktik: number;
+};
+
+export type TEditModul = {
+  nama_modul: string;
+  penanggung_jawab: string;
+  bobot_nilai_akhir: BobotNilaiAkhir;
+  total_soal_sum1: number;
+  total_soal_sum2: number;
+  total_soal_her_sum1: number;
+  total_soal_her_sum2: number;
+};

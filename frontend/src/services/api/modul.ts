@@ -8,7 +8,12 @@ import axiosInstace from "../axios";
 import { useAuthStore } from "@/stores/use-auth-store";
 import { useModulContext } from "@/hooks/use-modul-context";
 import { useRouter } from "next/navigation";
-import { TAddPenilaianData, TCreatePemicus, TPemicus } from "@/types/types";
+import {
+  TAddPenilaianData,
+  TCreatePemicus,
+  TEditModul,
+  TPemicus,
+} from "@/types/types";
 import { useToast } from "@/hooks/use-toast";
 
 interface BobotNilaiAkhir {
@@ -57,7 +62,7 @@ export function useGetModul(
           page: fetchAll ? undefined : page,
           limit: fetchAll ? undefined : pageSize,
           search,
-          fetchAll
+          fetchAll,
         },
       });
 
@@ -451,4 +456,54 @@ export function useDeleteModul(id: number) {
   });
 
   return { mutate, isPending };
+}
+
+export function useEditModul(id: number) {
+  const token = useAuthStore((state) => state.token);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["edit-modul"],
+    mutationFn: async (data: TEditModul) => {
+      const res = await axiosInstace.put(`/modul/admin/edit/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-modul-by-id"] });
+      toast({
+        title: "Berhasil",
+        description: "Berhasil mengedit modul",
+        variant: "success",
+      });
+    },
+  });
+
+  return { mutate, isPending };
+}
+
+export function useGetDosenPenanggungJawab(search = "") {
+  const token = useAuthStore((state) => state.token);
+
+  const { data, refetch } = useQuery({
+    queryKey: ["get-dosen-penanggung-jawab", search],
+    queryFn: async () => {
+      const res = await axiosInstace.get("/modul/admin/dosen/all-dosen", {
+        params: {
+          search,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data.data;
+    },
+  });
+
+  return { data, refetch };
 }

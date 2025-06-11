@@ -27,6 +27,7 @@ import { Trash } from "lucide-react";
 import { useCreateModul } from "@/services/api/modul";
 import { useGetPraktikum } from "@/services/api/praktikum";
 import { useRouter } from "next/navigation";
+import SearchDosenPenanggungJawab from "@/features/modul/components/search-dosen-penanggung-jawab";
 
 const formSchema = z
   .object({
@@ -132,7 +133,7 @@ const Page = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: FormValues) {
-    console.log(values);
+    // console.log(values);
     const createModulData = {
       nama_modul: values.nama,
       tahun_mulai: parseInt(values.tahunMulai),
@@ -267,7 +268,7 @@ const Page = () => {
                   <FormItem className="mt-2 w-full">
                     <FormLabel>Tim Akademik</FormLabel>
                     <FormControl>
-                      <Input placeholder="Dr. Rico Kenny Doohan" {...field} />
+                      <SearchDosenPenanggungJawab control={form.control} name="timAkademik"/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

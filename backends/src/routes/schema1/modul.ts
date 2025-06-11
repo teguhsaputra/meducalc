@@ -10,6 +10,7 @@ useModulRoute.get("/modul/admin", authenticateUser, ModulControllers.getModul);
 useModulRoute.get("/modul/admin/:modul_id", authenticateUser, ModulControllers.getModulById);
 useModulRoute.post("/modul/admin/add", authenticateUser, ModulControllers.addModul);
 useModulRoute.delete("/modul/admin/delete/:modulId", authenticateUser, ModulControllers.deleteModul);
+useModulRoute.put("/modul/admin/edit/:modulId", authenticateUser, ModulControllers.updateModul);
 
 // pemicu
 
@@ -26,6 +27,11 @@ useModulRoute.post("/modul/admin/kelompok/add", authenticateUser, ModulControlle
 useModulRoute.post("/modul/admin/kelompok/delete", authenticateUser, ModulControllers.deleteKelompok);
 useModulRoute.post("/modul/admin/kelompok/add-peserta", authenticateUser, ModulControllers.addPesertaToKelompok);
 useModulRoute.post("/modul/admin/kelompok/delete-peserta", authenticateUser, ModulControllers.deletePesertaFromKelompok);
+
+//dosen
+useModulRoute.get("/modul/admin/dosen/all-dosen", authenticateUser, ModulControllers.getDosenPenanggungJawab);
+
+
 
 
 export default useModulRoute;

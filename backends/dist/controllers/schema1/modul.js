@@ -18,7 +18,7 @@ class ModulControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { page = 1, limit = 10, search = "", fetchAll = "false" } = req.query;
+                const { page = 1, limit = 10, search = "", fetchAll = "false", } = req.query;
                 const data = yield modul_1.default.getModul(Number(page), Number(limit), search, userId, role, fetchAll === "true");
                 res.status(200).json({
                     success: true,
@@ -193,6 +193,41 @@ class ModulControllers {
                 res.status(200).json({
                     success: true,
                     message: "Modul Berhasil dihapus",
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static updateModul(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { modulId } = req.params;
+                const { nama_modul, penanggung_jawab, bobot_nilai_proses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2, } = req.body;
+                yield modul_1.default.updateModul(userId, role, Number(modulId), nama_modul, penanggung_jawab, bobot_nilai_proses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2);
+                res.status(200).json({
+                    success: true,
+                    message: "Modul Berhasil diedit",
+                });
+            }
+            catch (error) {
+                const err = error;
+                res.status(400).json({ message: err.message, status: false });
+            }
+        });
+    }
+    static getDosenPenanggungJawab(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, role } = res.locals.user;
+                const { search } = req.query;
+                const result = yield modul_1.default.getDosenPenanggungJawab(userId, role, search);
+                res.status(200).json({
+                    success: true,
+                    data: result,
                 });
             }
             catch (error) {

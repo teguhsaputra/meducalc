@@ -45,6 +45,7 @@ useModulRoute.get("/modul/admin", admin_middleware_1.authenticateUser, modul_1.d
 useModulRoute.get("/modul/admin/:modul_id", admin_middleware_1.authenticateUser, modul_1.default.getModulById);
 useModulRoute.post("/modul/admin/add", admin_middleware_1.authenticateUser, modul_1.default.addModul);
 useModulRoute.delete("/modul/admin/delete/:modulId", admin_middleware_1.authenticateUser, modul_1.default.deleteModul);
+useModulRoute.put("/modul/admin/edit/:modulId", admin_middleware_1.authenticateUser, modul_1.default.updateModul);
 // pemicu
 useModulRoute.post("/modul/admin/add-pemicu", admin_middleware_1.authenticateUser, modul_1.default.addPemicu);
 // penilaian modul
@@ -56,4 +57,6 @@ useModulRoute.post("/modul/admin/kelompok/add", admin_middleware_1.authenticateU
 useModulRoute.post("/modul/admin/kelompok/delete", admin_middleware_1.authenticateUser, modul_1.default.deleteKelompok);
 useModulRoute.post("/modul/admin/kelompok/add-peserta", admin_middleware_1.authenticateUser, modul_1.default.addPesertaToKelompok);
 useModulRoute.post("/modul/admin/kelompok/delete-peserta", admin_middleware_1.authenticateUser, modul_1.default.deletePesertaFromKelompok);
+//dosen
+useModulRoute.get("/modul/admin/dosen/all-dosen", admin_middleware_1.authenticateUser, modul_1.default.getDosenPenanggungJawab);
 exports.default = useModulRoute;

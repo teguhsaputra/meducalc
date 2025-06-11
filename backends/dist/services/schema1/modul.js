@@ -1061,5 +1061,140 @@ class ModulServices {
             }
         });
     }
+    static updateModul(userId, role, modulId, nama_modul, penanggung_jawab, bobot_nilai_proses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (role === "admin") {
+                    const existingAdmin = yield db1_1.default.admin.findUnique({
+                        where: { id: userId },
+                    });
+                    if (!existingAdmin) {
+                        throw new Error("Admin not found");
+                    }
+                }
+                const existingModul = yield db1_1.default.modul.findUnique({
+                    where: {
+                        id: modulId,
+                    },
+                    select: {
+                        id: true,
+                        nama_modul: true,
+                        penanggung_jawab: true,
+                        bobot_nilai_proses: true,
+                        penilaian_moduls: true,
+                    },
+                });
+                if (!existingModul) {
+                    throw new Error("Modul not found");
+                }
+                const updateModul = yield db1_1.default.$transaction((tx) => __awaiter(this, void 0, void 0, function* () {
+                    const modul = yield tx.modul.update({
+                        where: {
+                            id: modulId,
+                        },
+                        data: {
+                            nama_modul,
+                            penanggung_jawab,
+                        },
+                    });
+                    yield tx.bobotNilaiProses.update({
+                        where: {
+                            modul_id: modulId,
+                        },
+                        data: {
+                            diskusi: bobot_nilai_proses === null || bobot_nilai_proses === void 0 ? void 0 : bobot_nilai_proses.diskusi,
+                            buku_catatan: bobot_nilai_proses === null || bobot_nilai_proses === void 0 ? void 0 : bobot_nilai_proses.buku_catatan,
+                            temu_pakar: bobot_nilai_proses === null || bobot_nilai_proses === void 0 ? void 0 : bobot_nilai_proses.temu_pakar,
+                            peta_konsep: bobot_nilai_proses === null || bobot_nilai_proses === void 0 ? void 0 : bobot_nilai_proses.peta_konsep,
+                            proses_praktik: bobot_nilai_proses === null || bobot_nilai_proses === void 0 ? void 0 : bobot_nilai_proses.proses_praktik,
+                        },
+                    });
+                    const penilaian = yield tx.penilaianModul.findFirst({
+                        where: { modul_id: modulId },
+                    });
+                    if (penilaian) {
+                        yield tx.penilaianModul.update({
+                            where: { id: penilaian.id },
+                            data: {
+                                total_soal_sum1,
+                                total_soal_sum2,
+                                total_her_sum1: total_soal_her_sum1,
+                                total_her_sum2: total_soal_her_sum2,
+                            },
+                        });
+                    }
+                    return modul;
+                }));
+                return updateModul;
+            }
+            catch (error) {
+                throw new Error(error.message);
+            }
+        });
+    }
+    static getDosenPenanggungJawab(userId, role, search) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (role === "admin") {
+                    const existingAdmin = yield db1_1.default.admin.findUnique({
+                        where: { id: userId },
+                    });
+                    if (!existingAdmin) {
+                        throw new Error("Admin not found");
+                    }
+                }
+                const searchTrem = search && search.trim() ? search.trim() : undefined;
+                const dosenList = yield db1_1.default.dosen.findMany({
+                    where: Object.assign(Object.assign({ status: "Aktif", role: "Dosen" }, (role === "Dosen" && { id: userId })), (searchTrem && {
+                        nama_depan: {
+                            contains: searchTrem,
+                            mode: "insensitive",
+                        },
+                    })),
+                    select: {
+                        id: true,
+                        nama_depan: true,
+                        created_at: true,
+                    },
+                });
+                const mdaDosenList = yield db2_1.default.mda_master_dosen.findMany({
+                    where: Object.assign({}, (searchTrem && {
+                        nama_dosen: {
+                            contains: searchTrem,
+                        },
+                    })),
+                    select: {
+                        id: true,
+                        nama_dosen: true,
+                        waktu_dibuat: true,
+                    },
+                });
+                const combinedDosen = dosenList.map((dosen) => ({
+                    id: dosen.id,
+                    nama: dosen.nama_depan || "Nama tidak tersedia",
+                    created_at: dosen.created_at,
+                }));
+                const existingNames = new Set(dosenList.map((d) => { var _a; return (_a = d.nama_depan) === null || _a === void 0 ? void 0 : _a.toLowerCase(); }));
+                const additionalDosen = mdaDosenList
+                    .filter((mda) => { var _a; return !existingNames.has((_a = mda.nama_dosen) === null || _a === void 0 ? void 0 : _a.toLowerCase()); })
+                    .map((mda) => ({
+                    id: mda.id,
+                    nama: mda.nama_dosen || "Nama tidak tersedia",
+                    created_at: mda.waktu_dibuat || new Date(0),
+                }));
+                const result = [...combinedDosen, ...additionalDosen];
+                return result
+                    .map(({ id, nama, created_at }) => ({ id, nama, created_at })) // Hanya kembalikan id dan nama
+                    .sort((a, b) => {
+                    const dateA = new Date(a.created_at).getTime();
+                    const dateB = new Date(b.created_at).getTime();
+                    return dateB - dateA; // Descending: waktu terbaru di atas
+                });
+            }
+            catch (error) {
+                throw new Error(error.message);
+            }
+        });
+    }
 }
 exports.default = ModulServices;
