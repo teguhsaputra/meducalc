@@ -61,15 +61,15 @@ const getDaysInMonth = (month: number, year: number): number => {
 };
 
 const months = [
-  { value: "1", label: "Januari" },
-  { value: "2", label: "Februari" },
-  { value: "3", label: "Maret" },
-  { value: "4", label: "April" },
-  { value: "5", label: "Mei" },
-  { value: "6", label: "Juni" },
-  { value: "7", label: "Juli" },
-  { value: "8", label: "Agustus" },
-  { value: "9", label: "September" },
+  { value: "01", label: "Januari" },
+  { value: "02", label: "Februari" },
+  { value: "03", label: "Maret" },
+  { value: "04", label: "April" },
+  { value: "05", label: "Mei" },
+  { value: "06", label: "Juni" },
+  { value: "07", label: "Juli" },
+  { value: "08", label: "Agustus" },
+  { value: "09", label: "September" },
   { value: "10", label: "Oktober" },
   { value: "11", label: "November" },
   { value: "12", label: "Desember" },
@@ -114,8 +114,23 @@ const Page = ({ params }: PageProps) => {
         year ? parseInt(year) : currentYear
       ),
     },
-    (_, i) => (i + 1).toString()
+    (_, i) => (i + 1).toString().padStart(2, "0")
   );
+
+  useEffect(() => {
+    setDay("");
+    setMonth("");
+    setYear("");
+    form.reset({
+      namaDepan: "",
+      namaBelakang: "",
+      tanggalLahir: "",
+      jenisKelamin: "",
+      nim: "",
+      angkatan: 2025,
+      username: "",
+    });
+  }, [params.id, form]);
 
   useEffect(() => {
     if (mahasiswaData) {
@@ -128,26 +143,39 @@ const Page = ({ params }: PageProps) => {
       setAngkatan(mahasiswaData.angkatan?.toString() || "2025");
 
       if (mahasiswaData.tanggal_lahir) {
-        const date = new Date(mahasiswaData.tanggal_lahir);
-        const dayStr = date.getDate().toString().padStart(2, "0");
-        const monthStr = (date.getMonth() + 1).toString().padStart(2, "0");
-        const yearStr = date.getFullYear().toString();
-        setDay(dayStr);
-        setMonth(monthStr);
-        setYear(yearStr);
-        form.setValue("tanggalLahir", `${yearStr}-${monthStr}-${dayStr}`, {
-          shouldValidate: true,
-        });
+        try {
+          const date = new Date(mahasiswaData.tanggal_lahir);
+          if (!isNaN(date.getTime())) {
+            const dayStr = date.getDate().toString().padStart(2, "0");
+            const monthStr = (date.getMonth() + 1).toString().padStart(2, "0");
+            const yearStr = date.getFullYear().toString();
+            setDay(dayStr);
+            setMonth(monthStr);
+            setYear(yearStr);
+            form.setValue("tanggalLahir", `${yearStr}-${monthStr}-${dayStr}`, {
+              shouldValidate: true,
+            });
+          } else {
+            console.error("Invalid date format:", mahasiswaData.tanggal_lahir);
+            setDay("");
+            setMonth("");
+            setYear("");
+            form.setValue("tanggalLahir", "");
+          }
+        } catch (error) {
+          console.error("Error parsing date:", error);
+        }
       }
     }
   }, [mahasiswaData, form]);
 
   useEffect(() => {
     if (day && month && year) {
-      const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
-        2,
-        "0"
-      )}`;
+      const maxDays = getDaysInMonth(parseInt(month), parseInt(year));
+      if (parseInt(day) > maxDays) {
+        setDay("01");
+      }
+      const formattedDate = `${year}-${month.padStart(2, "0")}-${day}`;
       form.setValue("tanggalLahir", formattedDate, { shouldValidate: true });
     } else {
       form.setValue("tanggalLahir", "", { shouldValidate: true });
@@ -252,15 +280,7 @@ const Page = ({ params }: PageProps) => {
               </FormItem>
               <FormItem className="w-full md:w-1/3">
                 <FormLabel>Bulan</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    setMonth(value);
-                    if (day) {
-                      setDay("");
-                    }
-                  }}
-                  value={month}
-                >
+                <Select onValueChange={setMonth} value={month}>
                   <SelectTrigger>
                     <SelectValue placeholder="08" />
                   </SelectTrigger>
@@ -277,15 +297,7 @@ const Page = ({ params }: PageProps) => {
               </FormItem>
               <FormItem className="w-full md:w-1/3">
                 <FormLabel>Tahun</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    setYear(value);
-                    if (day) {
-                      setDay("");
-                    }
-                  }}
-                  value={year}
-                >
+                <Select onValueChange={setYear} value={year}>
                   <SelectTrigger>
                     <SelectValue placeholder="2022" />
                   </SelectTrigger>

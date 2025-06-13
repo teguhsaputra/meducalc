@@ -7,6 +7,8 @@ import {
 } from "@tanstack/react-query";
 import axiosInstace from "../axios";
 import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export function useGetMahasiswa(
   pageIndex: number = 1,
@@ -142,6 +144,8 @@ export function useGetMahasiswaById(id: number) {
 
 export function useAddMahasiswa() {
   const token = useAuthStore((state) => state.token);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["add-mahasiswa"],
@@ -185,7 +189,9 @@ export function useAddMahasiswa() {
       return res.data.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-all-mahasiswa"] });
       toast.success("Mahasiswa berhasil dibuat");
+      router.push("/admin/mahasiswa");
     },
   });
 
@@ -198,6 +204,8 @@ export function useAddMahasiswa() {
 export function useEditMahasiswaById(id: number) {
   const token = useAuthStore((state) => state.token);
   const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["edit-mahasiswa", id],
@@ -242,7 +250,12 @@ export function useEditMahasiswaById(id: number) {
       queryClient.invalidateQueries({
         queryKey: ["get-detail-mahasiswa-by-id"],
       });
-      toast.success("Mahasiswa berhasil diedit");
+      toast({
+        title: "Berhasil",
+        description: "Mahasiswa berhasil diedit",
+        variant: "success",
+      });
+      router.push("/admin/mahasiswa");
     },
   });
 

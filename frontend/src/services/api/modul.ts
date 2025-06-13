@@ -41,7 +41,7 @@ interface CreateModulData {
 }
 
 export function useGetModul(
-  pageIndex: number = 1,
+  pageIndex: number = 0,
   pageSize: number = 10,
   search = "",
   fetchAll: boolean = false
@@ -73,12 +73,10 @@ export function useGetModul(
 
   return {
     data: data?.data || [],
-    pagination: data || {
-      currentPage: 1,
-      totalPages: 1,
-      totalItems: 0,
-      itemsPerPage: pageSize,
-    },
+    currentPage: data?.currentPage,
+    totalPages: data?.totalPages,
+    totalItems: data?.totalItems,
+    itemsPerPage: data?.itemsPerPage,
     isPending,
   };
 }

@@ -2,6 +2,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -15,47 +16,35 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { DataTablePagination } from "./data-table-pagination";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  pageCount: number;
-  pageIndex: number;
-  pageSize: number;
-  onPageChange: (pageIndex: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
+  currentPage: number
+  totalPages: number;
+  totalItems: number;
+  onNextPage: () => void;
+  onPrevPage: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  pageCount,
-  pageIndex,
-  pageSize,
-  onPageChange,
-  onPageSizeChange,
+  currentPage,
+  totalPages,
+  totalItems,
+  onNextPage,
+  onPrevPage,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
-    pageCount,
-    state: {
-      pagination: {
-        pageIndex,
-        pageSize,
-      },
-    },
-    onPaginationChange: (updater) => {
-      const newPagination =
-        typeof updater === "function"
-          ? updater({ pageIndex, pageSize })
-          : updater;
-
-      onPageChange(newPagination.pageIndex);
-      onPageSizeChange(newPagination.pageSize);
-    },
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
+    pageCount: totalPages
   });
 
   return (
@@ -112,8 +101,30 @@ export function DataTable<TData, TValue>({
         </ScrollArea>
       </div>
 
-      <div className="py-4">
-        <DataTablePagination table={table} />
+      <div className="flex items-center justify-end space-x-2 mt-5">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onPrevPage}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="w-4 h-4 mr-2" />
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+            <ChevronRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
       </div>
     </div>
   );

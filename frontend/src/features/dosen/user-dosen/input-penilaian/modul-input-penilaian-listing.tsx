@@ -11,6 +11,7 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
   flexRender,
+  TableMeta,
 } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,12 @@ import {
 } from "@/components/ui/table";
 import { Eye, Pen, Trash } from "lucide-react";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type TModulPenilaian = {
   id: string;
@@ -32,6 +39,10 @@ export type TModulPenilaian = {
   tahun_ajaran: number;
   total_siswa: number;
 };
+
+interface ExtendedTableMeta<TData> extends TableMeta<TData> {
+  sesiData?: { isActive: boolean; message?: string };
+}
 
 export const columns: ColumnDef<TModulPenilaian>[] = [
   {
@@ -63,13 +74,45 @@ export const columns: ColumnDef<TModulPenilaian>[] = [
   {
     accessorKey: "id",
     header: "Aksi",
-    cell: ({ row }) => (
-      <div className="flex justify-center gap-4">
-        <Link href={`/dosen/input-penilaian/${row.getValue("nama_modul")}`}>
-          <Eye className="w-5 h-5 " style={{ stroke: "#72A1E7" }} />
-        </Link>
-      </div>
-    ),
+    cell: ({ row, table }) => {
+      const sesiData = (
+        table.options.meta as ExtendedTableMeta<TModulPenilaian>
+      )?.sesiData;
+      const isDisabled = !sesiData?.isActive;
+
+      return (
+        <div className="flex justify-center gap-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Link
+                  href={
+                    isDisabled
+                      ? "#"
+                      : `/dosen/input-penilaian/${row.getValue("nama_modul")}`
+                  }
+                  onClick={(e) => isDisabled && e.preventDefault()}
+                  aria-disabled={isDisabled}
+                  className={
+                    isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+                  }
+                >
+                  <Eye
+                    className="w-5 h-5"
+                    style={{ stroke: isDisabled ? "#A0A0A0" : "#72A1E7" }}
+                  />
+                </Link>
+              </TooltipTrigger>
+              {isDisabled && (
+                <TooltipContent>
+                  <p>Sesi penilaian tidak aktif</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      );
+    },
   },
 ];
 
@@ -82,6 +125,7 @@ export function DosenModulInputPenilaianListing({
   isLoading,
   onNextPage,
   onPrevPage,
+  sesiData,
 }: {
   data: TModulPenilaian[];
   currentPage: number;
@@ -91,6 +135,7 @@ export function DosenModulInputPenilaianListing({
   isLoading: boolean;
   onNextPage: () => void;
   onPrevPage: () => void;
+  sesiData: { isActive: boolean; message?: string };
 }) {
   const table = useReactTable({
     data,
@@ -101,6 +146,7 @@ export function DosenModulInputPenilaianListing({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: true,
     pageCount: totalPages,
+    meta: { sesiData } as ExtendedTableMeta<TModulPenilaian>,
   });
 
   const selectedRowCount = table.getFilteredSelectedRowModel().rows.length;

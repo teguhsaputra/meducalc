@@ -37,20 +37,31 @@ class ModulServices {
         }
       }
 
-      const skip = (page - 1) * limit;
-
-      // Sanitasi search
       const sanitizedSearch = search ? search.trim() : undefined;
-      // console.log("sanitizedSearch:", sanitizedSearch); // Debugging
-
       const whereSchema1 = {
         nama_modul: sanitizedSearch ? { contains: sanitizedSearch } : {},
         status: "Aktif",
-        // tahun_ajaran: sanitizedSearch ? {contains: sanitizedSearch} : {}
       };
 
-      let modulsSchema1;
-      if (fetchAll) {
+      const totalSchema1 = await prisma.modul.count({ where: whereSchema1 });
+      const totalSchema2: CountResult[] = await prismaMysql.$queryRaw`
+      SELECT COUNT(*) as count FROM ist_daftar_modul
+      WHERE nama_modul LIKE ${sanitizedSearch ? `%${sanitizedSearch}%` : "%%"}
+      AND status = 'Aktif'
+    `;
+      const totalSchema2Count = totalSchema2[0]?.count
+        ? Number(totalSchema2[0].count)
+        : 0;
+      const total = totalSchema1 + totalSchema2Count;
+      const totalPages =
+        fetchAll || sanitizedSearch ? 1 : Math.ceil(total / limit);
+      console.log(
+        `getModul: totalSchema1: ${totalSchema1}, totalSchema2: ${totalSchema2Count}, total: ${total}, totalPages: ${totalPages}`
+      ); // Debugging
+
+      // Ambil data dari Prisma (modulsSchema1)
+      let modulsSchema1 = [];
+      if (fetchAll || sanitizedSearch) {
         modulsSchema1 = await prisma.modul.findMany({
           where: whereSchema1,
           include: {
@@ -76,9 +87,15 @@ class ModulServices {
           orderBy: { created_at: "desc" },
         });
       }
+      console.log(
+        `getModul: Page ${page}, Search: ${
+          sanitizedSearch || "none"
+        }, modulsSchema1 length: ${modulsSchema1.length}`
+      ); // Debugging
 
-      let modulsSchema2: IstDaftarModul[];
-      if (fetchAll) {
+      // Ambil data dari MySQL (modulsSchema2)
+      let modulsSchema2: any[] = [];
+      if (fetchAll || sanitizedSearch) {
         if (sanitizedSearch) {
           modulsSchema2 = await prismaMysql.$queryRaw`
           SELECT * FROM ist_daftar_modul
@@ -94,25 +111,34 @@ class ModulServices {
         `;
         }
       } else {
-        const skip = (page - 1) * limit;
-        if (sanitizedSearch) {
-          modulsSchema2 = await prismaMysql.$queryRaw`
-          SELECT * FROM ist_daftar_modul
-          WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
-          AND status = 'Aktif'
-          ORDER BY waktu_dibuat DESC
-          LIMIT ${limit} OFFSET ${skip}
-        `;
-        } else {
-          modulsSchema2 = await prismaMysql.$queryRaw`
-          SELECT * FROM ist_daftar_modul
-          WHERE status = 'Aktif'
-          ORDER BY waktu_dibuat DESC
-          LIMIT ${limit} OFFSET ${skip}
-        `;
+        const remainingLimit = limit - modulsSchema1.length;
+        if (remainingLimit > 0) {
+          const skip = Math.max(0, (page - 1) * limit - totalSchema1);
+          if (sanitizedSearch) {
+            modulsSchema2 = await prismaMysql.$queryRaw`
+            SELECT * FROM ist_daftar_modul
+            WHERE nama_modul LIKE ${`%${sanitizedSearch}%`}
+            AND status = 'Aktif'
+            ORDER BY waktu_dibuat DESC
+            LIMIT ${remainingLimit} OFFSET ${skip}
+          `;
+          } else {
+            modulsSchema2 = await prismaMysql.$queryRaw`
+            SELECT * FROM ist_daftar_modul
+            WHERE status = 'Aktif'
+            ORDER BY waktu_dibuat DESC
+            LIMIT ${remainingLimit} OFFSET ${skip}
+          `;
+          }
         }
       }
+      console.log(
+        `getModul: Page ${page}, Search: ${
+          sanitizedSearch || "none"
+        }, modulsSchema2 length: ${modulsSchema2.length}`
+      ); // Debugging
 
+      // Ambil tahun ajaran dari kedua schema
       const allYearsSchema1 = modulsSchema1.map((item) => {
         const tahunAjaranMulai = item.tahun_mulai;
         const tahunAjaranSelesai = item.tahun_selesai;
@@ -129,6 +155,7 @@ class ModulServices {
         ...new Set([...allYearsSchema1, ...allYearsSchema2]),
       ].filter((year) => year !== "N/A");
 
+      // Hitung jumlah peserta untuk modulsSchema1
       const modulIdsSchema1 = modulsSchema1.map((item) => item.id);
       const pesertaCounts = await prisma.pesertaModul.groupBy({
         by: ["modul_id"],
@@ -139,6 +166,7 @@ class ModulServices {
         pesertaCounts.map((item) => [item.modul_id, item._count.id])
       );
 
+      // Transformasi dataSchema1
       const dataSchema1 = modulsSchema1.map((item, index) => {
         const latestSesi = item.sesi_penilaian[0];
         const tahunAjaranMulai = item.tahun_mulai;
@@ -151,18 +179,17 @@ class ModulServices {
           ? tahun_ajaran_str
           : "N/A";
         return {
-          no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
           id: item.id,
           nama_modul: item.nama_modul || "N/A",
           tahun_ajaran: tahun_ajaran_final,
           penanggung_jawab: item.penanggung_jawab || "N/A",
           total_siswa: pesertaMap.get(item.id) || 0,
           tanggal_buat:
-            item.created_at?.toISOString().split("T")[0] ??
-            item.created_at.toISOString().split("T")[0],
+            item.created_at?.toISOString().split("T")[0] ||
+            new Date().toISOString().split("T")[0],
           tanggal_update:
-            item.updated_at?.toISOString().split("T")[0] ??
-            item.updated_at.toISOString().split("T")[0],
+            item.updated_at?.toISOString().split("T")[0] ||
+            new Date().toISOString().split("T")[0],
           sesi_diaktifkan:
             latestSesi?.sesi_mulai.toISOString().split("T")[0] || "N/A",
           sesi_dinonaktifkan:
@@ -170,58 +197,79 @@ class ModulServices {
           praktikums:
             item.modul_praktikums.map((mp) => mp.praktikum.nama).join(", ") ||
             "N/A",
+          no: fetchAll || sanitizedSearch ? index + 1 : (page - 1) * limit + index + 1,
         };
       });
 
+      // Transformasi dataSchema2
       const dataSchema2 = modulsSchema2.map((item: any, index: number) => {
         const tahun_ajaran_final = allYears.includes(item.tahun_akademik)
           ? item.tahun_akademik
           : "N/A";
         return {
-          no: fetchAll ? index + 1 : (page - 1) * limit + index + 1,
           id: item.id,
           nama_modul: item.nama_modul || "N/A",
           tahun_ajaran: tahun_ajaran_final,
           penanggung_jawab: item.tim_modul || "N/A",
           total_siswa: 0,
-          tanggal_buat: item.waktu_dibuat?.toISOString().split("T")[0],
-          tanggal_update: item.waktu_dirubah?.toString().split("T")[0],
+          tanggal_buat: item.waktu_dibuat
+            ? new Date(item.waktu_dibuat).toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0],
+          tanggal_update: item.waktu_dirubah
+            ? new Date(item.waktu_dirubah).toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0],
           sesi_diaktifkan: item.tanggal_mulai || "N/A",
           sesi_dinonaktifkan: item.tanggal_selesai || "N/A",
           praktikums: "N/A",
+         no: fetchAll || sanitizedSearch
+          ? dataSchema1.length + index + 1
+          : (page - 1) * limit + dataSchema1.length + index + 1,
         };
       });
 
-      const data = [...dataSchema1, ...dataSchema2].sort((a, b) => {
+      // Gabungkan data dan deduplikasi
+      let data = [...dataSchema1, ...dataSchema2];
+      const uniqueData = Array.from(
+        new Map(data.map((item) => [item.id, item])).values()
+      );
+      data = uniqueData.sort((a, b) => {
         const dateA = a.tanggal_buat ? new Date(a.tanggal_buat).getTime() : 0;
         const dateB = b.tanggal_buat ? new Date(b.tanggal_buat).getTime() : 0;
         return dateB - dateA;
       });
 
-      let total = 0;
-      let totalPages = 1;
-      if (!fetchAll) {
-        const totalSchema1 = await prisma.modul.count({ where: whereSchema1 });
-        const totalSchema2: CountResult[] = await prismaMysql.$queryRaw`
-        SELECT COUNT(*) as count FROM ist_daftar_modul
-        WHERE nama_modul LIKE ${sanitizedSearch ? `%${sanitizedSearch}%` : "%%"}
-        AND status = 'Aktif'
-      `;
-        const totalSchema2Count = totalSchema2[0]?.count
-          ? Number(totalSchema2[0].count)
-          : 0;
-        total = totalSchema1 + totalSchema2Count;
-        totalPages = Math.ceil(total / limit);
-      } else {
-        total = data.length;
+      let finalData = data;
+      if (!fetchAll && !sanitizedSearch) {
+        finalData = data.slice(0, limit);
       }
 
+      // Perbarui nomor urut
+      finalData = finalData.map((item, index) => ({
+        ...item,
+       no: fetchAll || sanitizedSearch ? index + 1 : (page - 1) * limit + index + 1,
+      }));
+
+      console.log(
+        `getModul: Page ${page}, Search: ${
+          sanitizedSearch || "none"
+        }, Data length after deduplication: ${data.length}`
+      ); // Debugging
+      console.log(
+        `getModul: Page ${page}, Search: ${
+          sanitizedSearch || "none"
+        }, Final data length: ${finalData.length}`
+      ); // Debugging
+      console.log(
+        `getModul: Final Data IDs: ${finalData.map((item) => item.id)}`
+      ); // Debugging
+
       return {
-        data,
-        currentPage: fetchAll ? 1 : Number(page),
-        totalPages: fetchAll ? 1 : totalPages,
+        data: finalData,
+        currentPage: fetchAll || sanitizedSearch ? 1 : Number(page),
+        totalPages: fetchAll || sanitizedSearch ? 1 : totalPages,
         totalItems: total,
-        itemsPerPage: fetchAll ? total : Number(limit),
+        itemsPerPage:
+          fetchAll || sanitizedSearch ? finalData.length : Number(limit),
       };
     } catch (error) {
       throw new Error((error as Error).message);

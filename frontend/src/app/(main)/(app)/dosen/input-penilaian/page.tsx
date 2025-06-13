@@ -106,6 +106,7 @@ const Page = () => {
               onNextPage={() => handleNextPage()}
               onPrevPage={() => handlePrevPage()}
               isLoading={isPending}
+              sesiData={sesiData}
             />
           </div>
         )}

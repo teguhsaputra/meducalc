@@ -2,36 +2,43 @@
 
 import React, { useState } from "react";
 import { DataTable } from "./components/data-table";
-import { columns } from "./components/columns";
+import { columns, Modul } from "./components/columns";
 import { useGetModul } from "@/services/api/modul";
 
 interface ModulListingProps {
   search: string; // Terima search sebagai prop
   setSearch?: (value: string) => void; // Opsional: untuk memperbarui search
   data: any[]; // Data dari useGetModul di Page
-  pagination: any; // Pagination dari useGetModul di Page
   isPending: boolean; // Status loading
+  currentPage: number; // Terima pageIndex dari Page
+  totalPages: number; // Terima pageIndex dari Page
+  totalItems: number; // Terima pageIndex dari Page
+  onNextPage: () => void; // Terima fungsi untuk mengubah pageIndex
+  itemsPerPage: number; // Terima pageSize dari Page
+  onPrevPage: () => void;
 }
 
 export default function ModulListing({
   search,
   setSearch,
   data,
-  pagination,
   isPending,
+  currentPage,
+  totalPages,
+  totalItems,
+  onNextPage,
+  itemsPerPage,
+  onPrevPage,
 }: ModulListingProps) {
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-
   return (
-    <DataTable
+    <DataTable<Modul, unknown>
       data={data}
       columns={columns}
-      pageCount={pagination.totalPages}
-      pageIndex={pageIndex}
-      pageSize={pageSize}
-      onPageChange={(newPageIndex) => setPageIndex(newPageIndex)}
-      onPageSizeChange={setPageSize}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      totalItems={totalItems}
+      onNextPage={onNextPage}
+      onPrevPage={onPrevPage}
     />
   );
 }

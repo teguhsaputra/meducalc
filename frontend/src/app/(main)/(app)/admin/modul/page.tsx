@@ -27,9 +27,12 @@ const Page = () => {
   const [tahunAjaran, setTahunAjaran] = useState("");
   const {
     data: dataModul,
-    pagination,
+    currentPage,
+    totalPages,
+    totalItems,
+    itemsPerPage,
     isPending,
-  } = useGetModul(pageIndex, pageSize, searchQuery);
+  } = useGetModul(pageIndex, 10, searchQuery);
   const { data } = useGetSesiPenilaian();
   const { toast } = useToast();
   const hasShownToast = useRef(false);
@@ -40,6 +43,22 @@ const Page = () => {
       : searchInput;
     setSearchQuery(query);
     setPageIndex(0);
+  };
+
+  const handleNextPage = () => {
+    if (totalPages && pageIndex + 1 < totalPages) {
+      const newPageIndex = pageIndex + 1;
+      setPageIndex(newPageIndex);
+      console.log("Page: New pageIndex:", newPageIndex); // Debugging
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (pageIndex > 0) {
+      const newPageIndex = pageIndex - 1;
+      setPageIndex(newPageIndex);
+      console.log("Page: New pageIndex:", newPageIndex); // Debugging
+    }
   };
 
   useEffect(() => {
@@ -82,7 +101,7 @@ const Page = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm">Total Modul</span>
-            <span className="text-sm font-bold">{pagination.totalItems}</span>
+            <span className="text-sm font-bold">{totalItems}</span>
           </div>
         </div>
       </div>
@@ -109,7 +128,7 @@ const Page = () => {
 
           <div className="flex flex-col">
             <span className="text-sm">Total Modul</span>
-            <span className="text-sm font-bold">{pagination.totalItems}</span>
+            <span className="text-sm font-bold">{totalItems}</span>
           </div>
         </div>
 
@@ -163,8 +182,13 @@ const Page = () => {
             search={searchQuery}
             setSearch={setSearchQuery}
             data={dataModul}
-            pagination={pagination}
             isPending={isPending}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onNextPage={handleNextPage}
+            onPrevPage={handlePrevPage}
           />
         </div>
       )}
