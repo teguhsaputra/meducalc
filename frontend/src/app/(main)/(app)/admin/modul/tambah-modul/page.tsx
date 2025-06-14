@@ -28,6 +28,7 @@ import { useCreateModul } from "@/services/api/modul";
 import { useGetPraktikum } from "@/services/api/praktikum";
 import { useRouter } from "next/navigation";
 import SearchDosenPenanggungJawab from "@/features/modul/components/search-dosen-penanggung-jawab";
+import { withAuth } from "@/hooks/with-auth";
 
 const formSchema = z
   .object({
@@ -268,7 +269,10 @@ const Page = () => {
                   <FormItem className="mt-2 w-full">
                     <FormLabel>Tim Akademik</FormLabel>
                     <FormControl>
-                      <SearchDosenPenanggungJawab control={form.control} name="timAkademik"/>
+                      <SearchDosenPenanggungJawab
+                        control={form.control}
+                        name="timAkademik"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -595,4 +599,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

@@ -32,6 +32,7 @@ import {
 import { useModulContext } from "@/hooks/use-modul-context";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { withAuth } from "@/hooks/with-auth";
 
 const formSchema = z.object({
   total_soal_sum1: z
@@ -534,4 +535,4 @@ const FormPenilaianProses = ({
   );
 };
 
-export default Page;
+export default withAuth(Page);

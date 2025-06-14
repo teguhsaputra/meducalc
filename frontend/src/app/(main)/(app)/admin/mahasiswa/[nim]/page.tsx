@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TableDetailMahasiswaListing } from "@/features/mahasiswa/admin/components/table-detail-mahasiswa";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetDetailMahasiswaByNim } from "@/services/api/mahasiswa";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -58,7 +59,10 @@ const Page = ({ params }: PageProps) => {
             <div className="flex flex-col gap-4 mt-4 md:flex-row md:gap-6">
               <div className="w-full md:w-1/3">
                 <Label>Jenis Kelamin</Label>
-                <Input value={data?.data_kampus?.jenis_kelamin || ""} readOnly />
+                <Input
+                  value={data?.data_kampus?.jenis_kelamin || ""}
+                  readOnly
+                />
               </div>
               <div className="w-full md:w-1/3">
                 <Label>NIM</Label>
@@ -83,4 +87,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

@@ -3,6 +3,7 @@
 import { Separator } from "@/components/ui/separator";
 import NimDetailHasil from "@/features/admin/hasil-penilaian/slug-listing-hasil/nim-detail-hasil/nim-detail-hasil";
 import NimPesertaModulDosen from "@/features/dosen/user-dosen/components/nim-peserta-modul-listing";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetHasilInputPenilaian } from "@/services/api/hasil-penilaian";
 import React from "react";
 
@@ -65,4 +66,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

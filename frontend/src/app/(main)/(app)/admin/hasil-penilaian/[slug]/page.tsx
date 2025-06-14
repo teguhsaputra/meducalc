@@ -7,6 +7,7 @@ import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { HasilPenilaianModulListing } from "@/features/admin/hasil-penilaian/hasil-penilaian-modul-listing";
 import { SlugListingHasilPenilaian } from "@/features/admin/hasil-penilaian/slug-listing-hasil/slug-listing-hasil-penilaian";
 import { SlugListing } from "@/features/admin/input-penilaian/slug-listing/slug-listing";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetModulDetailHasilPenilaian } from "@/services/api/hasil-penilaian";
 import { useGetModulDetailForPesertaPenilaianModul } from "@/services/api/penilaian-modul";
 import { useRouter } from "next/navigation";
@@ -150,4 +151,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

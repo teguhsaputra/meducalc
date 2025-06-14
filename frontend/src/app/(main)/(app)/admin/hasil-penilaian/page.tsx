@@ -7,6 +7,7 @@ import { HasilPenilaianModulListing } from "@/features/admin/hasil-penilaian/has
 import { InputPenilaianListing } from "@/features/admin/input-penilaian/input-penilaian-listing";
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetModulForPenilaianModul } from "@/services/api/penilaian-modul";
 import React, { useCallback, useState } from "react";
 
@@ -108,4 +109,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
+import { withAuth } from "@/hooks/with-auth";
 
 type PageProps = { params: { id: number } };
 
@@ -489,4 +490,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

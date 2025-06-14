@@ -31,6 +31,7 @@ import {
   useGetAllMahasiswa,
   useGetMahasiswaById,
 } from "@/services/api/mahasiswa";
+import { withAuth } from "@/hooks/with-auth";
 type PageProps = { params: { id: number } };
 
 const formSchema = z.object({
@@ -443,4 +444,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

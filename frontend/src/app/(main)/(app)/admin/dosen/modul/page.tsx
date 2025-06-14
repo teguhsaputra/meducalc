@@ -9,6 +9,7 @@ import { DosenListing } from "@/features/dosen/dosen-listing";
 import { ModulDosenListing } from "@/features/dosen/modul/modul-dosen-listing";
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetModulByDosen } from "@/services/api/dosen";
 import { Plus } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -130,4 +131,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

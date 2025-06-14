@@ -27,6 +27,7 @@ import { useGetIlmuAndDosen } from "@/services/api/dosen";
 import { useAddPemicuModul } from "@/services/api/modul";
 import { useModulContext } from "@/hooks/use-modul-context";
 import { TCreatePemicus } from "@/types/types";
+import { withAuth } from "@/hooks/with-auth";
 
 const formSchema = z.object({
   pemicu: z
@@ -311,4 +312,4 @@ const PemicuItem = ({
   );
 };
 
-export default TambahPemicuPage;
+export default withAuth(TambahPemicuPage);

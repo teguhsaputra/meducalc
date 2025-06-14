@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { useAddDosen } from "@/services/api/dosen";
 import { useAddMahasiswa } from "@/services/api/mahasiswa";
+import { withAuth } from "@/hooks/with-auth";
 const formSchema = z.object({
   namaDepan: z.string().nonempty({ message: "Harap ini tidak dikosongkan" }),
   namaBelakang: z.string().nonempty({ message: "Harap ini tidak dikosongkan" }),
@@ -422,11 +423,7 @@ const Page = () => {
               >
                 Batalkan
               </Button>
-              <Button
-                type="submit"
-                variant="blue"
-                disabled={isPending}
-              >
+              <Button type="submit" variant="blue" disabled={isPending}>
                 Tambahkan Mahasiswa
               </Button>
             </div>
@@ -437,4 +434,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import PesertaListing from "@/features/peserta/peserta-listing";
 import { useModulContext } from "@/hooks/use-modul-context";
+import { withAuth } from "@/hooks/with-auth";
 import { useAddPesertaModul } from "@/services/api/modul";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
@@ -157,4 +158,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

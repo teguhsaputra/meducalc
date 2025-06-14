@@ -2,6 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import NimDetailHasilPenilaianMahasiswa from "@/features/mahasiswa/mahasiswa/hasil-penilaian/hasil-penilaian-mahasiswa";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetHasilPenilaianByNimMahasiswa } from "@/services/api/mahasiswa";
 import React from "react";
 
@@ -64,4 +65,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

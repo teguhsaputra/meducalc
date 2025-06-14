@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { useAddDosen } from "@/services/api/dosen";
 import { useGetMe } from "@/services/api/auth";
+import { withAuth } from "@/hooks/with-auth";
 
 const formSchema = z.object({
   namaDepan: z.string().nonempty({ message: "Harap ini tidak dikosongkan" }),
@@ -364,4 +365,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

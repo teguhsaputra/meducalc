@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { DosenListing } from "@/features/dosen/dosen-listing";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetDosenModul } from "@/services/api/dosen";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -94,4 +95,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

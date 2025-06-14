@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { SlugModulDosenPenilaianListing } from "@/features/dosen/user-dosen/components/slug-modul-dosen-penilaian-listing";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetModulDosenDetailForPesertaPenilaianModul } from "@/services/api/dosen";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
@@ -111,4 +112,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

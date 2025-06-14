@@ -6,6 +6,7 @@ import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
 import { ModulMahasiswaListing } from "@/features/mahasiswa/mahasiswa/modul/modul-listing";
 import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetModulMahasiswa } from "@/services/api/mahasiswa";
 import React, { useCallback, useState } from "react";
 
@@ -95,4 +96,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

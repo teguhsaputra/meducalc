@@ -75,7 +75,7 @@ export default function Home() {
             <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center shadow-lg shadow-blue-200 mb-3">
               <ArrowRight className="text-[#2262C6] h-6 w-6" />
             </div>
-            <span className=" text-3xl font-semibold">Meducalc</span>
+            <span className=" text-3xl font-semibold tracking-tighter">Meducalc</span>
             <span className="text-sm max-w-md mx-auto">
               Masuk untuk mengakses dashboard manajemen pendidikan dan kelola
               proses belajar dengan mudah.
@@ -87,6 +87,7 @@ export default function Home() {
           <Card className="w-[400px] mx-auto border-none shadow-none">
             <CardHeader className="flex items-center justify-center mt-[20px]">
               <CardTitle className="flex flex-col text-center gap-3">
+                <span className="text-4xl font-semibold tracking-tighter md:hidden block md:mb-0 mb-5" >Meducalc</span>
                 <span className="text-2xl">Selamat Datang Kembali</span>
                 <span className="text-sm font-normal">
                   Masukkan username dan password anda untuk mengakses akun Anda.

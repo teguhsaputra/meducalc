@@ -17,6 +17,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useModulContext } from "@/hooks/use-modul-context";
 import { toast } from "sonner";
+import { withAuth } from "@/hooks/with-auth";
 
 interface PesertaModul {
   id: number;
@@ -260,4 +261,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

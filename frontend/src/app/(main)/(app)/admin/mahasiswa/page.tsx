@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { useGetAllMahasiswa } from "@/services/api/mahasiswa";
 import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
+import { withAuth } from "@/hooks/with-auth";
 
 export const dynamic = "force-static";
 
@@ -132,4 +133,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

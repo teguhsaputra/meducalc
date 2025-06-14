@@ -9,6 +9,7 @@ import { SearchModul } from "@/features/modul/components/search-modul";
 import { SearchSchoolYear } from "@/features/modul/components/search-school-year";
 import ModulListing from "@/features/modul/modul-listing";
 import { useToast } from "@/hooks/use-toast";
+import { withAuth } from "@/hooks/with-auth";
 import { formatDate } from "@/lib/utils";
 import { useGetModul } from "@/services/api/modul";
 import { useGetSesiPenilaian } from "@/services/api/sesi-penilaian";
@@ -196,4 +197,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

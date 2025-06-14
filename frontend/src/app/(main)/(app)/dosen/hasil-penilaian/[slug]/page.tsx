@@ -7,6 +7,7 @@ import { HasilPenilaianModulListing } from "@/features/admin/hasil-penilaian/has
 import { SlugListingHasilPenilaian } from "@/features/admin/hasil-penilaian/slug-listing-hasil/slug-listing-hasil-penilaian";
 import { SlugListing } from "@/features/admin/input-penilaian/slug-listing/slug-listing";
 import { SlugModulDosenHasilPenilaian } from "@/features/dosen/user-dosen/components/slug-modul-dosen-listing";
+import { withAuth } from "@/hooks/with-auth";
 import { useGetModulDosenHasilPenilaian } from "@/services/api/dosen";
 import { useGetModulDetailForPesertaPenilaianModul } from "@/services/api/penilaian-modul";
 import { useRouter } from "next/navigation";
@@ -141,4 +142,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

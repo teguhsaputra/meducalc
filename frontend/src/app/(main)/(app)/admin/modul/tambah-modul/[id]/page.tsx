@@ -8,6 +8,7 @@ import { useGetModulById } from "@/services/api/modul";
 import { DataTablePesertaModul } from "@/features/modul/add-modul/data-table";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { withAuth } from "@/hooks/with-auth";
 
 type PageProps = { params: { id: number } };
 
@@ -398,4 +399,4 @@ const Page = ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default withAuth(Page);
