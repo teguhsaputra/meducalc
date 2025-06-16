@@ -49,6 +49,11 @@ interface PenilaianModul {
   penilaian_proses_praktikums: PenilaianProsesPraktikum[];
 }
 
+interface BobotNilaiProses {
+  id: number;
+  nilai: { [key: string]: number }; // Objek dinamis untuk nilai proses
+}
+
 const Page = ({ params }: PageProps) => {
   const { data } = useGetModulById(params.id);
   const router = useRouter();
@@ -81,6 +86,23 @@ const Page = ({ params }: PageProps) => {
   }, [data?.penilaian_moduls, data?.praktikums]);
 
   const totalPeserta = data?.peserta_moduls.length || 0;
+
+  const formatNamaPenilaian = (key: string) => {
+    return key
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const nilaiEntries = useMemo(
+    () =>
+      data?.bobot_nilai_proses[0]?.nilai
+        ? Object.entries(
+            data.bobot_nilai_proses[0].nilai as { [key: string]: number }
+          )
+        : [],
+    [data?.bobot_nilai_proses]
+  );
 
   return (
     <div className="flex flex-col mb-10">
@@ -186,47 +208,14 @@ const Page = ({ params }: PageProps) => {
         </span>
         <span className="text-xs">Total Penilaian Bobot 100%</span>
 
-        <div className="flex flex-col md:flex-row gap-4 mt-5">
-          <div className="flex flex-col w-full gap-y-2">
-            <Label>Diskusi Kelompok (%)</Label>
-            <Input
-              className="w-full"
-              value={data?.bobot_nilai_proses[0]?.diskusiKelompok || ""}
-              disabled
-            />
-          </div>
-          <div className="flex flex-col w-full gap-y-2">
-            <Label>Buku Catatan (%)</Label>
-            <Input
-              className="w-full"
-              value={data?.bobot_nilai_proses[0]?.bukuCatatan || ""}
-              disabled
-            />
-          </div>
-          <div className="flex flex-col w-full gap-y-2">
-            <Label>Temu Pakar (%)</Label>
-            <Input
-              className="w-full"
-              value={data?.bobot_nilai_proses[0]?.temuPakar || ""}
-              disabled
-            />
-          </div>
-          <div className="flex flex-col w-full gap-y-2">
-            <Label>Peta Konsep (%)</Label>
-            <Input
-              className="w-full"
-              value={data?.bobot_nilai_proses[0]?.petaKonsep || ""}
-              disabled
-            />
-          </div>
-          <div className="flex flex-col w-full gap-y-2">
-            <Label>Proses Praktikum (%)</Label>
-            <Input
-              className="w-full"
-              value={data?.bobot_nilai_proses[0]?.prosesPraktikum || ""}
-              disabled
-            />
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+          {nilaiEntries.length > 0 &&
+            nilaiEntries.map(([key, value]) => (
+              <div className="flex flex-col w-full gap-y-2" key={key}>
+                <Label>{formatNamaPenilaian(key)} (%)</Label>
+                <Input className="w-full" value={value.toString()} disabled />
+              </div>
+            ))}
         </div>
       </div>
 

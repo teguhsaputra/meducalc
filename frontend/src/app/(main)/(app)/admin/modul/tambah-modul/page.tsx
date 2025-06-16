@@ -29,6 +29,7 @@ import { useGetPraktikum } from "@/services/api/praktikum";
 import { useRouter } from "next/navigation";
 import SearchDosenPenanggungJawab from "@/features/modul/components/search-dosen-penanggung-jawab";
 import { withAuth } from "@/hooks/with-auth";
+import { Card } from "@/components/ui/card";
 
 const formSchema = z
   .object({
@@ -45,21 +46,32 @@ const formSchema = z
     nilaiAkhirPraktikum: z
       .number({ invalid_type_error: "Nilai praktikum harus diisi" })
       .min(0, "Nilai praktikum tidak boleh negatif"),
-    nilaiProsesDiskusi: z
-      .number({ invalid_type_error: "Nilai diskusi harus diisi" })
-      .min(0, "Nilai diskusi tidak boleh negatif"),
-    nilaiProsesBukuCatatan: z
-      .number({ invalid_type_error: "Nilai buku catatan harus diisi" })
-      .min(0, "Nilai buku catatan tidak boleh negatif"),
-    nilaiProsesTemuPakar: z
-      .number({ invalid_type_error: "Nilai temu pakar harus diisi" })
-      .min(0, "Nilai temu pakar tidak boleh negatif"),
-    nilaiProsesPetaKonsep: z
-      .number({ invalid_type_error: "Nilai peta konsep harus diisi" })
-      .min(0, "Nilai peta konsep tidak boleh negatif"),
-    nilaiProsesPraktik: z
-      .number({ invalid_type_error: "Nilai proses praktik" })
-      .min(0, "Nilai proses praktik tidak boleh tidak boleh negatif"),
+    // nilaiProsesDiskusi: z
+    //   .number({ invalid_type_error: "Nilai diskusi harus diisi" })
+    //   .min(0, "Nilai diskusi tidak boleh negatif"),
+    // nilaiProsesBukuCatatan: z
+    //   .number({ invalid_type_error: "Nilai buku catatan harus diisi" })
+    //   .min(0, "Nilai buku catatan tidak boleh negatif"),
+    // nilaiProsesTemuPakar: z
+    //   .number({ invalid_type_error: "Nilai temu pakar harus diisi" })
+    //   .min(0, "Nilai temu pakar tidak boleh negatif"),
+    // nilaiProsesPetaKonsep: z
+    //   .number({ invalid_type_error: "Nilai peta konsep harus diisi" })
+    //   .min(0, "Nilai peta konsep tidak boleh negatif"),
+    // nilaiProsesPraktik: z
+    //   .number({ invalid_type_error: "Nilai proses praktik" })
+    //   .min(0, "Nilai proses praktik tidak boleh tidak boleh negatif"),
+    nilaiProses: z
+      .array(
+        z.object({
+          nama: z.string().min(1, "Nama penilaian harus diisi"),
+          nilai: z
+            .number({ invalid_type_error: "Nilai harus diisi" })
+            .min(0, "Nilai tidak boleh negatif")
+            .optional(),
+        })
+      )
+      .optional(),
     pilihanPraktikum: z
       .array(
         z.object({
@@ -80,16 +92,15 @@ const formSchema = z
     }
   )
   .refine(
-    (data) =>
-      data.nilaiProsesDiskusi +
-        data.nilaiProsesBukuCatatan +
-        data.nilaiProsesTemuPakar +
-        data.nilaiProsesPetaKonsep +
-        data.nilaiProsesPraktik ===
-      100,
+    (data) => {
+      const totalNilai =
+        data.nilaiProses?.reduce((sum, item) => sum + (item.nilai ?? 0), 0) ||
+        0;
+      return totalNilai <= 100;
+    },
     {
-      message: "Total bobot nilai proses harus 100%",
-      path: ["nilaiProsesDiskusi"],
+      message: "Total nilai proses tidak boleh lebih dari 100%",
+      path: ["nilaiProses"],
     }
   );
 
@@ -110,11 +121,12 @@ const Page = () => {
       nilaiAkhirSumatif: undefined,
       nilaiAkhirProses: undefined,
       nilaiAkhirPraktikum: undefined,
-      nilaiProsesDiskusi: undefined,
-      nilaiProsesBukuCatatan: undefined,
-      nilaiProsesTemuPakar: undefined,
-      nilaiProsesPetaKonsep: undefined,
-      nilaiProsesPraktik: undefined,
+      // nilaiProsesDiskusi: undefined,
+      // nilaiProsesBukuCatatan: undefined,
+      // nilaiProsesTemuPakar: undefined,
+      // nilaiProsesPetaKonsep: undefined,
+      // nilaiProsesPraktik: undefined,
+      nilaiProses: [],
       pilihanPraktikum: [{ value: "" }],
     },
   });
@@ -126,6 +138,15 @@ const Page = () => {
       (startYear + i).toString()
     );
   }, []);
+
+  const {
+    fields: nilaiProsesFields,
+    append: appendNilaiProses,
+    remove: removeNilaiProses,
+  } = useFieldArray({
+    control: form.control,
+    name: "nilaiProses" as const,
+  });
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -145,13 +166,14 @@ const Page = () => {
         proses: values.nilaiAkhirProses,
         praktikum: values.nilaiAkhirPraktikum,
       },
-      bobot_nilai_proses: {
-        diskusi: values.nilaiProsesDiskusi,
-        buku_catatan: values.nilaiProsesBukuCatatan,
-        temu_pakar: values.nilaiProsesTemuPakar,
-        peta_konsep: values.nilaiProsesPetaKonsep,
-        proses_praktik: values.nilaiProsesPraktik,
-      },
+      bobot_nilai_proses:
+        values.nilaiProses?.reduce(
+          (acc, item) => ({
+            ...acc,
+            [item.nama.toLowerCase().replace(/\s/g, "_")]: item.nilai ?? 0,
+          }),
+          {}
+        ) || {},
       praktikum_id: values.pilihanPraktikum.map((p) => parseInt(p.value)),
     };
 
@@ -378,133 +400,206 @@ const Page = () => {
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mt-2">
-                <FormField
-                  control={form.control}
-                  name="nilaiProsesDiskusi"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Diskusi (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="20"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? null
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nilaiProsesBukuCatatan"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Buku Catatan (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="20"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? null
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nilaiProsesTemuPakar"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Temu Pakar (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="20"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? null
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nilaiProsesPetaKonsep"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Peta Konsep (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="20"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? null
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nilaiProsesPraktik"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Proses Praktik (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="20"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? null
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {nilaiProsesFields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className="flex gap-2 p-5 bg-neutral-50 rounded-[40px] "
+                  >
+                    <div className="w-full">
+                      <FormField
+                        control={form.control}
+                        name={`nilaiProses.${index}.nama`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nama Nilai Proses</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Contoh: Diskusi" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`nilaiProses.${index}.nilai`}
+                        render={({ field }) => (
+                          <FormItem className="mt-2">
+                            <FormLabel>Nilai (%)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                inputMode="numeric"
+                                pattern="\d*"
+                                placeholder="20"
+                                {...field}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  if (value === "") {
+                                    field.onChange(undefined);
+                                  } else if (/^\d*$/.test(value)) {
+                                    field.onChange(parseInt(value));
+                                  }
+                                }}
+                                value={field.value ?? ""}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="flex justify-end mt-4">
+                        <Button
+                          type="button"
+                          size="icon"
+                          className="bg-muted hover:bg-muted mb-2"
+                          onClick={() => removeNilaiProses(index)}
+                        >
+                          <Trash className="w-4 h-4 text-red-500" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() =>
+                  appendNilaiProses({ nama: "", nilai: undefined })
+                }
+                className="mt-3 border-[1.5px] border-dashed border-gray-300 text-muted-foreground"
+              >
+                + Tambah Pengaturan Bobot Nilai Proses
+              </Button>
             </div>
+
+            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mt-2">
+              <FormField
+                control={form.control}
+                name="nilaiProsesDiskusi"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Diskusi (%)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="20"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ""
+                              ? null
+                              : parseInt(e.target.value) || 0
+                          )
+                        }
+                        value={field.value ?? null}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nilaiProsesBukuCatatan"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Buku Catatan (%)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="20"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ""
+                              ? null
+                              : parseInt(e.target.value) || 0
+                          )
+                        }
+                        value={field.value ?? null}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nilaiProsesTemuPakar"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Temu Pakar (%)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="20"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ""
+                              ? null
+                              : parseInt(e.target.value) || 0
+                          )
+                        }
+                        value={field.value ?? null}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nilaiProsesPetaKonsep"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Peta Konsep (%)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="20"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ""
+                              ? null
+                              : parseInt(e.target.value) || 0
+                          )
+                        }
+                        value={field.value ?? null}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nilaiProsesPraktik"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Proses Praktik (%)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="20"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ""
+                              ? null
+                              : parseInt(e.target.value) || 0
+                          )
+                        }
+                        value={field.value ?? null}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div> */}
 
             {/* Pengaturan Praktikum */}
             <div className="flex flex-col">

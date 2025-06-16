@@ -23,11 +23,7 @@ interface BobotNilaiAkhir {
 }
 
 interface BobotNilaiProses {
-  diskusi: number;
-  buku_catatan: number;
-  temu_pakar: number;
-  peta_konsep: number;
-  proses_praktik: number;
+  [key: string]: number
 }
 
 interface CreateModulData {

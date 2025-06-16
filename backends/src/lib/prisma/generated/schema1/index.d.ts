@@ -11953,6 +11953,7 @@ export namespace Prisma {
     temu_pakar: number
     peta_konsep: number
     proses_praktik: number
+    nilai_proses: number
     status: number
     created_at: number
     updated_at: number
@@ -12014,6 +12015,7 @@ export namespace Prisma {
     temu_pakar?: true
     peta_konsep?: true
     proses_praktik?: true
+    nilai_proses?: true
     status?: true
     created_at?: true
     updated_at?: true
@@ -12109,11 +12111,12 @@ export namespace Prisma {
   export type BobotNilaiProsesGroupByOutputType = {
     id: number
     modul_id: number
-    diskusi: Decimal
-    buku_catatan: Decimal
-    temu_pakar: Decimal
-    peta_konsep: Decimal
-    proses_praktik: Decimal
+    diskusi: Decimal | null
+    buku_catatan: Decimal | null
+    temu_pakar: Decimal | null
+    peta_konsep: Decimal | null
+    proses_praktik: Decimal | null
+    nilai_proses: JsonValue | null
     status: string
     created_at: Date
     updated_at: Date
@@ -12146,6 +12149,7 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    nilai_proses?: boolean
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -12160,6 +12164,7 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    nilai_proses?: boolean
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -12174,6 +12179,7 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    nilai_proses?: boolean
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -12188,12 +12194,13 @@ export namespace Prisma {
     temu_pakar?: boolean
     peta_konsep?: boolean
     proses_praktik?: boolean
+    nilai_proses?: boolean
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type BobotNilaiProsesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "diskusi" | "buku_catatan" | "temu_pakar" | "peta_konsep" | "proses_praktik" | "status" | "created_at" | "updated_at", ExtArgs["result"]["bobotNilaiProses"]>
+  export type BobotNilaiProsesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "modul_id" | "diskusi" | "buku_catatan" | "temu_pakar" | "peta_konsep" | "proses_praktik" | "nilai_proses" | "status" | "created_at" | "updated_at", ExtArgs["result"]["bobotNilaiProses"]>
   export type BobotNilaiProsesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modul?: boolean | ModulDefaultArgs<ExtArgs>
   }
@@ -12212,11 +12219,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       modul_id: number
-      diskusi: Prisma.Decimal
-      buku_catatan: Prisma.Decimal
-      temu_pakar: Prisma.Decimal
-      peta_konsep: Prisma.Decimal
-      proses_praktik: Prisma.Decimal
+      diskusi: Prisma.Decimal | null
+      buku_catatan: Prisma.Decimal | null
+      temu_pakar: Prisma.Decimal | null
+      peta_konsep: Prisma.Decimal | null
+      proses_praktik: Prisma.Decimal | null
+      nilai_proses: Prisma.JsonValue | null
       status: string
       created_at: Date
       updated_at: Date
@@ -12651,6 +12659,7 @@ export namespace Prisma {
     readonly temu_pakar: FieldRef<"BobotNilaiProses", 'Decimal'>
     readonly peta_konsep: FieldRef<"BobotNilaiProses", 'Decimal'>
     readonly proses_praktik: FieldRef<"BobotNilaiProses", 'Decimal'>
+    readonly nilai_proses: FieldRef<"BobotNilaiProses", 'Json'>
     readonly status: FieldRef<"BobotNilaiProses", 'String'>
     readonly created_at: FieldRef<"BobotNilaiProses", 'DateTime'>
     readonly updated_at: FieldRef<"BobotNilaiProses", 'DateTime'>
@@ -34280,6 +34289,7 @@ export namespace Prisma {
     temu_pakar: 'temu_pakar',
     peta_konsep: 'peta_konsep',
     proses_praktik: 'proses_praktik',
+    nilai_proses: 'nilai_proses',
     status: 'status',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -34544,6 +34554,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -34558,6 +34576,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -34646,6 +34673,20 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -35213,11 +35254,12 @@ export namespace Prisma {
     NOT?: BobotNilaiProsesWhereInput | BobotNilaiProsesWhereInput[]
     id?: IntFilter<"BobotNilaiProses"> | number
     modul_id?: IntFilter<"BobotNilaiProses"> | number
-    diskusi?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    diskusi?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: JsonNullableFilter<"BobotNilaiProses">
     status?: StringFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
@@ -35227,11 +35269,12 @@ export namespace Prisma {
   export type BobotNilaiProsesOrderByWithRelationInput = {
     id?: SortOrder
     modul_id?: SortOrder
-    diskusi?: SortOrder
-    buku_catatan?: SortOrder
-    temu_pakar?: SortOrder
-    peta_konsep?: SortOrder
-    proses_praktik?: SortOrder
+    diskusi?: SortOrderInput | SortOrder
+    buku_catatan?: SortOrderInput | SortOrder
+    temu_pakar?: SortOrderInput | SortOrder
+    peta_konsep?: SortOrderInput | SortOrder
+    proses_praktik?: SortOrderInput | SortOrder
+    nilai_proses?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35244,11 +35287,12 @@ export namespace Prisma {
     AND?: BobotNilaiProsesWhereInput | BobotNilaiProsesWhereInput[]
     OR?: BobotNilaiProsesWhereInput[]
     NOT?: BobotNilaiProsesWhereInput | BobotNilaiProsesWhereInput[]
-    diskusi?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    diskusi?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: JsonNullableFilter<"BobotNilaiProses">
     status?: StringFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
@@ -35258,11 +35302,12 @@ export namespace Prisma {
   export type BobotNilaiProsesOrderByWithAggregationInput = {
     id?: SortOrder
     modul_id?: SortOrder
-    diskusi?: SortOrder
-    buku_catatan?: SortOrder
-    temu_pakar?: SortOrder
-    peta_konsep?: SortOrder
-    proses_praktik?: SortOrder
+    diskusi?: SortOrderInput | SortOrder
+    buku_catatan?: SortOrderInput | SortOrder
+    temu_pakar?: SortOrderInput | SortOrder
+    peta_konsep?: SortOrderInput | SortOrder
+    proses_praktik?: SortOrderInput | SortOrder
+    nilai_proses?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35279,11 +35324,12 @@ export namespace Prisma {
     NOT?: BobotNilaiProsesScalarWhereWithAggregatesInput | BobotNilaiProsesScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"BobotNilaiProses"> | number
     modul_id?: IntWithAggregatesFilter<"BobotNilaiProses"> | number
-    diskusi?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    diskusi?: DecimalNullableWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: DecimalNullableWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: DecimalNullableWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: DecimalNullableWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: DecimalNullableWithAggregatesFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: JsonNullableWithAggregatesFilter<"BobotNilaiProses">
     status?: StringWithAggregatesFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeWithAggregatesFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"BobotNilaiProses"> | Date | string
@@ -37220,11 +37266,12 @@ export namespace Prisma {
   }
 
   export type BobotNilaiProsesCreateInput = {
-    diskusi: Decimal | DecimalJsLike | number | string
-    buku_catatan: Decimal | DecimalJsLike | number | string
-    temu_pakar: Decimal | DecimalJsLike | number | string
-    peta_konsep: Decimal | DecimalJsLike | number | string
-    proses_praktik: Decimal | DecimalJsLike | number | string
+    diskusi?: Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37234,22 +37281,24 @@ export namespace Prisma {
   export type BobotNilaiProsesUncheckedCreateInput = {
     id?: number
     modul_id: number
-    diskusi: Decimal | DecimalJsLike | number | string
-    buku_catatan: Decimal | DecimalJsLike | number | string
-    temu_pakar: Decimal | DecimalJsLike | number | string
-    peta_konsep: Decimal | DecimalJsLike | number | string
-    proses_praktik: Decimal | DecimalJsLike | number | string
+    diskusi?: Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type BobotNilaiProsesUpdateInput = {
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37259,11 +37308,12 @@ export namespace Prisma {
   export type BobotNilaiProsesUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37272,22 +37322,24 @@ export namespace Prisma {
   export type BobotNilaiProsesCreateManyInput = {
     id?: number
     modul_id: number
-    diskusi: Decimal | DecimalJsLike | number | string
-    buku_catatan: Decimal | DecimalJsLike | number | string
-    temu_pakar: Decimal | DecimalJsLike | number | string
-    peta_konsep: Decimal | DecimalJsLike | number | string
-    proses_praktik: Decimal | DecimalJsLike | number | string
+    diskusi?: Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type BobotNilaiProsesUpdateManyMutationInput = {
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37296,11 +37348,12 @@ export namespace Prisma {
   export type BobotNilaiProsesUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39317,6 +39370,40 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type BobotNilaiProsesCountOrderByAggregateInput = {
     id?: SortOrder
     modul_id?: SortOrder
@@ -39325,6 +39412,7 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+    nilai_proses?: SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -39374,6 +39462,48 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type PenilaianProsesPraktikumListRelationFilter = {
@@ -41041,6 +41171,14 @@ export namespace Prisma {
     connect?: ModulWhereUniqueInput
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type ModulUpdateOneRequiredWithoutBobot_nilai_prosesNestedInput = {
     create?: XOR<ModulCreateWithoutBobot_nilai_prosesInput, ModulUncheckedCreateWithoutBobot_nilai_prosesInput>
     connectOrCreate?: ModulCreateOrConnectWithoutBobot_nilai_prosesInput
@@ -42332,6 +42470,56 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -42903,11 +43091,12 @@ export namespace Prisma {
   }
 
   export type BobotNilaiProsesCreateWithoutModulInput = {
-    diskusi: Decimal | DecimalJsLike | number | string
-    buku_catatan: Decimal | DecimalJsLike | number | string
-    temu_pakar: Decimal | DecimalJsLike | number | string
-    peta_konsep: Decimal | DecimalJsLike | number | string
-    proses_praktik: Decimal | DecimalJsLike | number | string
+    diskusi?: Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -42915,11 +43104,12 @@ export namespace Prisma {
 
   export type BobotNilaiProsesUncheckedCreateWithoutModulInput = {
     id?: number
-    diskusi: Decimal | DecimalJsLike | number | string
-    buku_catatan: Decimal | DecimalJsLike | number | string
-    temu_pakar: Decimal | DecimalJsLike | number | string
-    peta_konsep: Decimal | DecimalJsLike | number | string
-    proses_praktik: Decimal | DecimalJsLike | number | string
+    diskusi?: Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -43180,11 +43370,12 @@ export namespace Prisma {
     NOT?: BobotNilaiProsesScalarWhereInput | BobotNilaiProsesScalarWhereInput[]
     id?: IntFilter<"BobotNilaiProses"> | number
     modul_id?: IntFilter<"BobotNilaiProses"> | number
-    diskusi?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string
+    diskusi?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: DecimalNullableFilter<"BobotNilaiProses"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: JsonNullableFilter<"BobotNilaiProses">
     status?: StringFilter<"BobotNilaiProses"> | string
     created_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiProses"> | Date | string
@@ -46635,11 +46826,12 @@ export namespace Prisma {
 
   export type BobotNilaiProsesCreateManyModulInput = {
     id?: number
-    diskusi: Decimal | DecimalJsLike | number | string
-    buku_catatan: Decimal | DecimalJsLike | number | string
-    temu_pakar: Decimal | DecimalJsLike | number | string
-    peta_konsep: Decimal | DecimalJsLike | number | string
-    proses_praktik: Decimal | DecimalJsLike | number | string
+    diskusi?: Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -46829,11 +47021,12 @@ export namespace Prisma {
   }
 
   export type BobotNilaiProsesUpdateWithoutModulInput = {
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46841,11 +47034,12 @@ export namespace Prisma {
 
   export type BobotNilaiProsesUncheckedUpdateWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46853,11 +47047,12 @@ export namespace Prisma {
 
   export type BobotNilaiProsesUncheckedUpdateManyWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
-    diskusi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    buku_catatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    temu_pakar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    peta_konsep?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    proses_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    diskusi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    buku_catatan?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    temu_pakar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    peta_konsep?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    proses_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

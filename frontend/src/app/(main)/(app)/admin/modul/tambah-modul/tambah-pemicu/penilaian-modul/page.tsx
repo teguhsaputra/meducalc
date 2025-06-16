@@ -218,16 +218,19 @@ const Page = () => {
                         <FormLabel>Total Soal Sumatif 1</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            placeholder="100"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="\d*"
+                            placeholder="20"
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(
-                                e.target.value === ""
-                                  ? undefined
-                                  : parseInt(e.target.value, 10)
-                              )
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === "") {
+                                field.onChange(undefined);
+                              } else if (/^\d*$/.test(value)) {
+                                field.onChange(parseInt(value));
+                              }
+                            }}
                             value={field.value ?? ""}
                           />
                         </FormControl>
@@ -243,16 +246,19 @@ const Page = () => {
                         <FormLabel>Total Soal Sumatif 2</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            placeholder="120"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="\d*"
+                            placeholder="20"
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(
-                                e.target.value === ""
-                                  ? undefined
-                                  : parseInt(e.target.value, 10)
-                              )
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === "") {
+                                field.onChange(undefined);
+                              } else if (/^\d*$/.test(value)) {
+                                field.onChange(parseInt(value));
+                              }
+                            }}
                             value={field.value ?? ""}
                           />
                         </FormControl>
@@ -279,16 +285,19 @@ const Page = () => {
                         <FormLabel>Total Soal Her Sumatif 1</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            placeholder="90"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="\d*"
+                            placeholder="20"
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(
-                                e.target.value === ""
-                                  ? undefined
-                                  : parseInt(e.target.value, 10)
-                              )
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === "") {
+                                field.onChange(undefined);
+                              } else if (/^\d*$/.test(value)) {
+                                field.onChange(parseInt(value));
+                              }
+                            }}
                             value={field.value ?? ""}
                           />
                         </FormControl>
@@ -304,16 +313,19 @@ const Page = () => {
                         <FormLabel>Total Soal Her Sumatif 2</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            placeholder="110"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="\d*"
+                            placeholder="20"
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(
-                                e.target.value === ""
-                                  ? undefined
-                                  : parseInt(e.target.value, 10)
-                              )
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === "") {
+                                field.onChange(undefined);
+                              } else if (/^\d*$/.test(value)) {
+                                field.onChange(parseInt(value));
+                              }
+                            }}
                             value={field.value ?? ""}
                           />
                         </FormControl>

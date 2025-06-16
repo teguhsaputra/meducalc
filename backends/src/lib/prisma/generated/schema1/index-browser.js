@@ -207,6 +207,7 @@ exports.Prisma.BobotNilaiProsesScalarFieldEnum = {
   temu_pakar: 'temu_pakar',
   peta_konsep: 'peta_konsep',
   proses_praktik: 'proses_praktik',
+  nilai_proses: 'nilai_proses',
   status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -411,6 +412,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -419,6 +425,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.RoleDosen = exports.$Enums.RoleDosen = {
   Koordinator: 'Koordinator',

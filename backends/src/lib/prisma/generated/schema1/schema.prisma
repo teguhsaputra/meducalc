@@ -129,11 +129,12 @@ model BobotNilaiProses {
   id             Int      @id @default(autoincrement())
   modul_id       Int
   modul          Modul    @relation(fields: [modul_id], references: [id], onDelete: Cascade)
-  diskusi        Decimal  @db.Decimal(5, 2)
-  buku_catatan   Decimal  @db.Decimal(5, 2)
-  temu_pakar     Decimal  @db.Decimal(5, 2)
-  peta_konsep    Decimal  @db.Decimal(5, 2)
-  proses_praktik Decimal  @db.Decimal(5, 2)
+  diskusi        Decimal? @db.Decimal(5, 2)
+  buku_catatan   Decimal? @db.Decimal(5, 2)
+  temu_pakar     Decimal? @db.Decimal(5, 2)
+  peta_konsep    Decimal? @db.Decimal(5, 2)
+  proses_praktik Decimal? @db.Decimal(5, 2)
+  nilai_proses   Json?
   status         String   @default("Aktif") @db.VarChar(20)
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt

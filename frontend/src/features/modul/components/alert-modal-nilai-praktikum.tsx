@@ -33,7 +33,10 @@ const AlertModalNilaiPraktikum = () => {
             semua data benar.
           </AlertDialogDescription>
           <div className="w-full">
-            <RadioGroup defaultValue="option-one" className="flex items-center justify-between">
+            <RadioGroup
+              defaultValue="option-one"
+              className="flex items-center justify-between"
+            >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="option-one" id="option-one" />
                 <Label htmlFor="option-one">Tidak ada Praktikum</Label>
@@ -47,9 +50,11 @@ const AlertModalNilaiPraktikum = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batalkan</AlertDialogCancel>
-          <AlertDialogAction className="bg-[#2262C6] hover:bg-blue-600">
-            <Link href={"/admin/modul/tambah-modul"}>Lanjutkan</Link>
-          </AlertDialogAction>
+          <Link href={"/admin/modul/tambah-modul"}>
+            <AlertDialogAction className="bg-[#2262C6] hover:bg-blue-600">
+              Lanjutkan
+            </AlertDialogAction>
+          </Link>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

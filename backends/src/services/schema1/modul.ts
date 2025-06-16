@@ -197,7 +197,10 @@ class ModulServices {
           praktikums:
             item.modul_praktikums.map((mp) => mp.praktikum.nama).join(", ") ||
             "N/A",
-          no: fetchAll || sanitizedSearch ? index + 1 : (page - 1) * limit + index + 1,
+          no:
+            fetchAll || sanitizedSearch
+              ? index + 1
+              : (page - 1) * limit + index + 1,
         };
       });
 
@@ -221,9 +224,10 @@ class ModulServices {
           sesi_diaktifkan: item.tanggal_mulai || "N/A",
           sesi_dinonaktifkan: item.tanggal_selesai || "N/A",
           praktikums: "N/A",
-         no: fetchAll || sanitizedSearch
-          ? dataSchema1.length + index + 1
-          : (page - 1) * limit + dataSchema1.length + index + 1,
+          no:
+            fetchAll || sanitizedSearch
+              ? dataSchema1.length + index + 1
+              : (page - 1) * limit + dataSchema1.length + index + 1,
         };
       });
 
@@ -246,7 +250,10 @@ class ModulServices {
       // Perbarui nomor urut
       finalData = finalData.map((item, index) => ({
         ...item,
-       no: fetchAll || sanitizedSearch ? index + 1 : (page - 1) * limit + index + 1,
+        no:
+          fetchAll || sanitizedSearch
+            ? index + 1
+            : (page - 1) * limit + index + 1,
       }));
 
       console.log(
@@ -282,13 +289,7 @@ class ModulServices {
     tahun_selesai: number,
     penanggung_jawab: string,
     bobot_nilai_akhir: { sumatif: number; proses: number; praktikum: number },
-    bobot_nilai_proses: {
-      diskusi: number;
-      buku_catatan: number;
-      temu_pakar: number;
-      peta_konsep: number;
-      proses_praktik: number;
-    },
+    bobot_nilai_proses: Record<string, number>,
     praktikum_id: number[],
     userId: number,
     role: string
@@ -324,14 +325,22 @@ class ModulServices {
       }
 
       // Validasi bobot nilai proses (total 100%)
-      const totalBobotProses =
-        bobot_nilai_proses.diskusi +
-        bobot_nilai_proses.buku_catatan +
-        bobot_nilai_proses.temu_pakar +
-        bobot_nilai_proses.peta_konsep +
-        bobot_nilai_proses.proses_praktik;
-      if (totalBobotProses !== 100) {
-        throw new Error("Total bobot nilai proses harus 100%");
+      const totalBobotProses = Object.values(bobot_nilai_proses).reduce(
+        (sum, nilai) => sum + (nilai ?? 0),
+        0
+      );
+
+      if (totalBobotProses > 100) {
+        throw new Error("Total nilai proses tidak boleh lebih dari 100%");
+      }
+
+      const invalidEntries = Object.entries(bobot_nilai_proses).filter(
+        ([_, nilai]) => typeof nilai !== "number" || nilai < 0
+      );
+      if (invalidEntries.length > 0) {
+        throw new Error(
+          `Nilai untuk ${invalidEntries[0][0]} harus berupa angka tidak negatif`
+        );
       }
 
       // Transaksi untuk membuat modul, sesi penilaian, dan praktikum
@@ -354,16 +363,25 @@ class ModulServices {
           },
         });
 
-        await tx.bobotNilaiProses.create({
-          data: {
-            modul_id: modul.id,
-            diskusi: bobot_nilai_proses.diskusi,
-            buku_catatan: bobot_nilai_proses.buku_catatan,
-            temu_pakar: bobot_nilai_proses.temu_pakar,
-            peta_konsep: bobot_nilai_proses.peta_konsep,
-            proses_praktik: bobot_nilai_proses.proses_praktik,
-          },
-        });
+        if (Object.keys(bobot_nilai_proses).length > 0) {
+          await tx.bobotNilaiProses.create({
+            data: {
+              modul_id: modul.id,
+              nilai_proses: bobot_nilai_proses,
+            },
+          });
+        }
+
+        // await tx.bobotNilaiProses.create({
+        //   data: {
+        //     modul_id: modul.id,
+        //     diskusi: bobot_nilai_proses.diskusi,
+        //     buku_catatan: bobot_nilai_proses.buku_catatan,
+        //     temu_pakar: bobot_nilai_proses.temu_pakar,
+        //     peta_konsep: bobot_nilai_proses.peta_konsep,
+        //     proses_praktik: bobot_nilai_proses.proses_praktik,
+        //   },
+        // });
 
         await tx.modulPraktikum.createMany({
           data: praktikum_id.map((praktikum_id) => ({
@@ -769,11 +787,7 @@ class ModulServices {
         })),
         bobot_nilai_proses: modul.bobot_nilai_proses.map((p) => ({
           id: Number(p.id),
-          diskusiKelompok: Number(p.diskusi),
-          bukuCatatan: Number(p.buku_catatan),
-          temuPakar: Number(p.temu_pakar),
-          petaKonsep: Number(p.peta_konsep),
-          prosesPraktikum: Number(p.proses_praktik),
+          nilai: p.nilai_proses as Record<string, number>,
         })),
         praktikums: modul.modul_praktikums.map((p) => ({
           id: Number(p.praktikum_id),
