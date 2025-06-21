@@ -1,5 +1,6 @@
 import prismaMysql from "../../lib/db2";
 import prisma from "../../lib/db1";
+import * as XLSX from "xlsx";
 
 interface IstDaftarModul {
   id: number;
@@ -288,11 +289,18 @@ class ModulServices {
     tahun_mulai: number,
     tahun_selesai: number,
     penanggung_jawab: string,
-    bobot_nilai_akhir: { sumatif: number; proses: number; praktikum: number },
-    bobot_nilai_proses: Record<string, number>,
     praktikum_id: number[],
     userId: number,
-    role: string
+    role: string,
+    bobot_nilai_akhir?: { sumatif: number; proses: number; praktikum: number },
+    bobot_nilai_proses_default?: {
+      diskusi: number;
+      buku_catatan: number;
+      temu_pakar: number;
+      peta_konsep: number;
+      kkd: number;
+    },
+    bobot_nilai_proses?: Record<string, number>
   ) {
     try {
       // Validasi admin dari schema1
@@ -315,32 +323,60 @@ class ModulServices {
         throw new Error("One or more praktikum IDs are invalid");
       }
 
-      // Validasi bobot nilai akhir (total 100%)
-      const totalBobotAkhir =
-        bobot_nilai_akhir.sumatif +
-        bobot_nilai_akhir.proses +
-        bobot_nilai_akhir.praktikum;
-      if (totalBobotAkhir !== 100) {
-        throw new Error("Total bobot nilai akhir harus 100%");
+      const normalizedBobotAkhir = bobot_nilai_akhir || {
+        sumatif: 0,
+        proses: 0,
+        praktikum: 0,
+      };
+      if (bobot_nilai_akhir) {
+        const totalBobotAkhir =
+          normalizedBobotAkhir.sumatif +
+          normalizedBobotAkhir.proses +
+          normalizedBobotAkhir.praktikum;
+        if (totalBobotAkhir !== 100) {
+          throw new Error("Total bobot nilai akhir harus 100%");
+        }
       }
 
       // Validasi bobot nilai proses (total 100%)
-      const totalBobotProses = Object.values(bobot_nilai_proses).reduce(
-        (sum, nilai) => sum + (nilai ?? 0),
-        0
-      );
-
-      if (totalBobotProses > 100) {
-        throw new Error("Total nilai proses tidak boleh lebih dari 100%");
+      const normalizedBobotProsesDefault = bobot_nilai_proses_default || {
+        diskusi: 0,
+        buku_catatan: 0,
+        temu_pakar: 0,
+        peta_konsep: 0,
+        kkd: 0,
+      };
+      if (bobot_nilai_proses_default) {
+        const totalBobotProsesDefault =
+          normalizedBobotProsesDefault.diskusi +
+          normalizedBobotProsesDefault.buku_catatan +
+          normalizedBobotProsesDefault.temu_pakar +
+          normalizedBobotProsesDefault.peta_konsep +
+          normalizedBobotProsesDefault.kkd;
+        if (totalBobotProsesDefault > 100) {
+          throw new Error(
+            "Total bobot nilai proses default tidak boleh lebih dari 100%"
+          );
+        }
       }
 
-      const invalidEntries = Object.entries(bobot_nilai_proses).filter(
-        ([_, nilai]) => typeof nilai !== "number" || nilai < 0
-      );
-      if (invalidEntries.length > 0) {
-        throw new Error(
-          `Nilai untuk ${invalidEntries[0][0]} harus berupa angka tidak negatif`
-        );
+      const normalizedBobotProsesDinamis = bobot_nilai_proses || {};
+      if (bobot_nilai_proses) {
+        const totalBobotProses = Object.values(
+          normalizedBobotProsesDinamis
+        ).reduce((sum, nilai) => sum + (nilai ?? 0), 0);
+        if (totalBobotProses > 100) {
+          throw new Error("Total nilai proses tidak boleh lebih dari 100%");
+        }
+
+        const invalidEntries = Object.entries(
+          normalizedBobotProsesDinamis
+        ).filter(([_, nilai]) => typeof nilai !== "number" || nilai < 0);
+        if (invalidEntries.length > 0) {
+          throw new Error(
+            `Nilai untuk ${invalidEntries[0][0]} harus berupa angka tidak negatif`
+          );
+        }
       }
 
       // Transaksi untuk membuat modul, sesi penilaian, dan praktikum
@@ -357,20 +393,26 @@ class ModulServices {
         await tx.bobotNilaiAkhir.create({
           data: {
             modul_id: modul.id,
-            nilai_sumatif: bobot_nilai_akhir.sumatif,
-            nilai_proses: bobot_nilai_akhir.proses,
-            nilai_praktik: bobot_nilai_akhir.praktikum,
+            nilai_sumatif: normalizedBobotAkhir.sumatif,
+            nilai_proses: normalizedBobotAkhir.proses,
+            nilai_praktik: normalizedBobotAkhir.praktikum,
           },
         });
 
-        if (Object.keys(bobot_nilai_proses).length > 0) {
-          await tx.bobotNilaiProses.create({
-            data: {
-              modul_id: modul.id,
-              nilai_proses: bobot_nilai_proses,
-            },
-          });
-        }
+        await tx.bobotNilaiProses.create({
+          data: {
+            modul_id: modul.id,
+            diskusi: normalizedBobotProsesDefault.diskusi,
+            buku_catatan: normalizedBobotProsesDefault.buku_catatan,
+            temu_pakar: normalizedBobotProsesDefault.temu_pakar,
+            peta_konsep: normalizedBobotProsesDefault.peta_konsep,
+            proses_praktik: normalizedBobotProsesDefault.kkd,
+            nilai_proses:
+              Object.keys(normalizedBobotProsesDinamis).length > 0
+                ? normalizedBobotProsesDinamis
+                : {},
+          },
+        });
 
         // await tx.bobotNilaiProses.create({
         //   data: {
@@ -495,15 +537,15 @@ class ModulServices {
     userId: number,
     role: string,
     modul_id: number,
-    total_soal_sum1: number,
-    total_soal_sum2: number,
-    total_soal_her_sum1: number,
-    total_soal_her_sum2: number,
     penilaianProses: {
       praktikum_id: number;
       jenis_nilai_id: number;
-      bobot: number;
-    }[]
+      bobot?: number;
+    }[],
+    total_soal_sum1?: number,
+    total_soal_sum2?: number,
+    total_soal_her_sum1?: number,
+    total_soal_her_sum2?: number
   ) {
     try {
       if (role === "admin") {
@@ -561,24 +603,32 @@ class ModulServices {
       }
 
       // Validasi total bobot penilaian proses = 100%
-      const totalBobot = penilaianProses.reduce((sum, p) => sum + p.bobot, 0);
-      if (totalBobot !== 100) {
-        throw new Error("Total bobot penilaian proses harus tepat 100%");
+      const totalBobot = penilaianProses.reduce(
+        (sum, p) => sum + (p.bobot ?? 0),
+        0
+      );
+      if (totalBobot > 100) {
+        throw new Error(
+          "Total bobot penilaian proses tidak boleh lebih dari 100%"
+        );
       }
 
       const newPenilaianModul = await prisma.penilaianModul.create({
         data: {
           modul_id: modul_id,
-          total_soal_sum1: total_soal_sum1,
-          total_soal_sum2: total_soal_sum2,
-          total_her_sum1: total_soal_her_sum1,
-          total_her_sum2: total_soal_her_sum2,
+          total_soal_sum1: total_soal_sum1 ?? null,
+          total_soal_sum2: total_soal_sum2 ?? null,
+          total_her_sum1: total_soal_her_sum1 ?? null,
+          total_her_sum2: total_soal_her_sum2 ?? null,
           penilaian_proses_praktikums: {
-            create: penilaianProses.map((p) => ({
-              praktikum_id: p.praktikum_id,
-              jenis_nilai_id: p.jenis_nilai_id,
-              bobot: p.bobot,
-            })),
+            create:
+              penilaianProses && penilaianProses.length > 0
+                ? penilaianProses.map((p) => ({
+                    praktikum_id: p.praktikum_id,
+                    jenis_nilai_id: p.jenis_nilai_id,
+                    bobot: p.bobot ?? null,
+                  }))
+                : [],
           },
         },
         include: {
@@ -787,6 +837,11 @@ class ModulServices {
         })),
         bobot_nilai_proses: modul.bobot_nilai_proses.map((p) => ({
           id: Number(p.id),
+          diskusiKelompok: Number(p.diskusi),
+          bukuCatatan: Number(p.buku_catatan),
+          temuPakar: Number(p.temu_pakar),
+          petaKonsep: Number(p.peta_konsep),
+          prosesPraktikum: Number(p.proses_praktik),
           nilai: p.nilai_proses as Record<string, number>,
         })),
         praktikums: modul.modul_praktikums.map((p) => ({
@@ -1328,17 +1383,19 @@ class ModulServices {
     modulId: number,
     nama_modul?: string,
     penanggung_jawab?: string,
-    bobot_nilai_proses?: {
+    bobot_nilai_proses_default?: {
       diskusi?: number;
       buku_catatan?: number;
       temu_pakar?: number;
       peta_konsep?: number;
       proses_praktik?: number;
     },
+    bobot_nilai_proses?: Record<string, number>,
     total_soal_sum1?: number,
     total_soal_sum2?: number,
     total_soal_her_sum1?: number,
-    total_soal_her_sum2?: number
+    total_soal_her_sum2?: number,
+    peserta_moduls?: Buffer
   ) {
     try {
       if (role === "admin") {
@@ -1361,6 +1418,7 @@ class ModulServices {
           penanggung_jawab: true,
           bobot_nilai_proses: true,
           penilaian_moduls: true,
+          peserta_moduls: true,
         },
       });
 
@@ -1368,50 +1426,211 @@ class ModulServices {
         throw new Error("Modul not found");
       }
 
+      const existingBobotProses = existingModul.bobot_nilai_proses[0] || {
+        diskusi: 0,
+        buku_catatan: 0,
+        temu_pakar: 0,
+        peta_konsep: 0,
+        proses_praktik: 0,
+        nilai_proses: {},
+      };
+
+      if (bobot_nilai_proses_default) {
+        const providedFields = Object.entries(bobot_nilai_proses_default)
+          .filter(([_, nilai]) => nilai !== undefined)
+          .reduce((acc, [key, nilai]) => {
+            acc[key] = Number(nilai) || 0; // Pastikan konversi ke number
+            return acc;
+          }, {} as Record<string, number>);
+
+        const totalBobotProses = Object.values(providedFields).reduce(
+          (sum, nilai) => sum + nilai,
+          0
+        );
+
+        if (totalBobotProses > 100) {
+          throw new Error("Total nilai proses tidak boleh lebih dari 100%");
+        }
+      }
+
+      if (bobot_nilai_proses && Object.keys(bobot_nilai_proses).length > 0) {
+        const totalDinamis = Object.values(bobot_nilai_proses).reduce(
+          (sum, nilai) => sum + (Number(nilai) || 0),
+          0
+        );
+
+        if (totalDinamis > 100) {
+          throw new Error("Total nilai dinamis tidak boleh lebih dari 100%");
+        }
+      }
+
+      let newPesertaModuls: { Nim: string; Nama: string }[] = [];
+      let invalidNims: string[] = [];
+      if (peserta_moduls) {
+        const workbook = XLSX.read(peserta_moduls, { type: "buffer" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+          header: ["Nim", "Nama"],
+          raw: false, // Pastikan output sebagai string
+        }) as any[];
+
+        if (!jsonData[0] || !jsonData[0].Nim || !jsonData[0].Nama) {
+          throw new Error("File Excel harus memiliki kolom 'Nim' dan 'Nama'");
+        }
+
+        // const nims = jsonData.map((row) => String(row.Nim));
+        // const uniqueNims = [...new Set(nims)]; // Hilangkan duplikat
+        // if (uniqueNims.length !== nims.length) {
+        //   throw new Error("Terdapat NIM duplikat dalam file Excel");
+        // }
+
+        const mahasiswaList = await prismaMysql.mda_master_mahasiswa.findMany({
+          select: { nim: true },
+        });
+        const validNims = new Set(mahasiswaList.map((m) => String(m.nim)));
+
+        const existingPesertaNims = new Set(
+          existingModul.peserta_moduls.map((p) => p.nim)
+        );
+        const availableNims = Array.from(validNims).filter(
+          (nim) => !existingPesertaNims.has(nim)
+        );
+
+        if (availableNims.length === 0) {
+          throw new Error(
+            "Tidak ada Nim baru yang tersedia untuk ditambahkan ke modul ini"
+          );
+        }
+
+        // const mahasiswaNims = new Set(mahasiswaList.map((m) => m.nim));
+
+        const assignedNims: string[] = [];
+        newPesertaModuls = jsonData
+          .map((row, index) => {
+            const excelNim = String(row.Nim); // Konversi ke string
+            const excelNama = String(row.Nama); // Konversi ke string
+
+            if (!excelNim || !excelNama) {
+              invalidNims.push(`Kosong di baris ${index + 2}`);
+              return null;
+            }
+
+            // Pilih Nim acak dari daftar valid jika Nim dari Excel tidak ada
+            let assignedNim = excelNim;
+            if (!validNims.has(excelNim)) {
+              const unusedNims = availableNims.filter(
+                (nim) => !assignedNims.includes(nim)
+              );
+              if (unusedNims.length === 0) {
+                invalidNims.push(
+                  `Tidak cukup Nim unik untuk baris ${index + 2}`
+                );
+                return null;
+              }
+
+              assignedNim =
+                unusedNims[Math.floor(Math.random() * unusedNims.length)];
+              assignedNims.push(assignedNim);
+            } else if (existingPesertaNims.has(assignedNim)) {
+              invalidNims.push(`Nim ${assignedNim} sudah terdaftar di modul ini dibaris ${index + 2}`)
+              return null
+            } else {
+              assignedNims.push(assignedNim)
+            }
+
+            return { Nim: assignedNim, Nama: excelNama };
+          })
+          .filter(
+            (item): item is { Nim: string; Nama: string } => item !== null
+          );
+
+        if (invalidNims.length > 0) {
+          throw new Error(
+            `NIM tidak ditemukan di database: ${invalidNims.join(", ")}`
+          );
+        }
+
+        const newNims = new Set(newPesertaModuls.map((p) => p.Nim))
+        if (newNims.size !== newPesertaModuls.length) {
+          throw new Error("Terjadi duplikat Nim dalam data yang akan dimasukkan")
+        }
+      }
+      
+
       const updateModul = await prisma.$transaction(async (tx) => {
+        // Update modul
         const modul = await tx.modul.update({
-          where: {
-            id: modulId,
-          },
+          where: { id: modulId },
           data: {
-            nama_modul,
-            penanggung_jawab,
+            nama_modul: nama_modul ?? existingModul.nama_modul,
+            penanggung_jawab:
+              penanggung_jawab ?? existingModul.penanggung_jawab,
+          },
+          include: {
+            bobot_nilai_proses: true,
+            penilaian_moduls: true,
           },
         });
 
+        // Update bobot_nilai_proses
         await tx.bobotNilaiProses.update({
-          where: {
-            modul_id: modulId,
-          },
+          where: { modul_id: modulId },
           data: {
-            diskusi: bobot_nilai_proses?.diskusi,
-            buku_catatan: bobot_nilai_proses?.buku_catatan,
-            temu_pakar: bobot_nilai_proses?.temu_pakar,
-            peta_konsep: bobot_nilai_proses?.peta_konsep,
-            proses_praktik: bobot_nilai_proses?.proses_praktik,
+            diskusi:
+              bobot_nilai_proses_default?.diskusi ??
+              existingBobotProses.diskusi,
+            buku_catatan:
+              bobot_nilai_proses_default?.buku_catatan ??
+              existingBobotProses.buku_catatan,
+            temu_pakar:
+              bobot_nilai_proses_default?.temu_pakar ??
+              existingBobotProses.temu_pakar,
+            peta_konsep:
+              bobot_nilai_proses_default?.peta_konsep ??
+              existingBobotProses.peta_konsep,
+            proses_praktik:
+              bobot_nilai_proses_default?.proses_praktik ??
+              existingBobotProses.proses_praktik,
+            nilai_proses:
+              bobot_nilai_proses ?? existingBobotProses.nilai_proses ?? {},
           },
         });
 
+        // Update penilaian_modul
         const penilaian = await tx.penilaianModul.findFirst({
           where: { modul_id: modulId },
         });
-
         if (penilaian) {
           await tx.penilaianModul.update({
             where: { id: penilaian.id },
             data: {
-              total_soal_sum1,
-              total_soal_sum2,
-              total_her_sum1: total_soal_her_sum1,
-              total_her_sum2: total_soal_her_sum2,
+              total_soal_sum1: total_soal_sum1 ?? penilaian.total_soal_sum1,
+              total_soal_sum2: total_soal_sum2 ?? penilaian.total_soal_sum2,
+              total_her_sum1: total_soal_her_sum1 ?? penilaian.total_her_sum1,
+              total_her_sum2: total_soal_her_sum2 ?? penilaian.total_her_sum2,
             },
+          });
+        }
+
+        // Tambah peserta_moduls dari Excel
+        if (newPesertaModuls.length > 0) {
+          await tx.pesertaModul.createMany({
+            data: newPesertaModuls.map((p) => ({
+              modul_id: modulId,
+              nim: p.Nim,
+            })),
           });
         }
 
         return modul;
       });
 
-      return updateModul;
+      return {
+        modul: updateModul,
+        importedPeserta: newPesertaModuls,
+        invalidNims,
+      };
     } catch (error) {
       throw new Error((error as Error).message);
     }

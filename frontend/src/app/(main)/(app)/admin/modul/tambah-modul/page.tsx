@@ -38,29 +38,32 @@ const formSchema = z
     tahunSelesai: z.string().min(1, "Tahun selesai harus diisi"),
     timAkademik: z.string().min(1, "Penanggung jawab harus diisi"),
     nilaiAkhirSumatif: z
-      .number({ invalid_type_error: "Nilai sumatif harus diisi" })
-      .min(0, "Nilai sumatif tidak boleh negatif"),
+      .number()
+      .min(0, "Nilai sumatif tidak boleh negatif")
+      .optional(),
     nilaiAkhirProses: z
-      .number({ invalid_type_error: "Nilai proses harus diisi" })
-      .min(0, "Nilai proses tidak boleh negatif"),
+      .number()
+      .min(0, "Nilai proses tidak boleh negatif")
+      .optional(),
     nilaiAkhirPraktikum: z
-      .number({ invalid_type_error: "Nilai praktikum harus diisi" })
-      .min(0, "Nilai praktikum tidak boleh negatif"),
-    // nilaiProsesDiskusi: z
-    //   .number({ invalid_type_error: "Nilai diskusi harus diisi" })
-    //   .min(0, "Nilai diskusi tidak boleh negatif"),
-    // nilaiProsesBukuCatatan: z
-    //   .number({ invalid_type_error: "Nilai buku catatan harus diisi" })
-    //   .min(0, "Nilai buku catatan tidak boleh negatif"),
-    // nilaiProsesTemuPakar: z
-    //   .number({ invalid_type_error: "Nilai temu pakar harus diisi" })
-    //   .min(0, "Nilai temu pakar tidak boleh negatif"),
-    // nilaiProsesPetaKonsep: z
-    //   .number({ invalid_type_error: "Nilai peta konsep harus diisi" })
-    //   .min(0, "Nilai peta konsep tidak boleh negatif"),
-    // nilaiProsesPraktik: z
-    //   .number({ invalid_type_error: "Nilai proses praktik" })
-    //   .min(0, "Nilai proses praktik tidak boleh tidak boleh negatif"),
+      .number()
+      .min(0, "Nilai praktikum tidak boleh negatif")
+      .optional(),
+    nilaiProsesDiskusi: z
+      .number({ invalid_type_error: "Nilai diskusi harus diisi" })
+      .min(0, "Nilai diskusi tidak boleh negatif"),
+    nilaiProsesBukuCatatan: z
+      .number({ invalid_type_error: "Nilai buku catatan harus diisi" })
+      .min(0, "Nilai buku catatan tidak boleh negatif"),
+    nilaiProsesTemuPakar: z
+      .number({ invalid_type_error: "Nilai temu pakar harus diisi" })
+      .min(0, "Nilai temu pakar tidak boleh negatif"),
+    nilaiProsesPetaKonsep: z
+      .number({ invalid_type_error: "Nilai peta konsep harus diisi" })
+      .min(0, "Nilai peta konsep tidak boleh negatif"),
+    nilaiProsesKKD: z
+      .number({ invalid_type_error: "Nilai proses praktik" })
+      .min(0, "Nilai proses praktik tidak boleh tidak boleh negatif"),
     nilaiProses: z
       .array(
         z.object({
@@ -81,14 +84,38 @@ const formSchema = z
       .min(1, "Setidaknya satu praktikum harus dipilih"),
   })
   .refine(
-    (data) =>
-      data.nilaiAkhirSumatif +
-        data.nilaiAkhirProses +
-        data.nilaiAkhirPraktikum ===
-      100,
+    (data) => {
+      if (
+        data.nilaiAkhirSumatif === undefined ||
+        data.nilaiAkhirProses === undefined ||
+        data.nilaiAkhirPraktikum === undefined
+      ) {
+        return true;
+      }
+
+      return (
+        data.nilaiAkhirSumatif +
+          data.nilaiAkhirProses +
+          data.nilaiAkhirPraktikum ===
+        100
+      );
+    },
     {
       message: "Total bobot nilai akhir harus 100%",
       path: ["nilaiAkhirSumatif"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.nilaiProsesDiskusi +
+        data.nilaiProsesBukuCatatan +
+        data.nilaiProsesTemuPakar +
+        data.nilaiProsesPetaKonsep +
+        data.nilaiProsesKKD <=
+      100,
+    {
+      message: "Total nilai proses tidak boleh lebih dari 100%",
+      path: ["nilaiProsesDiskusi"],
     }
   )
   .refine(
@@ -121,11 +148,11 @@ const Page = () => {
       nilaiAkhirSumatif: undefined,
       nilaiAkhirProses: undefined,
       nilaiAkhirPraktikum: undefined,
-      // nilaiProsesDiskusi: undefined,
-      // nilaiProsesBukuCatatan: undefined,
-      // nilaiProsesTemuPakar: undefined,
-      // nilaiProsesPetaKonsep: undefined,
-      // nilaiProsesPraktik: undefined,
+      nilaiProsesDiskusi: undefined,
+      nilaiProsesBukuCatatan: undefined,
+      nilaiProsesTemuPakar: undefined,
+      nilaiProsesPetaKonsep: undefined,
+      nilaiProsesKKD: undefined,
       nilaiProses: [],
       pilihanPraktikum: [{ value: "" }],
     },
@@ -165,6 +192,13 @@ const Page = () => {
         sumatif: values.nilaiAkhirSumatif,
         proses: values.nilaiAkhirProses,
         praktikum: values.nilaiAkhirPraktikum,
+      },
+      bobot_nilai_proses_default: {
+        diskusi: values.nilaiProsesDiskusi,
+        buku_catatan: values.nilaiProsesBukuCatatan,
+        temu_pakar: values.nilaiProsesTemuPakar,
+        peta_konsep: values.nilaiProsesPetaKonsep,
+        proses_praktik: values.nilaiProsesKKD,
       },
       bobot_nilai_proses:
         values.nilaiProses?.reduce(
@@ -320,17 +354,20 @@ const Page = () => {
                       <FormLabel>Nilai Akhir Sumatif (%)</FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          placeholder="50"
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? undefined
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -345,17 +382,20 @@ const Page = () => {
                       <FormLabel>Nilai Akhir Proses (%)</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="30"
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
                           {...field}
-                          type="number"
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? undefined
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -370,17 +410,20 @@ const Page = () => {
                       <FormLabel>Nilai Akhir Praktikum (%)</FormLabel>
                       <FormControl>
                         <Input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
                           placeholder="20"
                           {...field}
-                          type="number"
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? undefined
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value ?? null}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -398,6 +441,149 @@ const Page = () => {
               <span className="text-xs font-normal">
                 Total penilaian bobot harus 100%
               </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mt-2">
+                <FormField
+                  control={form.control}
+                  name="nilaiProsesDiskusi"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Diskusi (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nilaiProsesBukuCatatan"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Buku Catatan (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nilaiProsesTemuPakar"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Temu Pakar (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nilaiProsesPetaKonsep"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Peta Konsep (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nilaiProsesKKD"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>KKD (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mt-2">
                 {nilaiProsesFields.map((field, index) => (
@@ -472,134 +658,6 @@ const Page = () => {
                 + Tambah Pengaturan Bobot Nilai Proses
               </Button>
             </div>
-
-            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mt-2">
-              <FormField
-                control={form.control}
-                name="nilaiProsesDiskusi"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Diskusi (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="20"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? null
-                              : parseInt(e.target.value) || 0
-                          )
-                        }
-                        value={field.value ?? null}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="nilaiProsesBukuCatatan"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Buku Catatan (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="20"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? null
-                              : parseInt(e.target.value) || 0
-                          )
-                        }
-                        value={field.value ?? null}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="nilaiProsesTemuPakar"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Temu Pakar (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="20"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? null
-                              : parseInt(e.target.value) || 0
-                          )
-                        }
-                        value={field.value ?? null}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="nilaiProsesPetaKonsep"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Peta Konsep (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="20"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? null
-                              : parseInt(e.target.value) || 0
-                          )
-                        }
-                        value={field.value ?? null}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="nilaiProsesPraktik"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Proses Praktik (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="20"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? null
-                              : parseInt(e.target.value) || 0
-                          )
-                        }
-                        value={field.value ?? null}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div> */}
 
             {/* Pengaturan Praktikum */}
             <div className="flex flex-col">

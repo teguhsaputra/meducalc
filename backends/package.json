@@ -10,6 +10,7 @@
     "psql::generate": "npx prisma generate --schema prisma/schema1.prisma",
     "psql::migrate": "npx prisma migrate dev --schema prisma/schema1.prisma",
     "psql::studio": "npx prisma studio --schema prisma/schema1.prisma",
+    "psql::dbpush": "npx prisma db push --schema prisma/schema1.prisma",
     "mysql::generate": "npx prisma generate --schema prisma-mysql/schema2.prisma",
     "mysql::studio": "npx prisma studio --schema prisma-mysql/schema2.prisma",
     "mysql::dbpush": "npx prisma db push --schema prisma-mysql/schema2.prisma",
@@ -30,14 +31,17 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.1",
     "nodemon": "^3.1.10",
-    "prisma": "^6.8.2"
+    "prisma": "^6.8.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/multer": "^1.4.13",
     "@types/node": "^22.15.30",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"

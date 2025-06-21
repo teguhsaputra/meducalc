@@ -75,7 +75,7 @@ export const columns: ColumnDef<TModulDosen>[] = [
     header: "Aksi",
     cell: ({ row }) => (
       <div className="flex justify-center gap-4">
-        <Link href={`/admin/modul/tambah-modul/${row.getValue("id")}`}>
+        <Link href={`/admin/modul/${row.getValue("id")}`}>
           <Eye className="w-5 h-5 " style={{ stroke: "#72A1E7" }} />
         </Link>
         <Link href={`#`}>

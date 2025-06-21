@@ -13,10 +13,10 @@ const CellAction: React.FC<CellActionProps> = ({ id }) => {
   const { mutate, isPending } = useDeleteModul(id);
   return (
     <div className="flex justify-center gap-2 ">
-      <Link href={`#`}>
+      <Link href={`/admin/modul/${id}`}>
         <Eye className="w-5 h-5 " style={{ stroke: "#72A1E7" }} />
       </Link>
-      <Link href={`#`}>
+      <Link href={`/admin/modul/edit/${id}`}>
         <Pen className="w-5 h-5" style={{ stroke: "#999999" }} />
       </Link>
       {/* <Link href={`#`}>

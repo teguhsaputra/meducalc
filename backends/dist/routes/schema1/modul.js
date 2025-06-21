@@ -39,13 +39,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const modul_1 = __importDefault(require("../../controllers/schema1/modul"));
 const admin_middleware_1 = require("../../middlewares/admin-middleware");
+const upload_middleware_1 = require("../../middlewares/upload-middleware");
 const useModulRoute = express.Router();
 // useModulRoute.post("/auth/login/admin", AuthController.login);
 useModulRoute.get("/modul/admin", admin_middleware_1.authenticateUser, modul_1.default.getModul);
 useModulRoute.get("/modul/admin/:modul_id", admin_middleware_1.authenticateUser, modul_1.default.getModulById);
 useModulRoute.post("/modul/admin/add", admin_middleware_1.authenticateUser, modul_1.default.addModul);
 useModulRoute.delete("/modul/admin/delete/:modulId", admin_middleware_1.authenticateUser, modul_1.default.deleteModul);
-useModulRoute.put("/modul/admin/edit/:modulId", admin_middleware_1.authenticateUser, modul_1.default.updateModul);
+useModulRoute.put("/modul/admin/edit/:modulId", admin_middleware_1.authenticateUser, (0, upload_middleware_1.uploadMiddleware)().single("peserta_moduls"), modul_1.default.updateModul);
 // pemicu
 useModulRoute.post("/modul/admin/add-pemicu", admin_middleware_1.authenticateUser, modul_1.default.addPemicu);
 // penilaian modul

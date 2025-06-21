@@ -18,7 +18,11 @@ import {
   useInputPenilaian,
 } from "@/services/api/penilaian-modul";
 import { Label } from "@/components/ui/label";
-import { useGetModulDosenByNimPeserta, useModulDosenInputPenilaian } from "@/services/api/dosen";
+import {
+  useGetModulDosenByNimPeserta,
+  useModulDosenInputPenilaian,
+} from "@/services/api/dosen";
+import { Plus } from "lucide-react";
 
 type Props = {
   namaModul: string;
@@ -44,9 +48,12 @@ const formSchema = z.object({
     .max(1000, { message: "Maksimal 1000 soal." }),
   nilaiPraktikum: z.record(z.string()),
   nilaiHerPraktikum: z.record(z.string()),
-  diskusiKelompokNilai: z.record(z.string()),
-  catatanNilai: z.record(z.string()),
-  temuPakarNilai: z.record(z.string()),
+  // diskusiKelompokNilai: z.record(z.string()),
+  // catatanNilai: z.record(z.string()),
+  // temuPakarNilai: z.record(z.string()),
+  nilaiProses: z.record(
+    z.string().nonempty({ message: "Nilai tidak boleh kosong" })
+  ),
   petaKonsepNilai: z.record(
     z.record(
       z.object({
@@ -123,10 +130,10 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
   console.log("proses praktikum data", prosesPraktikumData);
 
   const defaultValues = {
-    totalBenarSumatif1: 0,
-    totalBenarSumatif2: 0,
-    totalBenarHerSumatif1: 0,
-    totalBenarHerSumatif2: 0,
+    totalBenarSumatif1: undefined,
+    totalBenarSumatif2: undefined,
+    totalBenarHerSumatif1: undefined,
+    totalBenarHerSumatif2: undefined,
     nilaiPraktikum:
       modulData?.praktikums?.reduce((acc: any, p: any) => {
         acc[p.id.toString()] = "";
@@ -137,29 +144,38 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
         acc[p.id.toString()] = "";
         return acc;
       }, {} as Record<string, string>) || {},
-    diskusiKelompokNilai: modulData?.peserta?.kelompok_nomor
-      ? uniquePemicuNumbers.reduce(
-          (acc: Record<string, string>, nomorPemicu: any) => {
-            acc[`DK${modulData.peserta.kelompok_nomor}-P${nomorPemicu}`] = "";
-            acc[`DK1-P${nomorPemicu}`] = "";
-            acc[`DK2-P${nomorPemicu}`] = "";
+    // diskusiKelompokNilai: modulData?.peserta?.kelompok_nomor
+    //   ? uniquePemicuNumbers.reduce(
+    //       (acc: Record<string, string>, nomorPemicu: any) => {
+    //         acc[`DK${modulData.peserta.kelompok_nomor}-P${nomorPemicu}`] = "";
+    //         acc[`DK1-P${nomorPemicu}`] = "";
+    //         acc[`DK2-P${nomorPemicu}`] = "";
+    //         return acc;
+    //       },
+    //       {} as Record<string, string>
+    //     )
+    //   : {},
+    // catatanNilai: Array.from({ length: catatanCount }, (_, i) =>
+    //   (i + 1).toString()
+    // ).reduce((acc, key) => {
+    //   acc[key] = "";
+    //   return acc;
+    // }, {} as Record<string, string>),
+    // temuPakarNilai: Array.from({ length: temuPakarCount }, (_, i) =>
+    //   (i + 1).toString()
+    // ).reduce((acc, key) => {
+    //   acc[key] = "";
+    //   return acc;
+    // }, {} as Record<string, string>),
+    nilaiProses: modulData?.bobot_nilai_proses[0]?.nilai
+      ? Object.keys(modulData.bobot_nilai_proses[0].nilai).reduce(
+          (acc: Record<string, string>, key) => {
+            acc[key] = "";
             return acc;
           },
-          {} as Record<string, string>
+          {}
         )
       : {},
-    catatanNilai: Array.from({ length: catatanCount }, (_, i) =>
-      (i + 1).toString()
-    ).reduce((acc, key) => {
-      acc[key] = "";
-      return acc;
-    }, {} as Record<string, string>),
-    temuPakarNilai: Array.from({ length: temuPakarCount }, (_, i) =>
-      (i + 1).toString()
-    ).reduce((acc, key) => {
-      acc[key] = "";
-      return acc;
-    }, {} as Record<string, string>),
     petaKonsepNilai: petaKonsepData,
     prosesPraktikumNilai: prosesPraktikumData,
   };
@@ -169,9 +185,16 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
     defaultValues,
   });
 
+  const formatNamaPenilaian = (key: string) => {
+    return key
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    submitPenilaian(values);
+    // submitPenilaian(values);
   }
 
   return (
@@ -203,6 +226,14 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
           </div>
         </div>
       </div>
+      <div className="my-5 flex justify-end">
+        <Button variant={"blue"} disabled>
+          <span>
+            <Plus className="w-4 h-4" />
+          </span>
+          Import Nilai
+        </Button>
+      </div>
 
       <Separator className="h-0.5 rounded-full my-6" />
 
@@ -227,20 +258,20 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          placeholder={
-                            modulData?.penilaian_moduls?.total_soal_sum1?.toString() ||
-                            "100"
-                          }
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="20"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? 0
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -259,20 +290,20 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          placeholder={
-                            modulData?.penilaian_moduls?.total_soal_sum2?.toString() ||
-                            "100"
-                          }
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="50"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? 0
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -300,20 +331,20 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          placeholder={
-                            modulData?.penilaian_moduls?.total_her_sum1?.toString() ||
-                            "100"
-                          }
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="50"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? 0
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -332,20 +363,20 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          placeholder={
-                            modulData?.penilaian_moduls?.total_her_sum2?.toString() ||
-                            "100"
-                          }
+                          type="text"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          placeholder="50"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? 0
-                                : parseInt(e.target.value) || 0
-                            )
-                          }
-                          value={field.value}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "") {
+                              field.onChange(undefined);
+                            } else if (/^\d*$/.test(value)) {
+                              field.onChange(parseInt(value));
+                            }
+                          }}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -362,7 +393,10 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               <span className="text-xs">Masukkan Data Dengan Benar</span>
               <div className="grid grid-cols-1 md:grid-cols-2 w-full mt-4 gap-4">
                 {modulData?.praktikums.map((praktikum: any) => (
-                  <div key={praktikum.id} className="flex flex-col md:flex-row items-center gap-4">
+                  <div
+                    key={praktikum.id}
+                    className="flex flex-col md:flex-row items-center gap-4"
+                  >
                     <FormField
                       control={form.control}
                       name={`nilaiPraktikum.${praktikum.id}`}
@@ -406,7 +440,10 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               <span className="text-xs">Masukkan Data Dengan Benar</span>
               <div className="grid grid-cols-1 md:grid-cols-2 w-full mt-4 gap-4">
                 {modulData?.praktikums.map((praktikum: any) => (
-                  <div key={praktikum.id} className="flex flex-col md:flex-row items-center gap-4">
+                  <div
+                    key={praktikum.id}
+                    className="flex flex-col md:flex-row items-center gap-4"
+                  >
                     <FormField
                       control={form.control}
                       name={`nilaiHerPraktikum.${praktikum.id}`}
@@ -443,7 +480,7 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
               </div>
             </div>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <h3 className="text-xl font-semibold mb-5">Nilai Akhir Proses</h3>
               <span className="text-lg font-semibold">
                 Form Penilaian Diskusi Kelompok (DK)
@@ -537,10 +574,9 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                   />
                 ))}
               </div>
-            </div>
+            </div> */}
 
-            {/* Penilaian Temu Pakar */}
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Temu Pakar
               </span>
@@ -570,9 +606,43 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                   />
                 ))}
               </div>
-            </div>
+            </div> */}
 
             <div className="flex flex-col">
+              <h3 className="text-xl font-semibold mb-5">Nilai Akhir Proses</h3>
+              <span className="text-lg font-semibold">
+                Form Penilaian Proses
+              </span>
+              <span className="text-xs">Masukkan Data Dengan Benar</span>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                {modulData?.bobot_nilai_proses[0]?.nilai &&
+                  Object.keys(modulData.bobot_nilai_proses[0].nilai).map(
+                    (key) => (
+                      <FormField
+                        key={key}
+                        control={form.control}
+                        name={`nilaiProses.${key}`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{formatNamaPenilaian(key)}</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Masukkan nilai"
+                                {...field}
+                                value={field.value}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )
+                  )}
+              </div>
+            </div>
+
+            {/* <div className="flex flex-col">
               <span className="text-lg font-semibold">
                 Form Penilaian Peta Konsep
               </span>
@@ -589,7 +659,10 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                         { ilmu: string; dokter: string; nilai: number }
                       >
                     ).map(([ilmu, data]) => (
-                      <div key={ilmu} className="flex flex-col md:flex-row items-center gap-4">
+                      <div
+                        key={ilmu}
+                        className="flex flex-col md:flex-row items-center gap-4"
+                      >
                         <div className="flex flex-col w-full">
                           <Label className="mb-4">Nama Ilmu</Label>
                           <Input
@@ -702,7 +775,7 @@ const NimPesertaInputPenilaian = ({ namaModul, nim }: Props) => {
                   )
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="flex justify-end gap-3">
               <Button

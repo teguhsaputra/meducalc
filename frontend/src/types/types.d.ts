@@ -19,15 +19,15 @@ export type TCreatePemicus = {
 export type TPenilaianProses = {
   praktikum_id: number;
   jenis_nilai_id: number;
-  bobot: number | undefined;
+  bobot?: number | undefined;
 };
 
 export type TAddPenilaianData = {
   modul_id: number;
-  total_soal_sum1: number;
-  total_soal_sum2: number;
-  total_soal_her_sum1: number;
-  total_soal_her_sum2: number;
+  total_soal_sum1?: number;
+  total_soal_sum2?: number;
+  total_soal_her_sum1?: number;
+  total_soal_her_sum2?: number;
   penilaianProses: TPenilaianProses[];
 };
 
@@ -59,7 +59,7 @@ export type TPenilaianInput = {
   >;
 };
 
-export type BobotNilaiProses = {
+export type TBobotNilaiProsesDefault = {
   diskusi: number;
   buku_catatan: number;
   temu_pakar: number;
@@ -67,12 +67,38 @@ export type BobotNilaiProses = {
   proses_praktik: number;
 };
 
+export type TBobotNilaiProses = {
+  [key: string]: number;
+};
+
 export type TEditModul = {
   nama_modul: string;
   penanggung_jawab: string;
   bobot_nilai_akhir: BobotNilaiAkhir;
+  bobot_nilai_proses_default: TBobotNilaiProsesDefault;
+  bobot_nilai_proses: TBobotNilaiProses;
   total_soal_sum1: number;
   total_soal_sum2: number;
   total_soal_her_sum1: number;
   total_soal_her_sum2: number;
+};
+
+export type TPemicu = {
+  id: number;
+  nomorPemicu: number;
+  ilmuNama: string;
+  dosenNama: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type TPenilaianProsesPraktikum = {
+  id: number;
+  praktikum: Praktikum;
+  jenis_nilai: string | null;
+  jenis_nilai_id: number;
+  jenis_nilai_nama: string;
+  bobot: number;
+  created_at: string;
+  updated_at: string;
 };

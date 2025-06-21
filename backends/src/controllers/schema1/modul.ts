@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import ModulServices from "../../services/schema1/modul";
 
 class ModulControllers {
@@ -40,6 +40,7 @@ class ModulControllers {
         tahun_selesai,
         penanggung_jawab,
         bobot_nilai_akhir,
+        bobot_nilai_proses_default,
         bobot_nilai_proses,
         praktikum_id,
       } = req.body;
@@ -49,11 +50,12 @@ class ModulControllers {
         tahun_mulai,
         tahun_selesai,
         penanggung_jawab,
-        bobot_nilai_akhir,
-        bobot_nilai_proses,
         praktikum_id,
         userId,
-        role
+        role,
+        bobot_nilai_akhir,
+        bobot_nilai_proses_default,
+        bobot_nilai_proses
       );
 
       res.status(200).json({
@@ -92,22 +94,22 @@ class ModulControllers {
       const { userId, role } = res.locals.user;
       const {
         modul_id,
+        penilaianProses,
         total_soal_sum1,
         total_soal_sum2,
         total_soal_her_sum1,
         total_soal_her_sum2,
-        penilaianProses,
       } = req.body;
 
       const newPemicu = await ModulServices.addPenilaianModul(
         userId,
         role,
         modul_id,
+        penilaianProses,
         total_soal_sum1,
         total_soal_sum2,
         total_soal_her_sum1,
-        total_soal_her_sum2,
-        penilaianProses
+        total_soal_her_sum2
       );
 
       res.status(200).json({
@@ -248,13 +250,17 @@ class ModulControllers {
       res.status(400).json({ message: err.message, status: false });
     }
   }
-  static async updateModul(req: Request, res: Response) {
+  static async updateModul(
+    req: Request & { file?: Express.Multer.File },
+    res: Response
+  ) {
     try {
       const { userId, role } = res.locals.user;
       const { modulId } = req.params;
       const {
         nama_modul,
         penanggung_jawab,
+        bobot_nilai_proses_default,
         bobot_nilai_proses,
         total_soal_sum1,
         total_soal_sum2,
@@ -262,17 +268,22 @@ class ModulControllers {
         total_soal_her_sum2,
       } = req.body;
 
+      // Ambil file Excel dari req.file (via multer)
+      const peserta_moduls = req.file?.buffer;
+
       await ModulServices.updateModul(
         userId,
         role,
         Number(modulId),
         nama_modul,
         penanggung_jawab,
+        bobot_nilai_proses_default,
         bobot_nilai_proses,
-        total_soal_sum1,
-        total_soal_sum2,
-        total_soal_her_sum1,
-        total_soal_her_sum2
+        total_soal_sum1 ? Number(total_soal_sum1) : undefined,
+        total_soal_sum2 ? Number(total_soal_sum2) : undefined,
+        total_soal_her_sum1 ? Number(total_soal_her_sum1) : undefined,
+        total_soal_her_sum2 ? Number(total_soal_her_sum2) : undefined,
+        peserta_moduls
       );
 
       res.status(200).json({
@@ -288,9 +299,13 @@ class ModulControllers {
   static async getDosenPenanggungJawab(req: Request, res: Response) {
     try {
       const { userId, role } = res.locals.user;
-      const {search} = req.query
+      const { search } = req.query;
 
-      const result = await ModulServices.getDosenPenanggungJawab(userId, role, search as string);
+      const result = await ModulServices.getDosenPenanggungJawab(
+        userId,
+        role,
+        search as string
+      );
 
       res.status(200).json({
         success: true,

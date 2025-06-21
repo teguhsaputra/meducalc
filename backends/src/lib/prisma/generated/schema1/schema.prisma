@@ -115,9 +115,9 @@ model BobotNilaiAkhir {
   id            Int      @id @default(autoincrement())
   modul_id      Int
   modul         Modul    @relation(fields: [modul_id], references: [id], onDelete: Cascade)
-  nilai_sumatif Decimal  @db.Decimal(5, 2)
-  nilai_proses  Decimal  @db.Decimal(5, 2)
-  nilai_praktik Decimal  @db.Decimal(5, 2)
+  nilai_sumatif Decimal? @db.Decimal(5, 2)
+  nilai_proses  Decimal? @db.Decimal(5, 2)
+  nilai_praktik Decimal? @db.Decimal(5, 2)
   status        String   @default("Aktif") @db.VarChar(20)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
@@ -195,10 +195,10 @@ model PenilaianModul {
   id                          Int                        @id @default(autoincrement())
   modul_id                    Int
   modul                       Modul                      @relation(fields: [modul_id], references: [id], onDelete: Cascade)
-  total_soal_sum1             Int                        @default(0)
-  total_soal_sum2             Int                        @default(0)
-  total_her_sum1              Int                        @default(0)
-  total_her_sum2              Int                        @default(0)
+  total_soal_sum1             Int?                       @default(0)
+  total_soal_sum2             Int?                       @default(0)
+  total_her_sum1              Int?                       @default(0)
+  total_her_sum2              Int?                       @default(0)
   status                      String                     @default("Aktif") @db.VarChar(20)
   created_at                  DateTime                   @default(now())
   updated_at                  DateTime                   @updatedAt
@@ -213,7 +213,7 @@ model PenilaianProsesPraktikum {
   praktikum          Praktikum?     @relation(fields: [praktikum_id], references: [id])
   jenis_nilai        String?        @db.VarChar(50) // Contoh: "LP", "KP"
   jenis_nilai_id     Int?
-  bobot              Decimal        @db.Decimal(5, 2)
+  bobot              Decimal?       @db.Decimal(5, 2)
   status             String         @default("Aktif") @db.VarChar(20)
   created_at         DateTime       @default(now())
   updated_at         DateTime       @updatedAt

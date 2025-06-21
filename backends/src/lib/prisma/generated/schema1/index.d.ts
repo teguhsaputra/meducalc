@@ -10942,9 +10942,9 @@ export namespace Prisma {
   export type BobotNilaiAkhirGroupByOutputType = {
     id: number
     modul_id: number
-    nilai_sumatif: Decimal
-    nilai_proses: Decimal
-    nilai_praktik: Decimal
+    nilai_sumatif: Decimal | null
+    nilai_proses: Decimal | null
+    nilai_praktik: Decimal | null
     status: string
     created_at: Date
     updated_at: Date
@@ -11035,9 +11035,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       modul_id: number
-      nilai_sumatif: Prisma.Decimal
-      nilai_proses: Prisma.Decimal
-      nilai_praktik: Prisma.Decimal
+      nilai_sumatif: Prisma.Decimal | null
+      nilai_proses: Prisma.Decimal | null
+      nilai_praktik: Prisma.Decimal | null
       status: string
       created_at: Date
       updated_at: Date
@@ -17901,10 +17901,10 @@ export namespace Prisma {
   export type PenilaianModulGroupByOutputType = {
     id: number
     modul_id: number
-    total_soal_sum1: number
-    total_soal_sum2: number
-    total_her_sum1: number
-    total_her_sum2: number
+    total_soal_sum1: number | null
+    total_soal_sum2: number | null
+    total_her_sum1: number | null
+    total_her_sum2: number | null
     status: string
     created_at: Date
     updated_at: Date
@@ -18004,10 +18004,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       modul_id: number
-      total_soal_sum1: number
-      total_soal_sum2: number
-      total_her_sum1: number
-      total_her_sum2: number
+      total_soal_sum1: number | null
+      total_soal_sum2: number | null
+      total_her_sum1: number | null
+      total_her_sum2: number | null
       status: string
       created_at: Date
       updated_at: Date
@@ -19094,7 +19094,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai: string | null
     jenis_nilai_id: number | null
-    bobot: Decimal
+    bobot: Decimal | null
     status: string
     created_at: Date
     updated_at: Date
@@ -19199,7 +19199,7 @@ export namespace Prisma {
       praktikum_id: number
       jenis_nilai: string | null
       jenis_nilai_id: number | null
-      bobot: Prisma.Decimal
+      bobot: Prisma.Decimal | null
       status: string
       created_at: Date
       updated_at: Date
@@ -35182,9 +35182,9 @@ export namespace Prisma {
     NOT?: BobotNilaiAkhirWhereInput | BobotNilaiAkhirWhereInput[]
     id?: IntFilter<"BobotNilaiAkhir"> | number
     modul_id?: IntFilter<"BobotNilaiAkhir"> | number
-    nilai_sumatif?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
     status?: StringFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
@@ -35194,9 +35194,9 @@ export namespace Prisma {
   export type BobotNilaiAkhirOrderByWithRelationInput = {
     id?: SortOrder
     modul_id?: SortOrder
-    nilai_sumatif?: SortOrder
-    nilai_proses?: SortOrder
-    nilai_praktik?: SortOrder
+    nilai_sumatif?: SortOrderInput | SortOrder
+    nilai_proses?: SortOrderInput | SortOrder
+    nilai_praktik?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35209,9 +35209,9 @@ export namespace Prisma {
     AND?: BobotNilaiAkhirWhereInput | BobotNilaiAkhirWhereInput[]
     OR?: BobotNilaiAkhirWhereInput[]
     NOT?: BobotNilaiAkhirWhereInput | BobotNilaiAkhirWhereInput[]
-    nilai_sumatif?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
     status?: StringFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
@@ -35221,9 +35221,9 @@ export namespace Prisma {
   export type BobotNilaiAkhirOrderByWithAggregationInput = {
     id?: SortOrder
     modul_id?: SortOrder
-    nilai_sumatif?: SortOrder
-    nilai_proses?: SortOrder
-    nilai_praktik?: SortOrder
+    nilai_sumatif?: SortOrderInput | SortOrder
+    nilai_proses?: SortOrderInput | SortOrder
+    nilai_praktik?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35240,9 +35240,9 @@ export namespace Prisma {
     NOT?: BobotNilaiAkhirScalarWhereWithAggregatesInput | BobotNilaiAkhirScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"BobotNilaiAkhir"> | number
     modul_id?: IntWithAggregatesFilter<"BobotNilaiAkhir"> | number
-    nilai_sumatif?: DecimalWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: DecimalNullableWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: DecimalNullableWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: DecimalNullableWithAggregatesFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
     status?: StringWithAggregatesFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeWithAggregatesFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"BobotNilaiAkhir"> | Date | string
@@ -35613,10 +35613,10 @@ export namespace Prisma {
     NOT?: PenilaianModulWhereInput | PenilaianModulWhereInput[]
     id?: IntFilter<"PenilaianModul"> | number
     modul_id?: IntFilter<"PenilaianModul"> | number
-    total_soal_sum1?: IntFilter<"PenilaianModul"> | number
-    total_soal_sum2?: IntFilter<"PenilaianModul"> | number
-    total_her_sum1?: IntFilter<"PenilaianModul"> | number
-    total_her_sum2?: IntFilter<"PenilaianModul"> | number
+    total_soal_sum1?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_soal_sum2?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_her_sum1?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_her_sum2?: IntNullableFilter<"PenilaianModul"> | number | null
     status?: StringFilter<"PenilaianModul"> | string
     created_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianModul"> | Date | string
@@ -35627,10 +35627,10 @@ export namespace Prisma {
   export type PenilaianModulOrderByWithRelationInput = {
     id?: SortOrder
     modul_id?: SortOrder
-    total_soal_sum1?: SortOrder
-    total_soal_sum2?: SortOrder
-    total_her_sum1?: SortOrder
-    total_her_sum2?: SortOrder
+    total_soal_sum1?: SortOrderInput | SortOrder
+    total_soal_sum2?: SortOrderInput | SortOrder
+    total_her_sum1?: SortOrderInput | SortOrder
+    total_her_sum2?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35644,10 +35644,10 @@ export namespace Prisma {
     OR?: PenilaianModulWhereInput[]
     NOT?: PenilaianModulWhereInput | PenilaianModulWhereInput[]
     modul_id?: IntFilter<"PenilaianModul"> | number
-    total_soal_sum1?: IntFilter<"PenilaianModul"> | number
-    total_soal_sum2?: IntFilter<"PenilaianModul"> | number
-    total_her_sum1?: IntFilter<"PenilaianModul"> | number
-    total_her_sum2?: IntFilter<"PenilaianModul"> | number
+    total_soal_sum1?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_soal_sum2?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_her_sum1?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_her_sum2?: IntNullableFilter<"PenilaianModul"> | number | null
     status?: StringFilter<"PenilaianModul"> | string
     created_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianModul"> | Date | string
@@ -35658,10 +35658,10 @@ export namespace Prisma {
   export type PenilaianModulOrderByWithAggregationInput = {
     id?: SortOrder
     modul_id?: SortOrder
-    total_soal_sum1?: SortOrder
-    total_soal_sum2?: SortOrder
-    total_her_sum1?: SortOrder
-    total_her_sum2?: SortOrder
+    total_soal_sum1?: SortOrderInput | SortOrder
+    total_soal_sum2?: SortOrderInput | SortOrder
+    total_her_sum1?: SortOrderInput | SortOrder
+    total_her_sum2?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35678,10 +35678,10 @@ export namespace Prisma {
     NOT?: PenilaianModulScalarWhereWithAggregatesInput | PenilaianModulScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"PenilaianModul"> | number
     modul_id?: IntWithAggregatesFilter<"PenilaianModul"> | number
-    total_soal_sum1?: IntWithAggregatesFilter<"PenilaianModul"> | number
-    total_soal_sum2?: IntWithAggregatesFilter<"PenilaianModul"> | number
-    total_her_sum1?: IntWithAggregatesFilter<"PenilaianModul"> | number
-    total_her_sum2?: IntWithAggregatesFilter<"PenilaianModul"> | number
+    total_soal_sum1?: IntNullableWithAggregatesFilter<"PenilaianModul"> | number | null
+    total_soal_sum2?: IntNullableWithAggregatesFilter<"PenilaianModul"> | number | null
+    total_her_sum1?: IntNullableWithAggregatesFilter<"PenilaianModul"> | number | null
+    total_her_sum2?: IntNullableWithAggregatesFilter<"PenilaianModul"> | number | null
     status?: StringWithAggregatesFilter<"PenilaianModul"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianModul"> | Date | string
@@ -35696,7 +35696,7 @@ export namespace Prisma {
     praktikum_id?: IntFilter<"PenilaianProsesPraktikum"> | number
     jenis_nilai?: StringNullableFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableFilter<"PenilaianProsesPraktikum"> | number | null
-    bobot?: DecimalFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    bobot?: DecimalNullableFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string | null
     status?: StringFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
@@ -35710,7 +35710,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrderInput | SortOrder
     jenis_nilai_id?: SortOrderInput | SortOrder
-    bobot?: SortOrder
+    bobot?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35727,7 +35727,7 @@ export namespace Prisma {
     praktikum_id?: IntFilter<"PenilaianProsesPraktikum"> | number
     jenis_nilai?: StringNullableFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableFilter<"PenilaianProsesPraktikum"> | number | null
-    bobot?: DecimalFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    bobot?: DecimalNullableFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string | null
     status?: StringFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
@@ -35741,7 +35741,7 @@ export namespace Prisma {
     praktikum_id?: SortOrder
     jenis_nilai?: SortOrderInput | SortOrder
     jenis_nilai_id?: SortOrderInput | SortOrder
-    bobot?: SortOrder
+    bobot?: SortOrderInput | SortOrder
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -35761,7 +35761,7 @@ export namespace Prisma {
     praktikum_id?: IntWithAggregatesFilter<"PenilaianProsesPraktikum"> | number
     jenis_nilai?: StringNullableWithAggregatesFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableWithAggregatesFilter<"PenilaianProsesPraktikum"> | number | null
-    bobot?: DecimalWithAggregatesFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    bobot?: DecimalNullableWithAggregatesFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string | null
     status?: StringWithAggregatesFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeWithAggregatesFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"PenilaianProsesPraktikum"> | Date | string
@@ -37193,9 +37193,9 @@ export namespace Prisma {
   }
 
   export type BobotNilaiAkhirCreateInput = {
-    nilai_sumatif: Decimal | DecimalJsLike | number | string
-    nilai_proses: Decimal | DecimalJsLike | number | string
-    nilai_praktik: Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37205,18 +37205,18 @@ export namespace Prisma {
   export type BobotNilaiAkhirUncheckedCreateInput = {
     id?: number
     modul_id: number
-    nilai_sumatif: Decimal | DecimalJsLike | number | string
-    nilai_proses: Decimal | DecimalJsLike | number | string
-    nilai_praktik: Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type BobotNilaiAkhirUpdateInput = {
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37226,9 +37226,9 @@ export namespace Prisma {
   export type BobotNilaiAkhirUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37237,18 +37237,18 @@ export namespace Prisma {
   export type BobotNilaiAkhirCreateManyInput = {
     id?: number
     modul_id: number
-    nilai_sumatif: Decimal | DecimalJsLike | number | string
-    nilai_proses: Decimal | DecimalJsLike | number | string
-    nilai_praktik: Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type BobotNilaiAkhirUpdateManyMutationInput = {
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37257,9 +37257,9 @@ export namespace Prisma {
   export type BobotNilaiAkhirUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37622,10 +37622,10 @@ export namespace Prisma {
   }
 
   export type PenilaianModulCreateInput = {
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37636,10 +37636,10 @@ export namespace Prisma {
   export type PenilaianModulUncheckedCreateInput = {
     id?: number
     modul_id: number
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37647,10 +37647,10 @@ export namespace Prisma {
   }
 
   export type PenilaianModulUpdateInput = {
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37661,10 +37661,10 @@ export namespace Prisma {
   export type PenilaianModulUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37674,20 +37674,20 @@ export namespace Prisma {
   export type PenilaianModulCreateManyInput = {
     id?: number
     modul_id: number
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type PenilaianModulUpdateManyMutationInput = {
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37696,10 +37696,10 @@ export namespace Prisma {
   export type PenilaianModulUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37708,7 +37708,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumCreateInput = {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37722,7 +37722,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37731,7 +37731,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumUpdateInput = {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37745,7 +37745,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37757,7 +37757,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -37766,7 +37766,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumUpdateManyMutationInput = {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37778,7 +37778,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39289,15 +39289,15 @@ export namespace Prisma {
     tahunAjaranId?: SortOrder
   }
 
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type ModulScalarRelationFilter = {
@@ -39354,23 +39354,7 @@ export namespace Prisma {
     nilai_praktik?: SortOrder
   }
 
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
-  export type DecimalNullableFilter<$PrismaModel = never> = {
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
     notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -39378,7 +39362,12 @@ export namespace Prisma {
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -39462,22 +39451,6 @@ export namespace Prisma {
     temu_pakar?: SortOrder
     peta_konsep?: SortOrder
     proses_praktik?: SortOrder
-  }
-
-  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -41149,8 +41122,8 @@ export namespace Prisma {
     connect?: ModulWhereUniqueInput
   }
 
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
     increment?: Decimal | DecimalJsLike | number | string
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
@@ -41169,14 +41142,6 @@ export namespace Prisma {
     create?: XOR<ModulCreateWithoutBobot_nilai_prosesInput, ModulUncheckedCreateWithoutBobot_nilai_prosesInput>
     connectOrCreate?: ModulCreateOrConnectWithoutBobot_nilai_prosesInput
     connect?: ModulWhereUniqueInput
-  }
-
-  export type NullableDecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string | null
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type ModulUpdateOneRequiredWithoutBobot_nilai_prosesNestedInput = {
@@ -42443,33 +42408,6 @@ export namespace Prisma {
     _max?: NestedEnumJenisKelaminNullableFilter<$PrismaModel>
   }
 
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -42955,10 +42893,10 @@ export namespace Prisma {
   }
 
   export type PenilaianModulCreateWithoutModulInput = {
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -42967,10 +42905,10 @@ export namespace Prisma {
 
   export type PenilaianModulUncheckedCreateWithoutModulInput = {
     id?: number
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -43062,9 +43000,9 @@ export namespace Prisma {
   }
 
   export type BobotNilaiAkhirCreateWithoutModulInput = {
-    nilai_sumatif: Decimal | DecimalJsLike | number | string
-    nilai_proses: Decimal | DecimalJsLike | number | string
-    nilai_praktik: Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -43072,9 +43010,9 @@ export namespace Prisma {
 
   export type BobotNilaiAkhirUncheckedCreateWithoutModulInput = {
     id?: number
-    nilai_sumatif: Decimal | DecimalJsLike | number | string
-    nilai_proses: Decimal | DecimalJsLike | number | string
-    nilai_praktik: Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -43265,10 +43203,10 @@ export namespace Prisma {
     NOT?: PenilaianModulScalarWhereInput | PenilaianModulScalarWhereInput[]
     id?: IntFilter<"PenilaianModul"> | number
     modul_id?: IntFilter<"PenilaianModul"> | number
-    total_soal_sum1?: IntFilter<"PenilaianModul"> | number
-    total_soal_sum2?: IntFilter<"PenilaianModul"> | number
-    total_her_sum1?: IntFilter<"PenilaianModul"> | number
-    total_her_sum2?: IntFilter<"PenilaianModul"> | number
+    total_soal_sum1?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_soal_sum2?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_her_sum1?: IntNullableFilter<"PenilaianModul"> | number | null
+    total_her_sum2?: IntNullableFilter<"PenilaianModul"> | number | null
     status?: StringFilter<"PenilaianModul"> | string
     created_at?: DateTimeFilter<"PenilaianModul"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianModul"> | Date | string
@@ -43340,9 +43278,9 @@ export namespace Prisma {
     NOT?: BobotNilaiAkhirScalarWhereInput | BobotNilaiAkhirScalarWhereInput[]
     id?: IntFilter<"BobotNilaiAkhir"> | number
     modul_id?: IntFilter<"BobotNilaiAkhir"> | number
-    nilai_sumatif?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: DecimalNullableFilter<"BobotNilaiAkhir"> | Decimal | DecimalJsLike | number | string | null
     status?: StringFilter<"BobotNilaiAkhir"> | string
     created_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
     updated_at?: DateTimeFilter<"BobotNilaiAkhir"> | Date | string
@@ -43724,7 +43662,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumCreateWithoutPraktikumInput = {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -43736,7 +43674,7 @@ export namespace Prisma {
     penilaian_modul_id: number
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -43853,7 +43791,7 @@ export namespace Prisma {
     praktikum_id?: IntFilter<"PenilaianProsesPraktikum"> | number
     jenis_nilai?: StringNullableFilter<"PenilaianProsesPraktikum"> | string | null
     jenis_nilai_id?: IntNullableFilter<"PenilaianProsesPraktikum"> | number | null
-    bobot?: DecimalFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string
+    bobot?: DecimalNullableFilter<"PenilaianProsesPraktikum"> | Decimal | DecimalJsLike | number | string | null
     status?: StringFilter<"PenilaianProsesPraktikum"> | string
     created_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
     updated_at?: DateTimeFilter<"PenilaianProsesPraktikum"> | Date | string
@@ -44386,7 +44324,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumCreateWithoutPenilaian_modulInput = {
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -44398,7 +44336,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -44483,10 +44421,10 @@ export namespace Prisma {
   }
 
   export type PenilaianModulCreateWithoutPenilaian_proses_praktikumsInput = {
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -44496,10 +44434,10 @@ export namespace Prisma {
   export type PenilaianModulUncheckedCreateWithoutPenilaian_proses_praktikumsInput = {
     id?: number
     modul_id: number
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -44548,10 +44486,10 @@ export namespace Prisma {
   }
 
   export type PenilaianModulUpdateWithoutPenilaian_proses_praktikumsInput = {
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44561,10 +44499,10 @@ export namespace Prisma {
   export type PenilaianModulUncheckedUpdateWithoutPenilaian_proses_praktikumsInput = {
     id?: IntFieldUpdateOperationsInput | number
     modul_id?: IntFieldUpdateOperationsInput | number
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46788,10 +46726,10 @@ export namespace Prisma {
 
   export type PenilaianModulCreateManyModulInput = {
     id?: number
-    total_soal_sum1?: number
-    total_soal_sum2?: number
-    total_her_sum1?: number
-    total_her_sum2?: number
+    total_soal_sum1?: number | null
+    total_soal_sum2?: number | null
+    total_her_sum1?: number | null
+    total_her_sum2?: number | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -46816,9 +46754,9 @@ export namespace Prisma {
 
   export type BobotNilaiAkhirCreateManyModulInput = {
     id?: number
-    nilai_sumatif: Decimal | DecimalJsLike | number | string
-    nilai_proses: Decimal | DecimalJsLike | number | string
-    nilai_praktik: Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -46887,10 +46825,10 @@ export namespace Prisma {
   }
 
   export type PenilaianModulUpdateWithoutModulInput = {
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46899,10 +46837,10 @@ export namespace Prisma {
 
   export type PenilaianModulUncheckedUpdateWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46911,10 +46849,10 @@ export namespace Prisma {
 
   export type PenilaianModulUncheckedUpdateManyWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
-    total_soal_sum1?: IntFieldUpdateOperationsInput | number
-    total_soal_sum2?: IntFieldUpdateOperationsInput | number
-    total_her_sum1?: IntFieldUpdateOperationsInput | number
-    total_her_sum2?: IntFieldUpdateOperationsInput | number
+    total_soal_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_soal_sum2?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum1?: NullableIntFieldUpdateOperationsInput | number | null
+    total_her_sum2?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46992,9 +46930,9 @@ export namespace Prisma {
   }
 
   export type BobotNilaiAkhirUpdateWithoutModulInput = {
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47002,9 +46940,9 @@ export namespace Prisma {
 
   export type BobotNilaiAkhirUncheckedUpdateWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47012,9 +46950,9 @@ export namespace Prisma {
 
   export type BobotNilaiAkhirUncheckedUpdateManyWithoutModulInput = {
     id?: IntFieldUpdateOperationsInput | number
-    nilai_sumatif?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_proses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nilai_praktik?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nilai_sumatif?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_proses?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    nilai_praktik?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47120,7 +47058,7 @@ export namespace Prisma {
     penilaian_modul_id: number
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -47173,7 +47111,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumUpdateWithoutPraktikumInput = {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47185,7 +47123,7 @@ export namespace Prisma {
     penilaian_modul_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47196,7 +47134,7 @@ export namespace Prisma {
     penilaian_modul_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47311,7 +47249,7 @@ export namespace Prisma {
     praktikum_id: number
     jenis_nilai?: string | null
     jenis_nilai_id?: number | null
-    bobot: Decimal | DecimalJsLike | number | string
+    bobot?: Decimal | DecimalJsLike | number | string | null
     status?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -47320,7 +47258,7 @@ export namespace Prisma {
   export type PenilaianProsesPraktikumUpdateWithoutPenilaian_modulInput = {
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47332,7 +47270,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47343,7 +47281,7 @@ export namespace Prisma {
     praktikum_id?: IntFieldUpdateOperationsInput | number
     jenis_nilai?: NullableStringFieldUpdateOperationsInput | string | null
     jenis_nilai_id?: NullableIntFieldUpdateOperationsInput | number | null
-    bobot?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bobot?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

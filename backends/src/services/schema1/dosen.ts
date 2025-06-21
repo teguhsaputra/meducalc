@@ -1501,14 +1501,18 @@ class DosenServices {
           nilaiProses: Number(modul.bobot_nilai_akhirs[0]?.nilai_proses) || 0,
           nilaiPraktik: Number(modul.bobot_nilai_akhirs[0]?.nilai_praktik) || 0,
         },
-        bobot_nilai_proses: {
-          diskusiKelompok: Number(modul.bobot_nilai_proses[0]?.diskusi) || 0,
-          bukuCatatan: Number(modul.bobot_nilai_proses[0]?.buku_catatan) || 0,
-          temuPakar: Number(modul.bobot_nilai_proses[0]?.temu_pakar) || 0,
-          petaKonsep: Number(modul.bobot_nilai_proses[0]?.peta_konsep) || 0,
-          prosesPraktikum:
-            Number(modul.bobot_nilai_proses[0]?.proses_praktik) || 0,
-        },
+        bobot_nilai_proses: modul.bobot_nilai_proses.map((p) => ({
+          id: Number(p.id),
+          nilai: p.nilai_proses as Record<string, number>,
+        })),
+        // bobot_nilai_proses: {
+        //   diskusiKelompok: Number(modul.bobot_nilai_proses[0]?.diskusi) || 0,
+        //   bukuCatatan: Number(modul.bobot_nilai_proses[0]?.buku_catatan) || 0,
+        //   temuPakar: Number(modul.bobot_nilai_proses[0]?.temu_pakar) || 0,
+        //   petaKonsep: Number(modul.bobot_nilai_proses[0]?.peta_konsep) || 0,
+        //   prosesPraktikum:
+        //     Number(modul.bobot_nilai_proses[0]?.proses_praktik) || 0,
+        // },
         praktikums: modul.modul_praktikums.map((p) => ({
           id: Number(p.praktikum_id),
           praktikum: p.praktikum.nama,

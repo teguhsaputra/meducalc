@@ -1105,7 +1105,7 @@ class DosenServices {
     }
     static getModulDosenByNimPeserta(userId, role, namaModul, nim) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+            var _a, _b, _c, _d, _e, _f, _g, _h;
             try {
                 let dosenName = null;
                 let prismaClient;
@@ -1239,13 +1239,18 @@ class DosenServices {
                         nilaiProses: Number((_b = modul.bobot_nilai_akhirs[0]) === null || _b === void 0 ? void 0 : _b.nilai_proses) || 0,
                         nilaiPraktik: Number((_c = modul.bobot_nilai_akhirs[0]) === null || _c === void 0 ? void 0 : _c.nilai_praktik) || 0,
                     },
-                    bobot_nilai_proses: {
-                        diskusiKelompok: Number((_d = modul.bobot_nilai_proses[0]) === null || _d === void 0 ? void 0 : _d.diskusi) || 0,
-                        bukuCatatan: Number((_e = modul.bobot_nilai_proses[0]) === null || _e === void 0 ? void 0 : _e.buku_catatan) || 0,
-                        temuPakar: Number((_f = modul.bobot_nilai_proses[0]) === null || _f === void 0 ? void 0 : _f.temu_pakar) || 0,
-                        petaKonsep: Number((_g = modul.bobot_nilai_proses[0]) === null || _g === void 0 ? void 0 : _g.peta_konsep) || 0,
-                        prosesPraktikum: Number((_h = modul.bobot_nilai_proses[0]) === null || _h === void 0 ? void 0 : _h.proses_praktik) || 0,
-                    },
+                    bobot_nilai_proses: modul.bobot_nilai_proses.map((p) => ({
+                        id: Number(p.id),
+                        nilai: p.nilai_proses,
+                    })),
+                    // bobot_nilai_proses: {
+                    //   diskusiKelompok: Number(modul.bobot_nilai_proses[0]?.diskusi) || 0,
+                    //   bukuCatatan: Number(modul.bobot_nilai_proses[0]?.buku_catatan) || 0,
+                    //   temuPakar: Number(modul.bobot_nilai_proses[0]?.temu_pakar) || 0,
+                    //   petaKonsep: Number(modul.bobot_nilai_proses[0]?.peta_konsep) || 0,
+                    //   prosesPraktikum:
+                    //     Number(modul.bobot_nilai_proses[0]?.proses_praktik) || 0,
+                    // },
                     praktikums: modul.modul_praktikums.map((p) => ({
                         id: Number(p.praktikum_id),
                         praktikum: p.praktikum.nama,
@@ -1261,11 +1266,11 @@ class DosenServices {
                         });
                     }),
                     penilaian_moduls: {
-                        total_soal_sum1: Number((_j = modul.penilaian_moduls[0]) === null || _j === void 0 ? void 0 : _j.total_soal_sum1) || 0,
-                        total_soal_sum2: Number((_k = modul.penilaian_moduls[0]) === null || _k === void 0 ? void 0 : _k.total_soal_sum2) || 0,
-                        total_her_sum1: Number((_l = modul.penilaian_moduls[0]) === null || _l === void 0 ? void 0 : _l.total_her_sum1) || 0,
-                        total_her_sum2: Number((_m = modul.penilaian_moduls[0]) === null || _m === void 0 ? void 0 : _m.total_her_sum2) || 0,
-                        penilaian_proses_praktikums: ((_o = modul.penilaian_moduls[0]) === null || _o === void 0 ? void 0 : _o.penilaian_proses_praktikums.map((ppp) => {
+                        total_soal_sum1: Number((_d = modul.penilaian_moduls[0]) === null || _d === void 0 ? void 0 : _d.total_soal_sum1) || 0,
+                        total_soal_sum2: Number((_e = modul.penilaian_moduls[0]) === null || _e === void 0 ? void 0 : _e.total_soal_sum2) || 0,
+                        total_her_sum1: Number((_f = modul.penilaian_moduls[0]) === null || _f === void 0 ? void 0 : _f.total_her_sum1) || 0,
+                        total_her_sum2: Number((_g = modul.penilaian_moduls[0]) === null || _g === void 0 ? void 0 : _g.total_her_sum2) || 0,
+                        penilaian_proses_praktikums: ((_h = modul.penilaian_moduls[0]) === null || _h === void 0 ? void 0 : _h.penilaian_proses_praktikums.map((ppp) => {
                             var _a;
                             return ({
                                 praktikum: ppp.praktikum ? String(ppp.praktikum.nama) : "N/A",

@@ -17,13 +17,21 @@ import {
 import { useToast } from "@/hooks/use-toast";
 
 interface BobotNilaiAkhir {
-  sumatif: number;
-  proses: number;
-  praktikum: number;
+  sumatif?: number;
+  proses?: number;
+  praktikum?: number;
+}
+
+interface BobotNilaiProsesDefault {
+  diskusi: number;
+  buku_catatan: number;
+  temu_pakar: number;
+  peta_konsep: number;
+  proses_praktik: number;
 }
 
 interface BobotNilaiProses {
-  [key: string]: number
+  [key: string]: number;
 }
 
 interface CreateModulData {
@@ -31,8 +39,9 @@ interface CreateModulData {
   tahun_mulai: number;
   tahun_selesai: number;
   penanggung_jawab: string;
-  bobot_nilai_akhir: BobotNilaiAkhir;
-  bobot_nilai_proses: BobotNilaiProses;
+  bobot_nilai_akhir?: BobotNilaiAkhir;
+  bobot_nilai_proses_default?: BobotNilaiProsesDefault;
+  bobot_nilai_proses?: BobotNilaiProses;
   praktikum_id: number[];
 }
 
@@ -456,24 +465,38 @@ export function useEditModul(id: number) {
   const token = useAuthStore((state) => state.token);
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["edit-modul"],
-    mutationFn: async (data: TEditModul) => {
+    mutationFn: async (data: FormData) => {
       const res = await axiosInstace.put(`/modul/admin/edit/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
       return res.data;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["get-modul-by-id"] });
       toast({
         title: "Berhasil",
         description: "Berhasil mengedit modul",
         variant: "success",
+      });
+      router.push(`/admin/modul/${id}`);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data?.message ||
+        "Terjadi kesalahan saat mengedit modul";
+
+      toast({
+        title: "Gagal",
+        description: "Gagal mengedit modul",
+        variant: "destructive",
       });
     },
   });

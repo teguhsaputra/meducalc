@@ -36,63 +36,44 @@ import { withAuth } from "@/hooks/with-auth";
 
 const formSchema = z.object({
   total_soal_sum1: z
-    .number({
-      invalid_type_error: "Masukkan angka yang valid",
-      required_error: "Total Soal Sumatif 1 wajib diisi",
-    })
-    .min(0, "Nilai tidak boleh negatif"),
+    .number()
+    .min(0, { message: "Nilai tidak boleh negatif" })
+    .optional(),
   total_soal_sum2: z
-    .number({
-      invalid_type_error: "Masukkan angka yang valid",
-      required_error: "Total Soal Sumatif 2 wajib diisi",
-    })
-    .min(0, "Nilai tidak boleh negatif"),
+    .number()
+    .min(0, { message: "Nilai tidak boleh negatif" })
+    .optional(),
   total_soal_her_sum1: z
-    .number({
-      invalid_type_error: "Masukkan angka yang valid",
-      required_error: "Total Soal Her Sumatif 1 wajib diisi",
-    })
-    .min(0, "Nilai tidak boleh negatif"),
+    .number()
+    .min(0, { message: "Nilai tidak boleh negatif" })
+    .optional(),
   total_soal_her_sum2: z
-    .number({
-      invalid_type_error: "Masukkan angka yang valid",
-      required_error: "Total Soal Her Sumatif 2 wajib diisi",
-    })
-    .min(0, "Nilai tidak boleh negatif"),
+    .number()
+    .min(0, { message: "Nilai tidak boleh negatif" })
+    .optional(),
   penilaianProses: z
     .array(
       z.object({
-        praktikum_id: z.string(),
+        praktikum_id: z
+          .string()
+          .min(1, { message: "Pilih praktikum yang valid" }),
         jenis_nilai_id: z
           .string()
-          .min(1, "Pilih jenis nilai yang valid")
-          .refine(
-            (val) => !isNaN(parseInt(val, 10)),
-            "Jenis Nilai ID harus berupa angka"
-          ),
+          .min(1, { message: "Pilih jenis nilai yang valid" })
+          .refine((val) => !isNaN(parseInt(val, 10)), {
+            message: "Jenis Nilai ID harus berupa angka",
+          }),
         bobot: z
-          .number({
-            invalid_type_error: "Masukkan angka yang valid",
-            required_error: "Bobot wajib diisi",
-          })
-          .min(1, "Bobot tidak boleh negatif")
-          .max(100, "Bobot tidak boleh lebih dari 100")
+          .number()
+          .min(0, { message: "Bobot tidak boleh negatif" })
+          .max(100, { message: "Bobot tidak boleh lebih dari 100" })
           .optional(),
       })
     )
-    .min(1, "Setidaknya satu penilaian proses harus ditambahkan")
+    .optional()
     .refine(
       (items) => {
-        const totalBobot = items.reduce(
-          (sum, item) => sum + (item.bobot || 0),
-          0
-        );
-        return totalBobot === 100;
-      },
-      { message: "Bobot wajib diisi dan minimal 1", path: ["penilaianProses"] }
-    )
-    .refine(
-      (items) => {
+        if (!items || items.length === 0) return true;
         const bobotPerPraktikum = new Map<string, number>();
         items.forEach((item) => {
           const currentTotal = bobotPerPraktikum.get(item.praktikum_id) || 0;
@@ -101,9 +82,8 @@ const formSchema = z.object({
             currentTotal + (item.bobot || 0)
           );
         });
-
         return Array.from(bobotPerPraktikum.values()).every(
-          (total) => total <= 100
+          (total) => total <= 30
         );
       },
       {
@@ -142,7 +122,7 @@ const Page = () => {
     name: "penilaianProses",
   });
 
-  const penilaianProses = form.watch("penilaianProses");
+  const penilaianProses = form.watch("penilaianProses") || [];
 
   const totalBobot = penilaianProses.reduce(
     (sum, field) => sum + (field.bobot || 0),
@@ -165,25 +145,25 @@ const Page = () => {
   function onSubmit(values: FormValues) {
     console.log("Payload:", values);
 
-    if (!modul_id) {
-      toast.error("Modul ID tidak ditemukan");
-      return;
-    }
+    // if (!modul_id) {
+    //   toast.error("Modul ID tidak ditemukan");
+    //   return;
+    // }
 
-    const payload = {
-      modul_id,
-      total_soal_sum1: values.total_soal_sum1,
-      total_soal_sum2: values.total_soal_sum2,
-      total_soal_her_sum1: values.total_soal_her_sum1,
-      total_soal_her_sum2: values.total_soal_her_sum2,
-      penilaianProses: values.penilaianProses.map((item) => ({
-        praktikum_id: parseInt(item.praktikum_id, 10),
-        jenis_nilai_id: parseInt(item.jenis_nilai_id, 10),
-        bobot: item.bobot!,
-      })),
-    };
+    // const payload = {
+    //   modul_id,
+    //   total_soal_sum1: values.total_soal_sum1,
+    //   total_soal_sum2: values.total_soal_sum2,
+    //   total_soal_her_sum1: values.total_soal_her_sum1,
+    //   total_soal_her_sum2: values.total_soal_her_sum2,
+    //   penilaianProses: (values.penilaianProses || []).map((item) => ({
+    //     praktikum_id: parseInt(item.praktikum_id, 10),
+    //     jenis_nilai_id: parseInt(item.jenis_nilai_id, 10),
+    //     bobot: item.bobot ?? undefined,
+    //   })),
+    // };
 
-    mutate(payload);
+    // mutate(payload);
   }
 
   return (
@@ -513,18 +493,18 @@ const FormPenilaianProses = ({
             </FormLabel>
             <FormControl>
               <Input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="\d*"
                 placeholder="25"
                 {...field}
                 onChange={(e) => {
-                  const value =
-                    e.target.value === ""
-                      ? undefined
-                      : parseInt(e.target.value, 10);
-                  if (value !== undefined && value > adjustedSisaBobot) {
-                    field.onChange(adjustedSisaBobot);
-                  } else {
-                    field.onChange(value);
+                  const value = e.target.value;
+                  if (value === "") {
+                    field.onChange(undefined);
+                  } else if (/^\d*$/.test(value)) {
+                    const parsed = parseInt(value, 10);
+                    field.onChange(parsed);
                   }
                 }}
                 value={field.value ?? ""}

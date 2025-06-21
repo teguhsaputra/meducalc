@@ -2,6 +2,7 @@ import * as express from "express";
 import AuthController from "../../controllers/schema1/auth";
 import ModulControllers from "../../controllers/schema1/modul";
 import { authenticateUser } from "../../middlewares/admin-middleware";
+import {uploadMiddleware} from "../../middlewares/upload-middleware";
 
 const useModulRoute = express.Router();
 
@@ -10,7 +11,7 @@ useModulRoute.get("/modul/admin", authenticateUser, ModulControllers.getModul);
 useModulRoute.get("/modul/admin/:modul_id", authenticateUser, ModulControllers.getModulById);
 useModulRoute.post("/modul/admin/add", authenticateUser, ModulControllers.addModul);
 useModulRoute.delete("/modul/admin/delete/:modulId", authenticateUser, ModulControllers.deleteModul);
-useModulRoute.put("/modul/admin/edit/:modulId", authenticateUser, ModulControllers.updateModul);
+useModulRoute.put("/modul/admin/edit/:modulId", authenticateUser , uploadMiddleware().single("peserta_moduls"), ModulControllers.updateModul);
 
 // pemicu
 

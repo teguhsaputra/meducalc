@@ -35,8 +35,8 @@ class ModulControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { nama_modul, tahun_mulai, tahun_selesai, penanggung_jawab, bobot_nilai_akhir, bobot_nilai_proses, praktikum_id, } = req.body;
-                const newModul = yield modul_1.default.createModul(nama_modul, tahun_mulai, tahun_selesai, penanggung_jawab, bobot_nilai_akhir, bobot_nilai_proses, praktikum_id, userId, role);
+                const { nama_modul, tahun_mulai, tahun_selesai, penanggung_jawab, bobot_nilai_akhir, bobot_nilai_proses_default, bobot_nilai_proses, praktikum_id, } = req.body;
+                const newModul = yield modul_1.default.createModul(nama_modul, tahun_mulai, tahun_selesai, penanggung_jawab, praktikum_id, userId, role, bobot_nilai_akhir, bobot_nilai_proses_default, bobot_nilai_proses);
                 res.status(200).json({
                     success: true,
                     data: newModul,
@@ -69,8 +69,8 @@ class ModulControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { userId, role } = res.locals.user;
-                const { modul_id, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2, penilaianProses, } = req.body;
-                const newPemicu = yield modul_1.default.addPenilaianModul(userId, role, modul_id, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2, penilaianProses);
+                const { modul_id, penilaianProses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2, } = req.body;
+                const newPemicu = yield modul_1.default.addPenilaianModul(userId, role, modul_id, penilaianProses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2);
                 res.status(200).json({
                     success: true,
                     data: newPemicu,
@@ -203,11 +203,14 @@ class ModulControllers {
     }
     static updateModul(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const { userId, role } = res.locals.user;
                 const { modulId } = req.params;
-                const { nama_modul, penanggung_jawab, bobot_nilai_proses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2, } = req.body;
-                yield modul_1.default.updateModul(userId, role, Number(modulId), nama_modul, penanggung_jawab, bobot_nilai_proses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2);
+                const { nama_modul, penanggung_jawab, bobot_nilai_proses_default, bobot_nilai_proses, total_soal_sum1, total_soal_sum2, total_soal_her_sum1, total_soal_her_sum2, } = req.body;
+                // Ambil file Excel dari req.file (via multer)
+                const peserta_moduls = (_a = req.file) === null || _a === void 0 ? void 0 : _a.buffer;
+                yield modul_1.default.updateModul(userId, role, Number(modulId), nama_modul, penanggung_jawab, bobot_nilai_proses_default, bobot_nilai_proses, total_soal_sum1 ? Number(total_soal_sum1) : undefined, total_soal_sum2 ? Number(total_soal_sum2) : undefined, total_soal_her_sum1 ? Number(total_soal_her_sum1) : undefined, total_soal_her_sum2 ? Number(total_soal_her_sum2) : undefined, peserta_moduls);
                 res.status(200).json({
                     success: true,
                     message: "Modul Berhasil diedit",
